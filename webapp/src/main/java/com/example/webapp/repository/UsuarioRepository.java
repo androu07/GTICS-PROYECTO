@@ -41,7 +41,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "update usuario set borrado_logico = ?1 where id_usuario = ?2")
+    @Query(nativeQuery = true,value = "update usuario set borrado_logico = ?1, estado = 0 where id_usuario = ?2")
     void borradoLogico(int valor, int id);
 
     @Transactional

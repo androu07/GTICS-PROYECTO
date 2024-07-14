@@ -1,9 +1,11 @@
 package com.example.webapp.controller;
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import com.example.webapp.util.Correo;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +61,10 @@ public class FarmacistaController {
         this.distritoRepository = distritoRepository;
         this.tarjetaRepository = tarjetaRepository;
     }
+
+    @Autowired
+    private Correo correo;
+
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
@@ -936,12 +942,6 @@ public class FarmacistaController {
     }
     /*---------------------------------------*/
 
-    @GetMapping("/farmacista/mensaje")
-    public String mostrarMensajeria(Model model) {
-        // solo redirige a la vista
-        return "farmacista/mensajeriaf";
-    }
-
 
     /*vista y QRUD de SOLICITUDES DE PEDIDOS*/
 
@@ -956,6 +956,8 @@ public class FarmacistaController {
                 listapedidos.add(pedido2);
             }
         }
+
+        Collections.reverse(listapedidos);
 
         model.addAttribute("listaPedidosDely", listapedidos);
         model.addAttribute("tamanodely", listapedidos.size());
@@ -1123,6 +1125,10 @@ public class FarmacistaController {
             }
         }
 
+        Collections.reverse(listadelivery);
+        Collections.reverse(listarecojo);
+        Collections.reverse(listapreordenes);
+
         model.addAttribute("listaPedidosDely", listadelivery);
         model.addAttribute("tamanodely", listadelivery.size());
 
@@ -1174,7 +1180,7 @@ public class FarmacistaController {
                         medicamentosRepository.save(medicamento);
                     }
                     else{
-                        redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga o cambiar el medicamento!");
+                        redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga el medicamento!");
                         return "redirect:/farmacista/pedidos";
                     }
                 }
@@ -1390,6 +1396,17 @@ public class FarmacistaController {
             return "redirect:/farmacista/pedidos";
         }
 
+        List<Medicamentos> listaMedicamentos = medicamentosRepository.findAll();
+        List<Medicamentos> listaMedicamentosMayor25 = new ArrayList<>();
+        for(int i = 0; i < listaMedicamentos.size(); i++){
+            Medicamentos medicamentos = listaMedicamentos.get(i);
+            if(medicamentos.getInventario() > 25){
+                listaMedicamentosMayor25.add(medicamentos);
+            }
+        }
+
+        model.addAttribute("listamedicamentosmayor", listaMedicamentosMayor25);
+
         return "farmacista/info_solicitud";
     }
 
@@ -1414,7 +1431,7 @@ public class FarmacistaController {
             Integer stockActual = stock - cantidadMedicamento;
 
             if(stockActual<0){
-                redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga o cambiar el medicamento!");
+                redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga!");
                 return "redirect:/farmacista/pedidos";
             }
 
@@ -1504,12 +1521,21 @@ public class FarmacistaController {
 
             medicamentosDelPedidoRepository.borrarMedicamentoPocoStock(medicamento.getNombre(), pedidoid, pedidoActual.getUsuario().getId());
 
-            if(cantidadMedicamento == 1){
-                redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidad de " + medicamento.getNombre());
+            String cuerpo = this.correo.numtrackPorCorreo(pedidoActual.getUsuario(), medicamento.getNombre(), cantidadStr, pedidoActual.getNumero_tracking(), numpedido);
+            boolean envio = this.correo.EnviarCorreo("Nueva Pre-Orden generada", cuerpo, pedidoActual.getUsuario());
+
+            if(envio){
+                if(cantidadMedicamento == 1){
+                    redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidad de " + medicamento.getNombre());
+                }
+                else{
+                    redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidades de " + medicamento.getNombre());
+                }
             }
             else{
-                redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidades de " + medicamento.getNombre());
+                redirectAttributes.addFlashAttribute("msg", "Error al enviar el correo");
             }
+
         }
 
         return "redirect:/farmacista/pedidoInfo?id=" + pedidoid + "&tipo=1";
@@ -1539,10 +1565,15 @@ public class FarmacistaController {
         }
 
         for (PedidosPacienteRecojo pedido2 : listaPedidos2) {
-            if(!pedido2.getEstado_del_pedido().equals("Pendiente") && pedido2.getValidacion_del_pedido().equals("Validado")){
+            if(!pedido2.getEstado_del_pedido().equals("Pendiente") && pedido2.getValidacion_del_pedido().equals("Validado") && pedido2.getTipo_de_pedido().equals("Web - Recojo en tienda")){
                 listarecojo.add(pedido2);
             }
         }
+
+        Collections.reverse(listadelivery);
+        Collections.reverse(listarecojo);
+        Collections.reverse(listapreordenes);
+
 
         model.addAttribute("listaPedidosDely", listadelivery);
         model.addAttribute("tamanodely", listadelivery.size());

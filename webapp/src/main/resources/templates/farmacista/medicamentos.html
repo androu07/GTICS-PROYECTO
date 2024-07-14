@@ -153,9 +153,9 @@
                 <br>
             </div>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div class="col-md-3 col-sm-4" id="contenidopag" th:each="medicamentos, info : ${listaMedicamentos}" >
+                <div class="col-md-3 col-sm-4" id="contenidopag" th:each="medicamentos, info : ${listaMedicamentos}" th:if="${medicamentos.inventario > 25}">
                     <div class="col mb-3">
-                        <div class="card h-100" th:if="${medicamentos.inventario > 25}" style="height: 650px; width: 400px">
+                        <div class="card h-100" style="height: 650px; width: 400px">
                             <!--  image-->
                             <img class="card-img-top" th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="img" style="height: 350px; width: 95%" />
                             <!-- medicine details-->
@@ -177,72 +177,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col mb-3">
-                        <div class="card h-100" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}" style="height: 650px; width: 400px">
-                            <!--  image-->
-                            <img class="card-img-top" th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="img" style="height: 350px; width: 95%" />
-                            <!-- medicine details-->
-                            <div class="card-body p-4">
-                                <div class="text-center" style="display: flex; flex-direction: column;">
-                                    <!-- medicine name-->
-                                    <h5 class="fw-bolder" th:text="${medicamentos.nombre}"></h5>
-                                    <!-- medicine dosage-->
-                                    <h7 class="fw-bolder" th:text="'cantidad ' + ${medicamentos.inventario}"></h7>
-                                    <!-- medicine price-->
-                                    <p th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
-                                </div>
-                            </div>
-                            <!-- medicine actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark" th:href="@{'/farmacista/generarPreorden?id=' + ${medicamentos.id}}">Generar una Pre-Orden</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-3">
-                        <div class="card h-100" th:if="${medicamentos.inventario == 0}" style="height: 650px; width: 400px">
-                            <!--  image-->
-                            <img class="card-img-top" th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="img" style="height: 350px; width: 95%" />
-                            <!-- medicine details-->
-                            <div class="card-body p-4">
-                                <div class="text-center" style="display: flex; flex-direction: column;">
-                                    <!-- medicine name-->
-                                    <h5 class="fw-bolder" th:text="${medicamentos.nombre}"></h5>
-                                    <!-- medicine dosage-->
-                                    <h7 class="fw-bolder" th:text="'cantidad ' + ${medicamentos.inventario}"></h7>
-                                    <!-- medicine price-->
-                                    <p th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
-                                </div>
-                            </div>
-                            <!-- medicine actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <a class="btn btn-outline-dark" href="">Agotado</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario == 0}">
-                        <div class="single-new-arrival-bg">
-                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
-                            <div class="single-new-arrival-bg-overlay"></div>
-                            <div class="sale bg-1" style="width: auto">
-                                <p>sin stock</p>
-                            </div>
-                            <div class="new-arrival-cart">
-                                <p>
-                                    <a th:href="@{/farmacista/mensajeria}"><span class="lnr lnr-chevron-right-circle"></span> <span>Contactarse con un farmacista</span></a>
-                                </p>
-                                <p class="arrival-review pull-right">
-                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
-                                </p>
-                            </div>
-                        </div>
-                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
-                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
-                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
                 </div>
             </div>

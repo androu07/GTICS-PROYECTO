@@ -469,14 +469,16 @@ public class AdminSedeController {
         String estadopedido = "Solicitado";
         LocalDate fecha = LocalDate.now();
         String fechaString = fecha.toString();
+        LocalDate fechaman = fecha.plusDays(1);
+        String fechamanString = fechaman.toString();
 
-        carritoRepository.registrarPedidoRepo1(idAdmin,fechaString,costototal,"2024-09-25",estadopedido,1);
+        carritoRepository.registrarPedidoRepo1(idAdmin,fechaString,costototal,fechamanString,estadopedido,1);
 
         int IdRep = pedidosReposicionRepository.idPedRexfecha(fechaString,idAdmin);
         pedidosReposicion.setId(IdRep);
         pedidosReposicion.setFecha_solicitud(fechaString);
         pedidosReposicion.setCosto_total(costototal);
-        pedidosReposicion.setFecha_entrega("2024-09-25");
+        pedidosReposicion.setFecha_entrega(fechamanString);
         pedidosReposicion.setEstado_de_reposicion(estadopedido);
         model.addAttribute("pedRep",pedidosReposicion );
         List<Proveedor> listaProovedor = proveedorRepository.findAll();
@@ -512,14 +514,20 @@ public class AdminSedeController {
 
     @GetMapping("/admin/editar_orden")
     public String editarOrden(@ModelAttribute("pedidosReposicion") PedidosReposicion pedidosReposicion,
-                              Model model, @RequestParam("id") int id) {
+                              Model model, @RequestParam("id") int id, RedirectAttributes attr) {
 
         Optional<PedidosReposicion> optUsuario = pedidosReposicionRepository.findById(id);
 
         if (optUsuario.isPresent()) {
             pedidosReposicion = optUsuario.get();
-            model.addAttribute("pedidoRepo", pedidosReposicion);
-            return "admin/editarOrden";
+            if(pedidosReposicion.getEstado_de_reposicion().equals("Solicitado")){
+                model.addAttribute("pedidoRepo", pedidosReposicion);
+                return "admin/editarOrden";
+            }else{
+                attr.addFlashAttribute("msg1", "No se puede actualizar un pedido si ya se aprobó la orden de solicitud");
+                return "redirect:/admin/pedidos_reposicion";
+            }
+
         } else {
             return "redirect:/admin/pedidos_reposicion";
         }

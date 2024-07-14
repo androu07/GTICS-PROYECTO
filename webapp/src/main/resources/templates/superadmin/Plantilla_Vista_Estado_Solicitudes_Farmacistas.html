@@ -59,7 +59,9 @@
     <body class="sb-nav-fixed">
         <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
         <!-- TRABAJAR AQUI -->
-
+        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+        <div th:if="${success != null}" th:text="${success}" class="alert alert-success" role="alert"></div>
+        <div th:if="${error != null}" th:text="${error}" class="alert alert-success" role="alert"></div>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
             </div>
@@ -195,6 +197,25 @@
                                 </div>
                             </td>
                             <td class="text-center"><p style="font-size: 18px;" th:text="${Usuarios.getEstado_solicitud()}">Panadol</p></td>
+
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.estado_solicitud} == 'Pendiente'">
+                                    <div class="text-center">
+                                        <p style="font-size: 18px;">Sin Motivo de Rechazo</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.estado_solicitud} == 'Aceptado'">
+                                    <div class="text-center">
+                                        <p style="font-size: 18px;">Sin Motivo de Rechazo</p>
+                                    </div>
+                                </div>
+                                <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.estado_solicitud} == 'Rechazado'">
+                                    <div class="text-center">
+                                        <p style="font-size: 18px;" th:text="'Motivo: ' + ${Usuarios.motivo_rechazo}">Panadol</p>
+                                    </div>
+                                </div>
+                            </td>
+
                         </tr>
                         </tbody>
                     </table>

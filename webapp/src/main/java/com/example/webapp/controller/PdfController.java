@@ -15,7 +15,9 @@ import com.lowagie.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -29,6 +31,7 @@ import org.thymeleaf.context.Context;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -60,6 +63,17 @@ public class PdfController {
         this.pedidosPacienteRecojoRepository = pedidosPacienteRecojoRepository;
         this.medicamentosRecojoRepository = medicamentosRecojoRepository;
         this.templateEngine = templateEngine;
+    }
+
+    @GetMapping("/download/pdf")
+    public ResponseEntity<FileSystemResource> downloadPdf() {
+        File pdfFile = new File("webapp/src/main/resources/static/assets/farmacista/guia.pdf");
+        FileSystemResource resource = new FileSystemResource(pdfFile);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=" + pdfFile.getName());
+
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
     @PostMapping("/filtrarSede")
