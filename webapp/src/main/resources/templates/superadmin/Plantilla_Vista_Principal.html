@@ -61,6 +61,8 @@
 
         <!-- TRABAJAR AQUI -->
         <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+        <div th:if="${success != null}" th:text="${success}" class="alert alert-success" role="alert"></div>
+        <div th:if="${error != null}" th:text="${error}" class="alert alert-success" role="alert"></div>
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">

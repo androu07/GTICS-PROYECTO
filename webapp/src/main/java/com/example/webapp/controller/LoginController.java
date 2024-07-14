@@ -692,7 +692,7 @@ public class LoginController {
                 usuario.setCodigo_colegiatura("Sin-Codigo");
                 usuario.setRol(rol);
                 usuario.setContrasena("");
-                redirectAttributes.addFlashAttribute("msg", "Administrador creado exitosamente");
+                //redirectAttributes.addFlashAttribute("msg", "Administrador creado exitosamente");
 
                 try {
                     usuario.setToken_recuperacion(util.GenerarToken()); // Token de ACTIVACION
@@ -704,11 +704,12 @@ public class LoginController {
                     String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
                     boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
 
-                    redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se te ha enviado un correo de notificación sobre el estado de tu registro para su activación.");
+                    redirectAttributes.addFlashAttribute("msg", "Administrador creado exitosamente");
+                    redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se ha enviado un correo al nuevo administrador para la activación de su cuenta.");
                 } catch (Exception e) {
                     logger.error("Error al registrar el usuario", e);
                     redirectAttributes.addFlashAttribute("usuario", usuario);
-                    redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
+                    redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el administrador. Por favor, Intentelo de nuevo.");
                 }
 
                 return "redirect:/superadmin/Vista_Principal";
@@ -789,7 +790,7 @@ public class LoginController {
     }
 
     @PostMapping("/Aceptar_Administrador")
-    public String Aceptar_Administrador(@RequestParam("id_usuario") int id) {
+    public String Aceptar_Administrador(@RequestParam("id_usuario") int id, RedirectAttributes redirectAttributes) {
         usuarioRepository.aceptarAdministrador("Aceptado", id);
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
         Usuario usuario = optUsuario.get();
@@ -802,11 +803,13 @@ public class LoginController {
             String cuerpo = this.correo.construirCuerpoActivarCuenta(usuario);
             boolean envio = this.correo.EnviarCorreo("Activar cuenta", cuerpo, usuario);
 
-            //redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se te ha enviado un correo de notificación sobre el estado de tu registro para su activación.");
+            redirectAttributes.addFlashAttribute("msg", "Farmacista creado exitosamente");
+            redirectAttributes.addFlashAttribute("success", "Registro exitoso. Se ha enviado un correo al nuevo farmacista para la activación de su cuenta.");
         } catch (Exception e) {
             logger.error("Error al registrar el usuario", e);
             //redirectAttributes.addFlashAttribute("usuario", usuario);
             //redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el usuario. Por favor, Intentelo de nuevo.");
+            redirectAttributes.addFlashAttribute("error", "Hubo un problema al registrar el farmacista. Por favor, Intentelo de nuevo.");
         }
 
         return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
