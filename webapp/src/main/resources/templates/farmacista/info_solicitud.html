@@ -133,7 +133,7 @@
                                                 <a class="btn btn-success" th:href="@{'/farmacista/pedidoInfo/generarPre-Orden?pedidoId=' + ${pedido.id} + '&medicamentoNombre=' + ${medicamento.nombre_medicamento} + '&cantidad=' + ${medicamento.cantidad}}">Generar Pre-Orden</a>
                                             </td>
                                             <td th:if="${listaStocks.get(info.index) <= 25 and ((listaStocks.get(info.index) - medicamento.cantidad) < 0) and pedido.tipo_de_pedido == 'Web - Delivery'}">
-                                                <a class="btn btn-success">Cambiar Medicamento</a>
+                                                <p>Debe esperar la reposición</p>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -170,6 +170,19 @@
         </div>
         <!-- ************* -->
         <footer th:replace="layout/PlantillaFarmacista :: footer"></footer>
+
+        <script>
+            $('#pedidoModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var tipo = button.data('tipo');
+                var medicamento = button.data('medicamento');
+                var modal = $(this);
+                modal.find('#pedidoIdInput').val(id);
+                modal.find('#pedidoTipoInput').val(tipo);
+                modal.find('#medicamentoInput').val(medicamento);
+            });
+        </script>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>

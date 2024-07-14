@@ -957,6 +957,8 @@ public class FarmacistaController {
             }
         }
 
+        Collections.reverse(listapedidos);
+
         model.addAttribute("listaPedidosDely", listapedidos);
         model.addAttribute("tamanodely", listapedidos.size());
 
@@ -1123,6 +1125,10 @@ public class FarmacistaController {
             }
         }
 
+        Collections.reverse(listadelivery);
+        Collections.reverse(listarecojo);
+        Collections.reverse(listapreordenes);
+
         model.addAttribute("listaPedidosDely", listadelivery);
         model.addAttribute("tamanodely", listadelivery.size());
 
@@ -1174,7 +1180,7 @@ public class FarmacistaController {
                         medicamentosRepository.save(medicamento);
                     }
                     else{
-                        redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga o cambiar el medicamento!");
+                        redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga el medicamento!");
                         return "redirect:/farmacista/pedidos";
                     }
                 }
@@ -1390,6 +1396,17 @@ public class FarmacistaController {
             return "redirect:/farmacista/pedidos";
         }
 
+        List<Medicamentos> listaMedicamentos = medicamentosRepository.findAll();
+        List<Medicamentos> listaMedicamentosMayor25 = new ArrayList<>();
+        for(int i = 0; i < listaMedicamentos.size(); i++){
+            Medicamentos medicamentos = listaMedicamentos.get(i);
+            if(medicamentos.getInventario() > 25){
+                listaMedicamentosMayor25.add(medicamentos);
+            }
+        }
+
+        model.addAttribute("listamedicamentosmayor", listaMedicamentosMayor25);
+
         return "farmacista/info_solicitud";
     }
 
@@ -1414,7 +1431,7 @@ public class FarmacistaController {
             Integer stockActual = stock - cantidadMedicamento;
 
             if(stockActual<0){
-                redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga o cambiar el medicamento!");
+                redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga!");
                 return "redirect:/farmacista/pedidos";
             }
 
@@ -1548,10 +1565,15 @@ public class FarmacistaController {
         }
 
         for (PedidosPacienteRecojo pedido2 : listaPedidos2) {
-            if(!pedido2.getEstado_del_pedido().equals("Pendiente") && pedido2.getValidacion_del_pedido().equals("Validado")){
+            if(!pedido2.getEstado_del_pedido().equals("Pendiente") && pedido2.getValidacion_del_pedido().equals("Validado") && pedido2.getTipo_de_pedido().equals("Web - Recojo en tienda")){
                 listarecojo.add(pedido2);
             }
         }
+
+        Collections.reverse(listadelivery);
+        Collections.reverse(listarecojo);
+        Collections.reverse(listapreordenes);
+
 
         model.addAttribute("listaPedidosDely", listadelivery);
         model.addAttribute("tamanodely", listadelivery.size());
