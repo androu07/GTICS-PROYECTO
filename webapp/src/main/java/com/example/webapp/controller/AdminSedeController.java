@@ -379,7 +379,7 @@ public class AdminSedeController {
         int idAdmin = admin.getId();
 
         String estadocompra = "Comprando";
-        List<Carrito> duplicados = carritoRepository.buscarDuplicados(id);
+        List<Carrito> duplicados = carritoRepository.buscarDuplicados(id, idAdmin);
         if (duplicados.isEmpty()){
             int cantidad = 50;
             List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(idAdmin);

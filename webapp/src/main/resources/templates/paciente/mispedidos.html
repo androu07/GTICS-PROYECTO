@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pildo Pharm</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
   <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
 
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
@@ -121,6 +123,7 @@
             <th style="text-align: center;">Fecha de Registro</th>
             <th style="text-align: center;">Estado de la compra</th>
             <th style="text-align: center;"></th>
+            <th style="text-align: center;"></th>
           </tr>
           <tr th:each="pedidodely : ${listaPedidosDely}" th:if="${pedidodely.tipo_de_pedido == 'Web - Delivery'}">
             <td class="align-middle" style="font-size: large;" th:text="${pedidodely.numero_tracking}"></td>
@@ -133,6 +136,12 @@
               <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidodely.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${pedidodely.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
               <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-success" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
               <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidodely.id}" th:data-tipo="${'1'}" th:if="${pedidodely.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+            </td>
+            <td class="align-middle">
+              <button type="button" class="btn btn-outline-danger" style="font-size: large" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}">
+                <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
+                <span style="vertical-align: middle;">Boleta de Pago</span>
+              </button>
             </td>
           </tr>
         </table>
@@ -184,6 +193,12 @@
               <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidoreco.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedidoreco.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
               <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-success" th:if="${pedidoreco.estado_del_pedido != 'Pendiente' and pedidoreco.estado_del_pedido != 'Por cancelar' and pedidoreco.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
               <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidoreco.id}" th:data-tipo="${'2'}" th:if="${pedidoreco.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+            </td>
+            <td class="align-middle">
+              <button type="button" class="btn btn-outline-danger" style="font-size: large" th:if="${pedidoreco.estado_del_pedido != 'Por cancelar' and pedidoreco.validacion_del_pedido != 'Rechazado'}">
+                <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
+                <span style="vertical-align: middle;">Boleta de Pago</span>
+              </button>
             </td>
           </tr>
         </table>

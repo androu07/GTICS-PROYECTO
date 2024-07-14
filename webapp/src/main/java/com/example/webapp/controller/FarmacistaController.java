@@ -553,7 +553,7 @@ public class FarmacistaController {
         int usuid = usuario.getId();
 
         String estadocompra = "Comprando";
-        List<Carrito> duplicados = carritoRepository.buscarDuplicados(id);
+        List<Carrito> duplicados = carritoRepository.buscarDuplicados(id, usuid);
         if (duplicados.isEmpty()){
             int cantidad = 1;
             List<String> numeropedidoporId = carritoRepository.numPedidoPorUsuarioId(usuid);
@@ -562,7 +562,7 @@ public class FarmacistaController {
             attr.addFlashAttribute("msg","Se agrego un nuevo producto al carrito!");
         }
         else{
-            int cantidadDelDuplicado = carritoRepository.cantidadDelDuplicado(id);
+            int cantidadDelDuplicado = carritoRepository.cantidadDelDuplicado(id, usuid);
             int cantidad = cantidadDelDuplicado+1;
             int id1 = id;
             int usuid2 = usuid;
