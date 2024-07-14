@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Autologin</title>
+</head>
+<body>
+<form id="autoLoginForm" method="post" th:action="@{/submitLoginForm}">
+  <input type="hidden" id="username" name="username" th:value="${username}">
+  <input type="hidden" id="password" name="password" th:value="${password}">
+  <button type="submit" style="display: none;"></button>
+</form>
+<script>
+  // Enviar automáticamente el formulario cuando la página se cargue
+  window.onload = function() {
+    document.getElementById("autoLoginForm").submit();
+  }
+</script>
+</body>
+</html>

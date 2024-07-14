@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="~{layout/generaladmin.html :: header (title = 'Carrito')}"></head>
+<head><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link th:href="@{/assets/admin/css/styleShCart.css}" rel="stylesheet" /></head>
+<body>
+<!-- TRABAJAR AQUI-->
+<div class="card">
+  <div class="row">
+    <div class="col-md-8 cart">
+      <div class="title">
+        <div class="row">
+          <div class="col"><h4><b style="font-size: x-large;">Mi carrito de compras</b></h4></div>
+        </div>
+      </div>
+      <div class="row border-top border-bottom" th:if="${car==1}">
+
+      </div>
+      <div class="row border-top border-bottom">
+        <div class="row main align-items-center" th:each="productos : ${listadoDelCarrito}">
+          <div class="col-2"><img class="img-fluid" th:src="@{/assets/paciente/img/medicamento.avif}"></div>
+          <div class="col">
+            <div class="row text-muted" th:text="${productos.medicamentos_id_medicamentos.categoria}"></div>
+            <div class="row" th:text="${productos.medicamentos_id_medicamentos.nombre}"></div>
+          </div>
+          <div class="col">
+            <a type="button" class="btn btn-danger" th:href="@{'/admin/carrito/borrar?id=' + ${productos.medicamentos_id_medicamentos.id}}">Eliminar</a>
+          </div>
+        </div>
+      </div>
+      <div class="back-to-shop"><a style="font-size: large" th:href="@{/admin/nuevo_pedido}">&leftarrow;<span class="text-muted"> Volver atrás</span></a></div>
+    </div>
+    <div class="col-md-4 summary">
+      <div><h5><b>Resumen</b></h5></div>
+
+      <hr>
+      <div class="row" th:each="productos : ${listadoDelCarrito}">
+        <div class="col" style="padding-left:0;" th:text="${productos.medicamentos_id_medicamentos.nombre}"></div>
+        <div class="col text-right" th:text="'S/ ' + ${productos.medicamentos_id_medicamentos.precio_unidad} +'(x50)'"></div>
+      </div>
+
+      <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+        <div class="col">PRECIO TOTAL A PAGAR</div>
+        <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
+      </div>
+
+      <a th:if="${car==0}" class="btn"  th:href="@{'/admin/carrito/formulario?costototal=' + ${precioTotal}}" >REGISTRAR PEDIDO</a>
+
+    </div>
+  </div>
+  <div></div>
+  <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+    <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+      <div style="font-family: Arial; margin-left: 10px; color: white;">
+        <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+      </div>
+    </div>
+  </footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>

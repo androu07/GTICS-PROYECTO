@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="img/logo3_title.png" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <title>Pildo Pharm</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="img/logo.png" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
+        <link href="/assets/farmacista/css/stylesSide.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            /* Estilos personalizados para los botones */
+            .boton_barbaro {
+                color: white;
+                background-color: red;
+                border-color: red;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+
+            .boton_barbaro:hover {
+                background-color: #990000;
+                border-color: #990000;
+            }
+
+            .botoncito_gozu {
+                color: white;
+                background-color: black;
+                border-color: black;
+                margin-top: 32px;
+            }
+
+            .botoncito_gozu:hover {
+                background-color: #333;
+                border-color: #333;
+            }
+
+            .boton-primario {
+                background-color: #2bd831;
+                border-color: #2bd831;
+            }
+
+            .boton-primario:hover {
+                background-color: rgb(19, 164, 24);
+                border-color: rgb(19, 164, 24);
+            }
+            .avatar-img {
+                width: 200px; /* Ajusta el ancho deseado */
+                height: auto; /* El alto se ajustará automáticamente según la proporción */
+            }
+            .custom-shadow-border {
+                border: 1px solid #dee2e6; /* Color de borde suave */
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.45); /* Sombra suave */
+                padding: 10px; /* Espaciado interno */
+                background: white; /* Fondo blanco para el contenido */
+                margin-top: 20px; /* Espaciado superior */
+            }
+            @media (max-width: 768px) {
+                .row.custom-shadow-border.with-padding {
+                    padding: 15px 10px; /* Incrementa el padding lateral si es necesario */
+                    margin-left: 5px; /* Ajusta según necesidad */
+                    margin-right: 5px; /* Ajusta según necesidad */
+                }
+            }
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+            }
+
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            main {
+                flex: 1 0 auto; /* Ajustado para asegurar que se expande con el contenido */
+                display: flex;
+                flex-direction: column; /* Asegúrate de que el contenido fluya verticalmente */
+                overflow-y: auto; /* Permite el desplazamiento dentro del main si es necesario */
+            }
+
+            footer {
+                width: 100%;
+                position: fixed;  /* Asegura que el footer siga el flujo normal del documento */
+                clear: both;         /* Esto puede ayudar si hay floats en tu layout */
+                bottom: 0;
+
+                background-color: rgba(11, 99, 111, 0.79);
+
+            }
+            .row {
+                padding-bottom: 28px !important;
+            }
+
+
+
+
+        </style>
+    </head>
+    <body class="sb-nav-fixed">
+        <div th:replace="layout/PlantillaFarmacista :: navegacion"></div>
+        <div th:replace="layout/MensajesTemplate :: mensajes"></div>
+        <!-- TRABAJAR AQUI -->
+
+        <div style="height: 100%;">
+            <div class="container" >
+                <div class="main-content">
+
+
+                    <div class="row custom-shadow-border with-padding">
+                        <div class="col-lg-4">
+                            <h2 class="mb-4">Opciones</h2>
+                            <div class="list-group m-lg-4" id="list-tab" role="tablist">
+                                <a class="list-group-item list-group-item-action rounded-0" data-target="#list-profile">Venta con receta</a>
+                                <a class="list-group-item list-group-item-action rounded-0" data-target="#list-avatar">Venta sin receta</a>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane" id="list-profile" role="tabpanel">
+                                    <!-- Contenido del perfil aquí -->
+
+
+                                    <h2 class="mb-4">Pedido con receta</h2>
+                                    <form class="row g-3" action="/farmacista/pedidoconreceta/guardar"  th:object="${pedido}" method="post">
+                                        <div class="col-md-6">
+                                            <label for="inputNombre" class="form-label">Nombres</label>
+                                            <input type="text" class="form-control" th:field="*{nombre_paciente}" required="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputApellido" class="form-label">Apellidos</label>
+                                            <input type="text" class="form-control"  th:field="*{apellido_paciente}" required="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputCorreo" class="form-label">Correo electrónico</label>
+                                            <input type="email" class="form-control" th:field="*{correo}" placeholder="" required="">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="inputDni" class="form-label">DNI</label>
+                                            <input type="text" class="form-control"  th:field="*{dni}" maxlength="8" required="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputDireccion" class="form-label">Dirección de entrega</label>
+                                            <input type="text" class="form-control" th:field="*{direccion}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputHora" class="form-label">Seleccione una hora</label>
+                                            <input type="time" class="form-control" name="hora_de_entrega" required="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputPago" class="form-label">Método de pago</label>
+
+                                            <select th:field="*{metodo_pago}" class="form-select">
+                                                <option value="Efectivo">Efectivo</option>
+                                                <option value="Tarjeta">Tarjeta</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="list-avatar" role="tabpanel">
+                                    <!-- Contenido del avatar aquí -->
+
+
+                                    <h2 class="mb-4">Pedido sin receta</h2>
+                                    <form class="row g-3" 
+                                          action="/farmacista/pedidosinreceta/guardar"  
+                                          th:object="${pedido}" method="post">
+                                        <div class="col-md-6">
+                                            <label for="inputEmail4" class="form-label">Nombres</label>
+                                            <input type="text" class="form-control"  th:field="*{nombre_paciente}" required="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputPassword4" class="form-label">Apellidos</label>
+                                            <input type="text" class="form-control"  th:field="*{apellido_paciente}" required="">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="inputPago" class="form-label">Método de pago</label>
+
+                                            <select  th:field="*{metodo_pago}" required="" class="form-select">
+                                                <option value="Efectivo">Efectivo</option>
+                                                <option value="Tarjeta">Tarjeta</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputAddress" class="form-label">Correo electrónico</label>
+                                            <input type="email" class="form-control"  th:field="*{correo}" required=""placeholder="">
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success">Guardar cambios</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ************* -->
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const tabs = document.querySelectorAll('#list-tab a');
+                const panes = document.querySelectorAll('.tab-pane');
+
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = tab.getAttribute('data-target');
+                        const targetPane = document.querySelector(targetId);
+
+                        panes.forEach(pane => {
+                            pane.classList.remove('active');
+                        });
+                        targetPane.classList.add('active');
+                    });
+                });
+            });
+        </script>
+
+    </body>
+</html>

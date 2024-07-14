@@ -1,0 +1,98 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="navegacion">
+            <nav class="navbar navbar-expand-lg fondo" style=" background-color: #0b636fc9;">
+                <div class="container px-4 px-lg-5">
+                    <a class="navbar-brand" href="" style="color: white; font-size: x-large; margin-bottom: 3px;"><img th:src="@{/assets/superadmin/img/logo.png}" alt="Logo" width="50vw" height="50vh"> PildoPharm</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <!--Buscado-->
+                        <ul class="navbar-nav m-auto">
+                            <div class="input-group ml-40">
+                                <!--ocultar buscador
+                                <input class="form-control" type="text" style="font-size: large;" placeholder="Buscar por Nombre..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+                                <button class="btn btn-outline-light" type="submit"><i class="bi-search me-1"></i></button>
+                                --></div>
+                        </ul>
+                        <form class="d-flex">
+                            <!--boton registrar-->
+                            <div class="dropdown" style="margin-top: 5px;">
+                                <button class="btn mt-auto" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 0px; display: flex;" >
+                                    <a class="text-decoration-none" style="margin-right: 10px;" href="#">
+                                        <img th:if="${session['avatar'] != null}" th:src="'/assets/paciente/img/'+ ${session['avatar']}" width="50vw" height="50vh" alt="Avatar" class="avatar"
+                                             onerror="this.onerror=null; this.src='/superadmin/img/usuario.png';">
+
+                                        <img th:unless="${session['avatar'] != null}" th:src="@{/assets/superadmin/img/usuario.png}" width="50vw" height="50vh" alt="Avatar" class="avatar">
+
+                                    </a>
+                                    <div style="display: flex; flex-direction: column; color: white;">
+                                        <h5 style="margin: 0%;" th:text="${session.usuario.nombres + ' ' + session.usuario.apellidos}" >Nombre Apellido</h5>
+                                        <h7 th:text="${session.usuario.getRol().getNombre()}">Rol</h7>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
+                                    <li style="color: darkred!important;">
+                                        <a class="dropdown-item" 
+                                           th:href="@{/logout}" style="color: red!important;">
+                                            <b>Cerrar Sesión</b>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #72b2bbc9!important;">
+                <div class="container px-4 px-lg-5">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: large;">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                            <!--<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>-->
+
+
+                            <li class="nav-item"><a class="nav-link"  th:href="@{/farmacista/medicamentos}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+
+                            <li class="nav-item"><a class="nav-link" th:href="@{/farmacista/medicamentos}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+
+                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                        </svg></div> Medicamentos</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/farmacista/pedidosValidados}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                        </svg></div> Estado de los Pedidos</a></li>
+                            <li class="nav-item"><a class="nav-link" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+
+                                        </svg></div> Estado de Envíos</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/farmacista/mensaje}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                            </svg></div>Mensaje</a></li>
+
+                            <li class="nav-item"><a class="nav-link" th:href="@{/farmacista/pedidos}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-capsule" viewBox="0 0 16 16">
+
+                                <path d="M1.828 8.9 8.9 1.827a4 4 0 1 1 5.657 5.657l-7.07 7.071A4 4 0 1 1 1.827 8.9Zm9.128.771 2.893-2.893a3 3 0 1 0-4.243-4.242L6.713 5.429z"/>
+                            </svg></div> Ver Solicitudes de Pedidos</a></li>
+                            <li class="nav-item"><a class="nav-link" th:href="@{/farmacista/pedidosPresenciales}" style="display: flex;"><div class="sb-nav-link-icon" style="margin-right: 5px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-capsule" viewBox="0 0 16 16">
+                                <path d="M1.828 8.9 8.9 1.827a4 4 0 1 1 5.657 5.657l-7.07 7.071A4 4 0 1 1 1.827 8.9Zm9.128.771 2.893-2.893a3 3 0 1 0-4.243-4.242L6.713 5.429z"/>
+                            </svg></div>Ver Pedidos Presenciales</a></li>
+
+                        </ul>
+                    </div>
+                    <!--carrito-->
+                    <div class="m-auto">
+                        <a class="btn btn-outline-light" th:href="@{/farmacista/carrito}" >
+                            <i class="bi-cart-fill me-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <footer th:fragment="footer">
+            <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+                <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
+                    <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

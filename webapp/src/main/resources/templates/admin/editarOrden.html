@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{layout/generaladmin.html :: header (title = 'Editar Orden')}"></head>
+<body class="sb-nav-fixed">
+<div th:insert="~{layout/generaladmin.html :: navar1}"></div>
+<div th:insert="~{layout/generaladmin.html :: navar2}"></div>
+
+<!-- TRABAJAR AQUI-->
+<div style="width: 100%;">
+    <div class="container px-4 px-lg-5 mt-5">
+        <h1>Formulario Para Editar la orden</h1>
+        <br>
+        <form method="post" style="font-size: large; font-weight: bold;" th:object="${pedidoRepo}">
+            <div class="mb-3">
+                <input class="form-control" readonly type="hidden" th:value="*{id}" name="id"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha de solicitud</label>
+                <input class="form-control" readonly type="text" th:value="*{fecha_solicitud}" name="fecha_solicitud"/>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label class="form-label">Costo total</label>
+                <input class="form-control" readonly th:value="*{costo_total}"/>
+            </div>
+            <a th:href="@{'/admin/eliminarOrdenDeRepo?id=' + *{id}}" class="btn btn-success" style="font-size: large;">Eliminar la solicitud de orden</a>
+            <a th:href="@{'/admin/pedidos_reposicion'}" class="btn btn-danger" style="font-size: large;">Regresar</a>
+            <br>
+            <br>
+            <br>
+        </form>
+    </div>
+</div>
+<div class="fixed-bottom">
+    <footer style="background-color: rgb(58, 65, 73); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>

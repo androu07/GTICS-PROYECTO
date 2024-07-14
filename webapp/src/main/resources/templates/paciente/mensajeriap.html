@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pildo Pharm</title>
+
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/estilospersonalizados.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
+
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/misestilos.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/stylesSide.css}">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+-<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<!--welcome-hero start -->
+<header id="home" class="welcome-hero">
+    <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+</header><!--/.welcome-hero-->
+<!--welcome-hero end -->
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container">
+        <div class="panel messages-panel">
+            <div class="contacts-list">
+                <div class="inbox-categories">
+                    <div data-toggle="tab" data-target="#inbox" class="active"> Inbox </div>
+                </div>
+                <div class="tab-content">
+                    <div id="inbox" class="contacts-outter-wrapper tab-pane active">
+                        <form class="panel-search-form info form-group has-feedback no-margin-bottom">
+                            <input type="text" class="form-control" name="search" placeholder="Search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                        </form>
+                        <div class="contacts-outter">
+                            <ul class="list-unstyled contacts">
+                                <li data-toggle="tab" data-target="#inbox-message-1" class="active">
+                                    <div class="message-count"> 1 </div>
+                                    <img alt class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar3.png">
+                                    <div class="vcentered info-combo">
+                                        <h3 class="no-margin-bottom name"> Farmacista 1 </h3>
+                                        <h5>Buenos días Farmacista 1</h5>
+                                    </div>
+                                    <div class="contacts-add">
+                                        <span class="message-time"> 2:28 <sup>AM</sup></span>
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li data-toggle="tab" data-target="#inbox-message-2">
+                                    <img alt class="img-circle medium-image" src="img/logo.png">
+                                    <div class="vcentered info-combo">
+                                        <h3 class="no-margin-bottom name"> Pildorita </h3>
+                                        <h5>  Hola Sr. Javier Perez, faltan 10 días para el ... </h5>
+                                    </div>
+                                    <div class="contacts-add">
+                                        <span class="message-time"> 3:45 <sup>PM</sup></span>
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane message-body active" id="inbox-message-1">
+                    <div class="message-top">
+                        <div class="font-weight-bold" style="font-weight: 900; text-align: center; margin-top: 10px;">Farmacista 1</div>
+                    </div>
+                    <div class="message-chat">
+                        <div class="chat-body">
+                            <div class="message info">
+                                <img alt class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar3.png">
+                                <div class="message-body">
+                                    <div class="message-info">
+                                        <h4> Farmacista 1 </h4>
+                                        <h5> <i class="fa fa-clock-o"></i> 2:25 PM </h5>
+                                    </div>
+                                    <hr>
+                                    <div class="message-text">
+                                        Buenas tardes Sr. Javier Perez, lo saluda la Farmacista 1. Me pongo en contacto con usted para informale que el producto Panadol Antigripal que solicitó con el orden de compra: 1024533 se encuentra sin stock.
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="message my-message">
+                                <img alt class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                                <div class="message-body">
+                                    <div class="message-body-inner">
+                                        <div class="message-info">
+                                            <h4> Yo </h4>
+                                            <h5> <i class="fa fa-clock-o"></i> 2:28 PM </h5>
+                                        </div>
+                                        <hr>
+                                        <div class="message-text">
+                                            Buenos días Farmacista 1
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="chat-footer">
+                            <textarea class="send-message-text" placeholder="Escribe tu mensaje"></textarea>
+                            <label class="upload-file">
+                                <input type="file" required>
+                                <i class="fa fa-paperclip"></i>
+                            </label>
+                            <button type="button" class="send-message-button btn-info"> <i class="fa fa-send"></i> </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane message-body" id="inbox-message-2">
+                    <div class="message-top">
+                        <div class="font-weight-bold" style="font-weight: 900; text-align: center; margin-top: 10px;">Pildorita</div>
+                    </div>
+                    <div class="message-chat">
+                        <div class="chat-body">
+                            <div class="message info">
+                                <img alt class="img-circle medium-image" src="img/logo.png">
+                                <div class="message-body">
+                                    <div class="message-info">
+                                        <h4> Pildorita </h4>
+                                        <h5> <i class="fa fa-clock-o"></i> 3:45 PM </h5>
+                                    </div>
+                                    <hr>
+                                    <div class="message-text">
+                                        Hola Sr. Javier Perez, faltan 10 días para el vencimiento de sus pastillas. Le recomendamos generar una nueva orden de compra de los mismos medicamento. Si no es el caso, omitir el mensaje
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="message info">
+                                <img alt class="img-circle medium-image" src="img/logo.png">
+                                <div class="message-body">
+                                    <div class="message-info">
+                                        <h4> Pildorita </h4>
+                                        <h5> <i class="fa fa-clock-o"></i> 3:45 PM </h5>
+                                    </div>
+                                    <hr>
+                                    <div class="message-text">
+                                        <button type="button" class="btn btn-secondary">Generar nueva orden de compra</button>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+<!-- clients end -->
+
+
+
+<!--footer start-->
+<footer id="footer"  class="footer">
+    <div class="containernav">
+        <div class="hm-footer-copyright text-center">
+            <div class="footer-social">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </div>
+            <p>
+                &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+            </p><!--/p-->
+        </div><!--/.text-center-->
+    </div><!--/.containernav-->
+
+    <div id="scroll-Top">
+        <div class="return-to-top">
+            <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+        </div>
+
+    </div><!--/.scroll-Top-->
+
+</footer><!--/.footer-->
+<!--footer end-->
+
+<script src="/assets/paciente/js/alert.js"></script>
+
+
+
+<!-- Include all js compiled plugins (below), or include individual files as needed -->
+<script src="/assets/paciente/js/jquery.js"></script>
+
+<!--modernizr.min.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<!--bootstrap.min.js-->
+<script src="/assets/paciente/js/bootstrap.min.js"></script>
+
+<!-- bootsnav js -->
+<script src="/assets/paciente/js/bootsnav.js"></script>
+
+<!--owl.carousel.js-->
+<script src="/assets/paciente/js/owl.carousel.min.js"></script>
+
+<!--Custom JS-->
+<script src="/assets/paciente/js/custom.js"></script>
+
+</body>
+</html>

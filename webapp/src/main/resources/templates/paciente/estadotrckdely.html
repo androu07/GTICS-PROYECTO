@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pildo Pharm</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+    <link th:href="@{/assets/paciente/css/styleEstado.css}" rel="stylesheet" />
+    <link th:href="@{/assets/paciente/css/styleTrack.css}" rel="stylesheet" />
+    <link th:href="@{/assets/paciente/css/trackB5.css}" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<!--welcome-hero start -->
+<header id="home" class="welcome-hero">
+    <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+</header><!--/.welcome-hero-->
+<!--welcome-hero end -->
+<br><br><br>
+
+<section class="py-8">
+    <div class="containernav px-4 px-lg-5 mt-5">
+        <div class="section-header">
+            <h2>Tracking de mi Orden de Compra - Delivery</h2> <br><br>
+            <div class="containernav">
+                <article class="card">
+                    <div class="card-body">
+                        <div>
+                            <div class="card mb-3">
+                                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Numero de Tracking: </span><span th:text="${pedido.numero_tracking}" class="text-medium"></span></div>
+                                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                                    <div class="w-100 text-center py-1 px-2" th:text="'FECHA DE VALIDACION: ' + ${pedido.fecha_validacion}"></div>
+                                    <div class="w-100 text-center py-1 px-2" th:text="'FECHA DE ENTREGA: ' + ${pedido.fecha_entrega}"></div>
+                                    <div class="w-100 text-center py-1 px-2" th:text="'ESTADO: ' + ${pedido.estado_del_pedido}"></div>
+                                </div>
+                                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                                    <div class="w-100 text-center py-1 px-2" th:text="'DIRECCION DE ENTREGA: ' + ${pedido.direccion}"></div>
+                                </div>
+                                <br><br>
+                                <div class="card-body" th:if="${pedido.estado_del_pedido == 'Recibido'}">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-mail-open-file"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Recibido</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En proceso</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-box1"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Empaquetando</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-car"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En ruta</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-home"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Entregado</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" th:if="${pedido.estado_del_pedido == 'En proceso'}">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-mail-open-file"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Recibido</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En proceso</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-box1"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Empaquetando</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-car"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En ruta</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-home"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Entregado</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" th:if="${pedido.estado_del_pedido == 'Empaquetando'}">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-mail-open-file"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Recibido</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En proceso</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-box1"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Empaquetando</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-car"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En ruta</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-home"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Entregado</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-mail-open-file"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Recibido</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En proceso</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-box1"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Empaquetando</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-car"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En ruta</h4>
+                                        </div>
+                                        <div class="step">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-home"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Entregado</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" th:if="${pedido.estado_del_pedido == 'Entregado'}">
+                                    <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-mail-open-file"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Recibido</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-config"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En proceso</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-box1"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Empaquetando</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-car"></i></div>
+                                            </div>
+                                            <h4 class="step-title">En ruta</h4>
+                                        </div>
+                                        <div class="step completed">
+                                            <div class="step-icon-wrap">
+                                                <div class="step-icon"><i class="pe-7s-home"></i></div>
+                                            </div>
+                                            <h4 class="step-title">Entregado</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br><br>
+                            </div>
+                        </div>
+                        <hr>
+                        <h3 style="align-content: flex-start">MEDICAMENTOS DE LA ORDEN</h3>
+                        <br>
+                        <ul class="row" style="margin: 1vh;">
+                            <li class="col-md-4" th:each="medicamento, info : ${listamedicamentodely}" style="margin-bottom: 10px">
+                                <figure class="itemside mb-3">
+                                    <div class="aside">
+                                        <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" class="img-sm border">
+                                    </div>
+                                    <figcaption class="info align-self-center" style="display: flex; flex-direction: column; text-align: center">
+                                        <p class="title" th:text="${medicamento.nombre_medicamento}" style="margin-bottom: 0"></p> <span class="text-muted" th:text="${'S/ ' + medicamento.costo_medicamento}"></span><p style="font-size: small; margin-top: 0; color: black" th:text="${'Cantidad: ' + medicamento.cantidad}">
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <br th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                        <h3 style="align-content: flex-start" th:if="${pedido.estado_del_pedido == 'En ruta'}">MAPA DE LA RUTA DE ENTREGA</h3>
+                        <br th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                        <ul class="row" style="margin: 1vh;" th:if="${pedido.estado_del_pedido == 'En ruta'}">
+                            <iframe th:src="${pedido.mapa_tracking}" width="97%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </ul>
+                        <hr>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br><br><br><br><br>
+
+<!--footer start-->
+<footer id="footer"  class="footer">
+    <div class="containernav">
+        <div class="hm-footer-copyright text-center">
+            <div class="footer-social">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </div>
+            <p>
+                &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+            </p><!--/p-->
+        </div><!--/.text-center-->
+    </div><!--/.container-->
+
+    <div>
+        <div class="return-to-top">
+            <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+        </div>
+
+    </div><!--/.scroll-Top-->
+
+</footer><!--/.footer-->
+<!--footer end-->
+
+<!-- Include all js compiled plugins (below), or include individual files as needed -->
+
+<script src="/assets/paciente/js/jquery.js"></script>
+
+<!--modernizr.min.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<!--bootstrap.min.js-->
+<script src="/assets/paciente/js/bootstrap.min.js"></script>
+
+<!-- bootsnav js -->
+<script src="/assets/paciente/js/bootsnav.js"></script>
+
+<!--owl.carousel.js-->
+<script src="/assets/paciente/js/owl.carousel.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+<!--Custom JS-->
+<script src="/assets/paciente/js/custom.js"></script>
+
+</body>
+</html>

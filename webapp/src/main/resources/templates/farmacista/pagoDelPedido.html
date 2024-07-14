@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PildoPay</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/paciente/css/pago.css">
+    <link rel="stylesheet" href="/assets/superadmin/css/css_register.css">
+    <link rel="icon" href="/assets/paciente/img/logo.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+    <div th:replace="~{layout/MensajesTemplate :: mensajes}"></div>
+
+    <div class="p-4">
+        <div class="container d-flex align-items-center justify-content-center full-height">
+            <div class="row g-5" style="margin-top: 5px; margin-bottom: 120px">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="title">Pago Via Web con Tarjeta</h2>
+                    </div>
+                </div>
+                <form class="col-md-8 col-sm-6 col-xs-12" id="pagoForm">
+                    <div class="p-2">
+                        <div>
+                            <div>
+                                <label class="d-block" for="numerotarjeta"><strong>Número de la Tarjeta</strong></label>
+                                <small class="text-secondary">Ingrese los 16 numeros que se encuentran en su tarjeta</small>
+                                <div class="position-relative">
+                                    <input style="font-size: larger" type="text" id="numerotarjeta" name="numerotarjeta" maxlength="25" class="form-control mt-3" oninput="formatearNumero(this)"><span id="cardType"></span>
+                                    <div id="numeroError" style="color: red; display: none; font-size: small">El número de tarjeta debe tener 16 numeros.</div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-6 col-xs-12">
+                                        <label class="d-block" for="cvv"><strong>CVV</strong></label>
+                                        <small class="text-secondary">Ingrese los 3 numeros que se encuentran en la parte posterior de su tarjeta</small>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <input style="font-size: x-large" type="text" maxlength="4" id="cvv" name="cvv" class="form-control" oninput="validarNumero3(this)">
+                                        <div id="cvvError" style="color: red; display: none; font-size: small">El CVV debe tener 3 numeros.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-6 col-xs-12">
+                                        <label class="d-block"><strong>Fecha de Expiración</strong></label>
+                                        <small class="text-secondary">Ingrese la fecha de expiración de su tarjeta</small>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="d-flex align-items-center">
+                                            <input style="font-size: x-large" type="text" id="mescaduca" name="mescaduca" class="form-control" maxlength="2">
+                                            <span class="fs-4 mx-3">/</span>
+                                            <input style="font-size: x-large" type="text" id="anhiocaduca" name="anhiocaduca" class="form-control" maxlength="4" onblur="validarNumero(this)">
+                                        </div>
+                                        <div id="mesError" style="color: red; display: none; font-size: small">Debe colocar el mes.</div>
+                                        <div id="anhioError" style="color: red; display: none; font-size: small">Debe colocar el año.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input th:value="${id}" name="idpedido" id="idpedido" type="hidden" />
+                            <input th:value="${preciototal}" name="preciototal" id="preciototal" type="hidden" />
+                            <input th:value="${tipopedido}" name="tipopedido" id="tipopedido" type="hidden" />
+                            <button class="btn btn-primary mt-5 w-100" type="submit" id="pagarbutton">Pagar</button>
+                            <a class="btn btn-primary mt-5 w-100" style="display: none; font-size: x-large" type="button" id="volverbutton" th:href="@{/paciente/mispedidos}">Regresar a la Pagina</a>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+
+                    <div style="background:#eff4f8;border-radius:16px;">
+                        <div class="p-4">
+                            <table class="w-100" id="cartTable">
+                                <tr>
+                                    <td><span class="text-secondary">Número de Orden</span></td>
+                                    <td><strong th:text="${numtrack}"></strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="ticket">
+                            <div class="d-flex p-4 align-items-center justify-content-between">
+                                <div>
+                                    <small class="text-secondary">Total a Pagar</small>
+                                    <div class="fs-2"><strong th:text="${'S/ ' + preciototal}"></strong></div>
+                                </div>
+                                <div>
+                                    <img src="/static_files/svgs/shop.svg" width="48" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function realizarPago() {
+            var numero = document.getElementById("numerotarjeta").value;
+            var cvv = document.getElementById("cvv").value;
+            var mes = document.getElementById("mescaduca").value;
+            var anhio = document.getElementById("anhiocaduca").value;
+            var preciototal = document.getElementById("preciototal").value;
+            var id = document.getElementById("idpedido").value;
+            var tipopedido = document.getElementById("tipopedido").value;
+
+            document.getElementById("pagarbutton").disabled = true;
+            $.ajax({
+                type: "GET",
+                data: {
+                    numero: numero,
+                    cvv: cvv,
+                    mes: mes,
+                    anhio: anhio,
+                    preciototal : preciototal,
+                    id : id,
+                    tipopedido : tipopedido
+                },
+                dataType: 'json',
+                url: "/farmacista/validarPago",
+                success: function (data) {
+                    if (data.response === "OK") {
+                        $("#pagarbutton").prop('disabled', true);
+                        $("#pagarbutton").hide();
+                        $("#volverbutton").show();
+                        if(tipopedido === "Presencial - Pago con tarjeta"){
+                            Swal.fire('¡Éxito!', "Ha realizado su pago con exito.", 'success');
+                            setTimeout(function () {
+                                window.location.href = "/farmacista/pedidosPresenciales";
+                            }, 3000);
+                        }
+                    }
+                    if (data.response === "NO ENCONTRADO") {
+                        $("#pagarbutton").prop('disabled', false);
+                        Swal.fire('¡Error!', "Error con la tarjeta ingresada", 'error');
+                    }
+                    if (data.response === "FONDOS INSUFICIENTES") {
+                        $("#pagarbutton").prop('disabled', false);
+                        Swal.fire('¡Error!', "El banco ha rechazado la transacción", 'error');
+                    }
+                },
+                error: function (xhr, status, errorThrown) {
+                    $("#pagarbutton").prop('disabled', false);
+                    Swal.fire('¡Error!', "Ocurrió un error inesperado, vuelva a intentarlo.", 'error');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $('#pagoForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var numeroValido = $('#numerotarjeta').val().length === 25;
+                var cvvValido = $('#cvv').val().length === 3;
+                var mesValido = $('#mescaduca').val().length === 2;
+                var anhioValido = $('#anhiocaduca').val().length === 4;
+
+                if (!numeroValido) {
+                    $('#numeroError').show();
+                }else{
+                    $('#numeroError').hide();
+                }
+
+                if (!cvvValido) {
+                    $('#cvvError').show();
+                }
+                else{
+                    $('#cvvError').hide();
+                }
+
+                if (!mesValido) {
+                    $('#mesError').show();
+                }
+                else{
+                    $('#mesError').hide();
+                }
+
+                if (!anhioValido) {
+                    $('#anhioError').show();
+                }
+                else{
+                    $('#anhioError').hide();
+                }
+
+                if (numeroValido && cvvValido && mesValido && anhioValido) {
+                    realizarPago();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#numerotarjeta').on('input', function() {
+                var firstDigit = $(this).val().charAt(0);
+                var cardType = $('#cardType');
+
+                if (firstDigit === '4') {
+                    cardType.css('background-image', 'url("/assets/paciente/img/visa.jpg")');
+                } else if (firstDigit === '3') {
+                    cardType.css('background-image', 'url("/assets/paciente/img/mastercard.jpg")');
+                } else {
+                    cardType.css('background-image', 'none'); // Limpia la imagen si no es 3 o 4
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function formatearNumero(input) {
+            // Eliminar caracteres no numéricos actuales del valor
+            let valor = input.value.replace(/\D/g, '');
+
+            // Aplicar formato cada 4 dígitos
+            let formateado = '';
+            for (let i = 0; i < valor.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formateado += ' - ';
+                }
+                formateado += valor[i];
+            }
+
+            // Actualizar el valor del campo de entrada
+            input.value = formateado;
+        }
+    </script>
+    <script>
+        function validarNumero3(input) {
+            // Eliminar caracteres no numéricos del valor actual del campo de entrada
+            input.value = input.value.replace(/\D/g, '');
+
+            // Limitar a 3 dígitos si es necesario
+            if (input.value.length > 3) {
+                input.value = input.value.slice(0, 3);
+            }
+        }
+    </script>
+    <script>
+        const input = document.getElementById('mescaduca');
+
+        input.addEventListener('blur', function() {
+            let valor = this.value.trim(); // Obtener el valor actual del campo de entrada sin espacios al principio y al final
+
+            // Eliminar caracteres no numéricos del valor
+            valor = valor.replace(/\D/g, '');
+
+            // Convertir a número y asegurarse de que esté en el rango del 1 al 12
+            let numero = parseInt(valor, 10);
+            if (numero < 1) {
+                numero = 1;
+            } else if (numero > 12) {
+                numero = 12;
+            }
+
+            // Formatear el número a dos dígitos solo si es necesario
+            let valorFormateado = numero.toString().padStart(2, '0');
+
+            // Actualizar el valor del campo de entrada
+            this.value = valorFormateado;
+        });
+    </script>
+    <script>
+        function validarNumero(input) {
+            let numero = parseInt(input.value, 10);
+
+            // Verificar si el número es menor que 2025 solo al salir del campo de entrada
+            if (!isNaN(numero) && numero < 2025) {
+                input.value = '2025';
+            }
+
+            // Limitar a 4 dígitos si es necesario
+            if (input.value.length > 4) {
+                input.value = input.value.slice(0, 4);
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="/assets/superadmin/js/animacion.js"></script>
+</body>
+</html>

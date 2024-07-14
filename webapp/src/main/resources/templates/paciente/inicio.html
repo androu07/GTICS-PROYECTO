@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+        <!-- meta data -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pildo Pharm</title>
+
+        <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/estilospersonalizados.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
+
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+</head>
+<body>
+    -<!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+
+    <!--welcome-hero start -->
+    <header id="home" class="welcome-hero">
+        <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+    </header><!--/.welcome-hero-->
+    <!--welcome-hero end -->
+
+    <br>
+
+    <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+        <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <p th:text="${msg}" style="color: black;"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <!--/.carousel-indicator -->
+        <ol class="carousel-indicators">
+            <li data-target="#header-carousel" data-slide-to="0" class="active"><span class="small-circle"></span></li>
+            <li data-target="#header-carousel" data-slide-to="1"><span class="small-circle"></span></li>
+            <li data-target="#header-carousel" data-slide-to="2"><span class="small-circle"></span></li>
+        </ol><!-- /ol-->
+        <!--/.carousel-indicator -->
+
+        <!--/.carousel-inner -->
+        <div class="carousel-inner" role="listbox">
+            <!-- .item -->
+            <div class="item active">
+                <div class="single-slide-item slide1">
+                    <div class="containernav">
+                        <div class="welcome-hero-content">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-txt">
+                                            <h4>DATO CURIOSO</h4>
+                                            <h2>¿Sabías que la vitamina C es un verdadero héroe para tu salud?</h2>
+                                            <p>
+                                                No solo refuerza tu sistema inmunológico, sino que también mejora la absorción del hierro de los vegetales que comes. Además, ¿te cuento un secreto? Los marineros del siglo XVIII siempre llevaban cítricos a bordo para evitar el temido escorbuto, una enfermedad causada por la falta de esta vitamina. Así que, ¡haz como los marineros y asegura tu dosis diaria de vitamina C!
+                                            </p>
+                                            <div class="packages-price">
+                                                <p>
+                                                    S/ 15.99
+                                                </p>
+                                            </div>
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                                <div class="col-sm-5">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-img">
+                                            <img th:src="@{/assets/paciente/images/slider/slider1.png}" alt="slider image">
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                            </div><!--/.row-->
+                        </div><!--/.welcome-hero-content-->
+                    </div><!-- /.containernav-->
+                </div><!-- /.single-slide-item-->
+
+            </div><!-- /.item .active-->
+
+            <div class="item">
+                <div class="single-slide-item slide2">
+                    <div class="containernav">
+                        <div class="welcome-hero-content">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-txt">
+                                            <h4>GRAN OFERTA</h4>
+                                            <h2>Babylac Pro 3</h2>
+                                            <p>
+                                                ¡Oferta por fin de mes por esta gran mezcla láctea para niños en edad crecimiento!
+                                                <br>Única enriquecida con Lactoferrina.
+                                            </p>
+                                            <div class="packages-price">
+                                                <p>
+                                                    S/ 109.99
+                                                    <del>$ 129.99</del>
+                                                </p>
+                                            </div>
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                                <div class="col-sm-5">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-img">
+                                            <img th:src="@{/assets/paciente/images/slider/slider2.png}" alt="slider image">
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                            </div><!--/.row-->
+                        </div><!--/.welcome-hero-content-->
+                    </div><!-- /.containernav-->
+                </div><!-- /.single-slide-item-->
+
+            </div><!-- /.item .active-->
+
+            <div class="item">
+                <div class="single-slide-item slide3">
+                    <div class="containernav">
+                        <div class="welcome-hero-content">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-txt">
+                                            <h4>VIDA SALUDABLE</h4>
+                                            <h2>Proteina WHEY - Gold Standard</h2>
+                                            <p>
+                                                ¿Estás listo para ver resultados reales y maximizar tu potencial? ¡Prueba nuestra proteína Whey y siente la diferencia en tu rendimiento y recuperación! ¡Vamos, tu mejor versión te está esperando!
+                                            </p>
+                                            <div class="packages-price">
+                                                <p>
+                                                    S/ 299.99
+                                                </p>
+                                            </div>
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                                <div class="col-sm-5">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-img">
+                                            <img th:src="@{/assets/paciente/images/slider/slider3.png}" alt="slider image">
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                            </div><!--/.row-->
+                        </div><!--/.welcome-hero-content-->
+                    </div><!-- /.containernav-->
+                </div><!-- /.single-slide-item-->
+
+            </div><!-- /.item .active-->
+        </div><!-- /.carousel-inner-->
+
+    </div><!--/#header-carousel-->
+
+    <!--new-arrivals start -->
+    <section id="new-arrivals" class="new-arrivals">
+        <div class="containernav">
+            <div class="section-header">
+                <h2>¡Nuevos Medicamentos!</h2>
+            </div><!--/.section-header-->
+            <div class="new-arrivals-content">
+                <div class="row">
+                    <div class="col-md-3 col-sm-4" th:each="medicamentos, info : ${ultimosMedicamentos}">
+                        <div class="single-new-arrival">
+                            <div class="single-new-arrival-bg">
+                                <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images" style="height: 350px; width: 300px">
+                                <div class="single-new-arrival-bg-overlay"></div>
+                                <div class="sale bg-2" style="width: auto">
+                                    <p>¡nuevo!</p>
+                                </div>
+                            </div>
+                            <h4><a style="cursor: pointer" th:text="${medicamentos.nombre}"></a></h4>
+                            <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.containernav-->
+
+    </section><!--/.new-arrivals-->
+    <!--new-arrivals end -->
+
+    <!--populer-products start -->
+    <section id="pre-ordenes" class="populer-products">
+        <div class="containernav">
+            <div class="section-header">
+                <h2>Mis Pre-Ordenes de Compra</h2>
+                <br><br>
+                <h5 th:if="${lleno == 0}">Usted todavia no ha realizado ninguna pre-orden.</h5>
+                <br>
+                <h5 th:if="${lleno == 0}">Para poder realizar una pre-orden debe buscar un producto sin stock en nuestra lista de medicamentos.</h5>
+                <a th:if="${lleno == 0}" class="btn-cart welcome-add-cart sofa-collection-btn" th:href="@{/paciente/medicamentos}">
+                    Ver medicamentos
+                </a>
+            </div><!--/.section-header-->
+            <div th:if="${msg1 != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <p th:text="${msg1}" style="color: black;"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <table class="table table-hover" style="border-radius: 10px; text-align: center;" th:if="${lleno == 1}">
+                <tr>
+                    <th colspan="0" style="text-align: center;">Orden de compra</th>
+                    <th style="text-align: center;">Fecha de Registro</th>
+                    <th style="text-align: center;">Estado de la compra</th>
+                    <th style="text-align: center;"></th>
+                </tr>
+                <tr th:each="preorden : ${listaPedidosPreorden}" th:if="${preorden.tipo_de_pedido == 'Pre-orden'}">
+                    <td class="align-middle" style="font-size: large;" th:text="${preorden.numero_tracking}"></td>
+                    <td class="align-middle" style="font-size: large;" th:text="${preorden.fecha_solicitud}"></td>
+                    <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido == 'Pendiente'}"></td>
+                    <td class="align-middle" style="font-size: x-large; color: yellowgreen;" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido == 'Por cancelar'}"></td>
+                    <td class="align-middle" style="font-size: x-large; color: green" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar'}"></td>
+                    <td class="align-middle">
+                        <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${preorden.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${preorden.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
+                        <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-success" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar'}">Ver tracking</a>
+                    </td>
+                </tr>
+            </table>
+            <div class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large">
+            </div>
+        </div><!--/.containernav-->
+
+    </section><!--/.populer-products-->
+    <!--populer-products end-->
+
+
+    <br><br><br><br><br><br><br>
+
+    <!--footer start-->
+    <footer id="footer"  class="footer">
+        <div class="containernav">
+            <div class="hm-footer-copyright text-center">
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                </div>
+                <p>
+                    &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+                </p><!--/p-->
+            </div><!--/.text-center-->
+        </div><!--/.containernav-->
+
+        <div id="scroll-Top">
+            <div class="return-to-top">
+                <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+            </div>
+
+        </div><!--/.scroll-Top-->
+
+    </footer><!--/.footer-->
+    <!--footer end-->
+
+    <script src="/assets/paciente/js/alert.js"></script>
+
+    <!-- Script de paginacion-->
+    <script type="text/javascript">
+        function getPageList(totalPages, page, maxLength) {
+            function range(start, end) {
+                return Array.from(Array(end - start + 1), (_, i) => i + start);
+            }
+
+            var sideWidth = maxLength < 9 ? 1 : 2;
+            var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+            var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+            if (totalPages <= maxLength) {
+                return range(1, totalPages);
+            }
+
+            if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+            }
+            return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+        }
+
+        $(function () {
+            var numberOfItems = $(".contenido").length;
+            var limitPerPage = 5; //How many card items visible per a page
+            var totalPages = Math.ceil(numberOfItems / limitPerPage);
+            var paginationSize = 5; //How many page elements visible in the pagination
+            var currentPage;
+
+            function showPage(whichPage) {
+                if (whichPage < 1 || whichPage > totalPages)
+                    return false;
+
+                currentPage = whichPage;
+
+                $(".contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                $(".pagination li").slice(1, -1).remove();
+
+                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                    $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                        .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+                });
+
+                $(".previous-page").toggleClass("disable", currentPage === 1);
+                $(".next-page").toggleClass("disable", currentPage === totalPages);
+                return true;
+            }
+
+            $(".pagination").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+            );
+
+            $(".contenido").show();
+            showPage(1);
+
+            $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+                return showPage(+$(this).text());
+            });
+
+            $(".next-page").on("click", function () {
+                return showPage(currentPage + 1);
+            });
+
+            $(".previous-page").on("click", function () {
+                return showPage(currentPage - 1);
+            });
+        });
+    </script>
+
+    <!-- Include all js compiled plugins (below), or include individual files as needed -->
+    <script src="/assets/paciente/js/jquery.js"></script>
+
+    <!--modernizr.min.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+    <!--bootstrap.min.js-->
+    <script src="/assets/paciente/js/bootstrap.min.js"></script>
+
+    <!-- bootsnav js -->
+    <script src="/assets/paciente/js/bootsnav.js"></script>
+
+    <!--owl.carousel.js-->
+    <script src="/assets/paciente/js/owl.carousel.min.js"></script>
+
+    <!--Custom JS-->
+    <script src="/assets/paciente/js/custom.js"></script>
+
+</body>
+</html>

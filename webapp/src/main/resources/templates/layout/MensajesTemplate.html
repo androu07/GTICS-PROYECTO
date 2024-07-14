@@ -1,0 +1,28 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="mensajes">
+            <script th:if="${success != null}"  th:inline="javascript" >
+
+                let msj;
+                msj = /*[[${success}]]*/
+
+                        Swal.fire(
+                                '¡Exito!',
+                                msj,
+                                'success'
+                                );
+            </script>
+
+            <script th:if="${error != null}"  th:inline="javascript" >
+                let error;
+                error = /*[[${error}]]*/
+
+                        Swal.fire(
+                                '¡Error!',
+                                error,
+                                'error'
+                                );
+            </script>
+        </div>
+    </body>
+</html>

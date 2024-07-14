@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Boleta de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .total { text-align: right; margin-top: 20px; font-weight: bold; }
+        .date { text-align: right; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Boleta de Pedido</h1>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Medicamento</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="med : ${medicamentos}">
+        <td th:text="${med.nombre}"></td>
+        <td th:text="${med.cantidad}"></td>
+        <td th:text="${med.costo}"></td>
+        <td th:text="${med.subtotal}"></td>
+    </tr>
+    </tbody>
+</table>
+<div class="total">
+    <p>Total: $<span th:text="${totalCost}"></span></p>
+</div>
+<div class="date">
+    <p>Fecha: <span th:text="${fecha}"></span></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <title>Pildo Pharm</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" th:href="@{/assets/superadmin/img/logo.png}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+
+          <link th:href="@{/assets/superadmin/css/stylesSide.css}" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+        <style>
+            /* Estilos personalizados para los botones */
+            .boton_barbaro {
+                color: white;
+                background-color: red;
+                border-color: red;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+
+            .boton_barbaro:hover {
+                background-color: #990000;
+                border-color: #990000;
+            }
+
+            .botoncito_gozu {
+                color: white;
+                background-color: black;
+                border-color: black;
+                margin-top: 32px;
+            }
+
+            .botoncito_gozu:hover {
+                background-color: #333;
+                border-color: #333;
+            }
+
+            .boton-primario {
+                background-color: #2bd831;
+                border-color: #2bd831;
+            }
+
+            .boton-primario:hover {
+                background-color: rgb(19, 164, 24);
+                border-color: rgb(19, 164, 24);
+            }
+        </style>
+    </head>
+    <body class="sb-nav-fixed">
+        <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
+
+        <!-- TRABAJAR AQUI -->
+        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                        <thead>
+                        <h3 class="mt-4">Lista de Doctores</h3>
+                        <tr>
+                            <th class="columna-imagen">DOCTOR</th>
+                            <th class="columna-imagen">CORREO ELECTRÓNICO</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class=contenido th:each="Usuarios, info : ${listTransportation}">
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-success">
+                                            <i class=""></i> Ver
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="@{'/superadmin/Editar_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
+                                            <i class=""></i> Editar
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel"  th:text="${'¿Seguro que deseas eliminar al doctor '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination  d-flex justify-content-center" style="padding: 50px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                        <thead>
+                        <h3 class="mt-4">Lista de Administradores</h3>
+                        <tr>
+                            <th class="columna-imagen">ADMINISTRADOR</th>
+                            <th class="columna-imagen">CORREO ELECTRÓNICO</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class=contenido1 th:each="Usuarios, info : ${listTransportation1}">
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="@{'/superadmin/Ver_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-success">
+                                            <i class=""></i> Ver
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="@{'/superadmin/Editar_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
+                                            <i class=""></i> Editar
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel" th:text="${'¿Seguro que deseas eliminar al administrador '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-info" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${Usuarios.getId()}">Ingresar Como</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modal' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel" th:text="${'¿Seguro que deseas ingresar como el administrador '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea ingresar como este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'form' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/NuevaSesion'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'form' + ${Usuarios.getId()}">Ingresar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination1  d-flex justify-content-center" style="padding: 50px">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                        <thead>
+                        <h3 class="mt-4">Lista de Farmacistas</h3>
+                        <tr>
+                            <th class="columna-imagen">FARMACISTA</th>
+                            <th class="columna-imagen">CORREO ELECTRÓNICO</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class=contenido2 th:each="Usuarios, info : ${listTransportation2}">
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="'/superadmin/Ver_Farmacista'+ '?id=' + ${Usuarios.getId()}" class="btn btn-success">
+                                            <i class=""></i> Ver
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="@{'/superadmin/Editar_Farmacista'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
+                                            <i class=""></i> Editar
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel" th:text="${'¿Seguro que deseas eliminar al farmacista '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <!--suppress LanguageDetectionInspection -->
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-info" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${Usuarios.getId()}">Ingresar Como</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modal' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel" th:text="${'¿Seguro que deseas ingresar como el farmacista '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea ingresar como este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'form' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/NuevaSesion'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'form' + ${Usuarios.getId()}">Ingresar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination2  d-flex justify-content-center" style="padding: 50px">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="90%" cellspacing="0">
+                        <thead>
+                        <h3 class="mt-4">Lista de Pacientes</h3>
+                        <tr>
+                            <th class="columna-imagen">PACIENTES</th>
+                            <th class="columna-imagen">CORREO ELECTRÓNICO</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class=contenido3 th:each="Usuarios, info : ${listTransportation3}">
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}">Panadol</p></td>
+                            <td class=><p style="font-size: 18px;" th:text="${Usuarios.getCorreo()}">Panadol</p></td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="'/superadmin/Ver_Paciente'+ '?id=' + ${Usuarios.getId()}" class="btn btn-success">
+                                            <i class=""></i> Ver
+                                        </a>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="'/superadmin/Editar_Paciente'+ '?id=' + ${Usuarios.getId()}" class="btn btn-warning">
+                                            <i class=""></i> Editar
+                                        </a>
+                                    </div>
+                                    <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas confirmar la entrega?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/ServletGeneral?action=pasarrc&idVR=<%=juegoReservado.getIdVideojuego()%>&idCatalo=<%=juegoReservado.getIdCatalogoReservado()%>&stockReservado=<%=juegoReservado.getStockReservado()%>">Confirmar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <!--<div class="card-footer pt-1 br-3 border-top-0">
+                                    <div class="text-center">
+                                        <a th:href="'/superadmin/Eliminar_Usuario'+ '?id=' + ${Usuarios.getId()}" class="btn btn-danger">
+                                            <i class=""></i> Eliminar
+                                        </a>
+                                    </div>
+
+                                </div>-->
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modalEliminar' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEliminarLabel" th:text="${'¿Seguro que deseas eliminar al paciente '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea eliminar este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'formEliminar' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/Eliminar_Usuario'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 0}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Inactivo</p></td>
+                            </div>
+                            <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado() == 1}">
+                                <td class="text-center"><p style="font-size: 18px;">Estado Activo</p></td>
+                            </div>
+                            <td>
+                                <div class="card-footer pt-1 br-3 border-top-0">
+                                    <!-- Modal Trigger -->
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-info" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${Usuarios.getId()}">Ingresar Como</a>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" th:id="'modal' + ${Usuarios.getId()}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel" th:text="${'¿Seguro que deseas ingresar como el paciente '+Usuarios.getNombres() + ' ' + Usuarios.getApellidos()}+' ?'">¿Seguro que desea ingresar como este usuario?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:id="'form' + ${Usuarios.getId()}" method="post" th:action="@{'/superadmin/NuevaSesion'}">
+                                                        <input th:value="${Usuarios.getId()}" name="id_usuario" type="hidden" />
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'form' + ${Usuarios.getId()}">Ingresar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination3  d-flex justify-content-center" style="padding: 50px">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script de paginacion-->
+        <script type="text/javascript">
+            function getPageList(totalPages, page, maxLength) {
+                function range(start, end) {
+                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+                }
+
+                var sideWidth = maxLength < 9 ? 1 : 2;
+                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+                if (totalPages <= maxLength) {
+                    return range(1, totalPages);
+                }
+
+                if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                }
+
+                if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                }
+                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            $(function () {
+                var numberOfItems = $(".contenido").length;
+                var limitPerPage = 5; //How many card items visible per a page
+                var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                var paginationSize = 5; //How many page elements visible in the pagination
+                var currentPage;
+
+                function showPage(whichPage) {
+                    if (whichPage < 1 || whichPage > totalPages)
+                        return false;
+
+                    currentPage = whichPage;
+
+                    $(".contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                    $(".pagination li").slice(1, -1).remove();
+
+                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                                .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                                .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+                    });
+
+                    $(".previous-page").toggleClass("disable", currentPage === 1);
+                    $(".next-page").toggleClass("disable", currentPage === totalPages);
+                    return true;
+                }
+
+                $(".pagination").append(
+                        $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                        $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+                        );
+
+                $(".contenido").show();
+                showPage(1);
+
+                $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+                    return showPage(+$(this).text());
+                });
+
+                $(".next-page").on("click", function () {
+                    return showPage(currentPage + 1);
+                });
+
+                $(".previous-page").on("click", function () {
+                    return showPage(currentPage - 1);
+                });
+            });
+        </script>
+        <!-- Script de paginacion-->
+        <script type="text/javascript">
+            function getPageList1(totalPages1, page1, maxLength1) {
+                function range(start1, end1) {
+                    return Array.from(Array(end1 - start1 + 1), (_, i) => i + start1);
+                }
+
+                var sideWidth1 = maxLength1 < 9 ? 1 : 2;
+                var leftWidth1 = (maxLength1 - sideWidth1 * 2 - 3) >> 1;
+                var rightWidth1 = (maxLength1 - sideWidth1 * 2 - 3) >> 1;
+
+                if (totalPages1 <= maxLength1) {
+                    return range(1, totalPages1);
+                }
+
+                if (page1 <= maxLength1 - sideWidth1 - 1 - rightWidth1) {
+                    return range(1, maxLength1 - sideWidth1 - 1).concat(0, range(totalPages1 - sideWidth1 + 1, totalPages1));
+                }
+
+                if (page1 >= totalPages1 - sideWidth1 - 1 - rightWidth1) {
+                    return range(1, sideWidth1).concat(0, range(totalPages1 - sideWidth1 - 1 - rightWidth1 - leftWidth1, totalPages1));
+                }
+                return range(1, sideWidth1).concat(0, range(page1 - leftWidth1, page1 + rightWidth1), 0, range(totalPages1 - sideWidth1 + 1, totalPages1));
+            }
+
+            $(function () {
+                var numberOfItems1 = $(".contenido1").length;
+                var limitPerPage1 = 5; //How many card item1s visible per a page1
+                var totalPages1 = Math.ceil(numberOfItems1 / limitPerPage1);
+                var paginationSize1 = 5; //How many page1 elements visible in the pagination
+                var currentPage1;
+
+                function showPage1(whichPage1) {
+                    if (whichPage1 < 1 || whichPage1 > totalPages1)
+                        return false;
+
+                    currentPage1 = whichPage1;
+
+                    $(".contenido1").hide().slice((currentPage1 - 1) * limitPerPage1, currentPage1 * limitPerPage1).show();
+
+                    $(".pagination1 li").slice(1, -1).remove();
+
+                    getPageList1(totalPages1, currentPage1, paginationSize1).forEach(item1 => {
+                        $("<li>").addClass("page1-item1").addClass(item1 ? "current1-page1" : "dots")
+                                .toggleClass("active", item1 === currentPage1).append($("<a>").addClass("page1-link1")
+                                .attr({href: "javascript:void(0)"}).text(item1 || "...")).insertBefore(".next1-page1");
+                    });
+
+                    $(".previous1-page1").toggleClass("disable", currentPage1 === 1);
+                    $(".next1-page1").toggleClass("disable", currentPage1 === totalPages1);
+                    return true;
+                }
+
+                $(".pagination1").append(
+                        $("<li>").addClass("page1-item1").addClass("previous1-page1").append($("<a>").addClass("page1-link1").attr({href: "javascript:void(0)"}).text("Prev")),
+                        $("<li>").addClass("page1-item1").addClass("next1-page1").append($("<a>").addClass("page1-link1").attr({href: "javascript:void(0)"}).text("Next"))
+                        );
+
+                $(".contenido1").show();
+                showPage1(1);
+
+                $(document).on("click", ".pagination1 li.current-page1:not(.active)", function () {
+                    return showPage1(+$(this).text());
+                });
+
+                $(".next1-page1").on("click", function () {
+                    return showPage1(currentPage1 + 1);
+                });
+
+                $(".previous1-page1").on("click", function () {
+                    return showPage1(currentPage1 - 1);
+                });
+            });
+        </script>
+
+        <script type="text/javascript">
+            function getPageList2(totalPages2, page2, maxLength2) {
+                function range(start2, end2) {
+                    return Array.from(Array(end2 - start2 + 1), (_, i) => i + start2);
+                }
+
+                var sideWidth2 = maxLength2 < 9 ? 1 : 2;
+                var leftWidth2 = (maxLength2 - sideWidth2 * 2 - 3) >> 1;
+                var rightWidth2 = (maxLength2 - sideWidth2 * 2 - 3) >> 1;
+
+                if (totalPages2 <= maxLength2) {
+                    return range(1, totalPages2);
+                }
+
+                if (page2 <= maxLength2 - sideWidth2 - 1 - rightWidth2) {
+                    return range(1, maxLength2 - sideWidth2 - 1).concat(0, range(totalPages2 - sideWidth2 + 1, totalPages2));
+                }
+
+                if (page2 >= totalPages2 - sideWidth2 - 1 - rightWidth2) {
+                    return range(1, sideWidth2).concat(0, range(totalPages2 - sideWidth2 - 1 - rightWidth2 - leftWidth2, totalPages2));
+                }
+                return range(1, sideWidth2).concat(0, range(page2 - leftWidth2, page2 + rightWidth2), 0, range(totalPages2 - sideWidth2 + 1, totalPages2));
+            }
+
+            $(function () {
+                var numberOfItems2 = $(".contenido2").length;
+                var limitPerPage2 = 5; //How many card items visible per a page
+                var totalPages2 = Math.ceil(numberOfItems2 / limitPerPage2);
+                var paginationSize2 = 5; //How many page elements visible in the pagination
+                var currentPage2;
+
+                function showPage2(whichPage2) {
+                    if (whichPage2 < 1 || whichPage2 > totalPages2)
+                        return false;
+
+                    currentPage2 = whichPage2;
+
+                    $(".contenido2").hide().slice((currentPage2 - 1) * limitPerPage2, currentPage2 * limitPerPage2).show();
+
+                    $(".pagination2 li").slice(1, -1).remove();
+
+                    getPageList2(totalPages2, currentPage2, paginationSize2).forEach(item2 => {
+                        $("<li>").addClass("page2-item2").addClass(item2 ? "current2-page2" : "dots")
+                            .toggleClass("active", item2 === currentPage2).append($("<a>").addClass("page2-link2")
+                            .attr({href: "javascript:void(0)"}).text(item2 || "...")).insertBefore(".next2-page2");
+                    });
+
+                    $(".previous2-page2").toggleClass("disable", currentPage2 === 1);
+                    $(".next2-page2").toggleClass("disable", currentPage2 === totalPages2);
+                    return true;
+                }
+
+                $(".pagination2").append(
+                    $("<li>").addClass("page2-item2").addClass("previous2-page2").append($("<a>").addClass("page2-link2").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page2-item2").addClass("next2-page2").append($("<a>").addClass("page2-link2").attr({href: "javascript:void(0)"}).text("Next"))
+                );
+
+                $(".contenido2").show();
+                showPage2(1);
+
+                $(document).on("click", ".pagination2 li.current-page2:not(.active)", function () {
+                    return showPage2(+$(this).text());
+                });
+
+                $(".next2-page2").on("click", function () {
+                    return showPage2(currentPage2 + 1);
+                });
+
+                $(".previous2-page2").on("click", function () {
+                    return showPage2(currentPage2 - 1);
+                });
+            });
+        </script>
+
+
+
+        <script type="text/javascript">
+            function getPageList3(totalPages3, page3, maxLength3) {
+                function range(start3, end3) {
+                    return Array.from(Array(end3 - start3 + 1), (_, i) => i + start3);
+                }
+
+                var sideWidth3 = maxLength3 < 9 ? 1 : 2;
+                var leftWidth3 = (maxLength3 - sideWidth3 * 2 - 3) >> 1;
+                var rightWidth3 = (maxLength3 - sideWidth3 * 2 - 3) >> 1;
+
+                if (totalPages3 <= maxLength3) {
+                    return range(1, totalPages3);
+                }
+
+                if (page3 <= maxLength3 - sideWidth3 - 1 - rightWidth3) {
+                    return range(1, maxLength3 - sideWidth3 - 1).concat(0, range(totalPages3 - sideWidth3 + 1, totalPages3));
+                }
+
+                if (page3 >= totalPages3 - sideWidth3 - 1 - rightWidth3) {
+                    return range(1, sideWidth3).concat(0, range(totalPages3 - sideWidth3 - 1 - rightWidth3 - leftWidth3, totalPages3));
+                }
+                return range(1, sideWidth3).concat(0, range(page3 - leftWidth3, page3 + rightWidth3), 0, range(totalPages3 - sideWidth3 + 1, totalPages3));
+            }
+
+            $(function () {
+                var numberOfItems3 = $(".contenido3").length;
+                var limitPerPage3 = 5; //How many card items visible per a page
+                var totalPages3 = Math.ceil(numberOfItems3 / limitPerPage3);
+                var paginationSize3 = 5; //How many page elements visible in the pagination
+                var currentPage3;
+
+                function showPage3(whichPage3) {
+                    if (whichPage3 < 1 || whichPage3 > totalPages3)
+                        return false;
+
+                    currentPage3 = whichPage3;
+
+                    $(".contenido3").hide().slice((currentPage3 - 1) * limitPerPage3, currentPage3 * limitPerPage3).show();
+
+                    $(".pagination3 li").slice(1, -1).remove();
+
+                    getPageList3(totalPages3, currentPage3, paginationSize3).forEach(item3 => {
+                        $("<li>").addClass("page3-item3").addClass(item3 ? "current3-page3" : "dots")
+                            .toggleClass("active", item3 === currentPage3).append($("<a>").addClass("page3-link3")
+                            .attr({href: "javascript:void(0)"}).text(item3 || "...")).insertBefore(".next3-page3");
+                    });
+
+                    $(".previous3-page3").toggleClass("disable", currentPage3 === 1);
+                    $(".next3-page3").toggleClass("disable", currentPage3 === totalPages3);
+                    return true;
+                }
+
+                $(".pagination3").append(
+                    $("<li>").addClass("page3-item3").addClass("previous3-page3").append($("<a>").addClass("page3-link3").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page3-item3").addClass("next3-page3").append($("<a>").addClass("page3-link3").attr({href: "javascript:void(0)"}).text("Next"))
+                );
+
+                $(".contenido3").show();
+                showPage3(1);
+
+                $(document).on("click", ".pagination3 li.current-page3:not(.active)", function () {
+                    return showPage3(+$(this).text());
+                });
+
+                $(".next3-page3").on("click", function () {
+                    return showPage3(currentPage3 + 1);
+                });
+
+                $(".previous3-page3").on("click", function () {
+                    return showPage3(currentPage3 - 1);
+                });
+            });
+        </script>
+
+        <!-- ************ -->
+    </div>
+    <footer style="background-color: rgba(11, 99, 111, 0.79); width: 100%;">
+        <div class="mx-auto p-2" style="display: flex; align-items: center; justify-content: center;">
+            <div style="font-family: Arial, 5px; margin-left: 10px; color: white;">
+                <h7>Derechos de autor Pildo Pharmacy S.A.</h7>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>

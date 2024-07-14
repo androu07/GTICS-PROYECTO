@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
+
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="img/logo3_title.png" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <title>Pildo Pharm</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" th:href="@{/superadmin/img/logo.png}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="/assets/farmacista/css/stylesSide.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCSkZALDDeauhgE9WHeS52ssPOo5xRLZoY&libraries=places"></script>
+        <style>
+            footer {
+                width: 100%;
+                position: fixed; /* Cambiado de 'fixed' a 'sticky' */
+                bottom: 0;
+                background-color: rgba(11, 99, 111, 0.79);
+                clear: both;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="~{layout/PlantillaFarmacista :: navegacion}"></div>
+        <!-- TRABAJAR AQUI -->
+        <!-- Vertically centered modal -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="pedidoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Detalles del rechazo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="pedidoForm" method="post" th:action="@{/farmacista/rechazarPedido}">
+                            <input type="hidden" class="form-control" id="pedidoIdInput" name="pedidoId">
+                            <input type="hidden" class="form-control" id="pedidoTipoInput" name="pedidoTipo">
+                            <div class="form-group">
+                                <label for="comentario" style="margin-bottom: 10px">¿Por qué el pedido debe ser rechazado?</label>
+                                <textarea type="text" class="form-control" id="comentario" name="comentario" rows="4"></textarea>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-danger">Rechazar Pedido</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%;">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h2 class="mt-4" style="font-weight: bold">Lista de Solicitudes</h2>
+                </div>
+                <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p th:text="${msg}" style="color: black;"></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <h3 class="mt-4" th:if="${tamanodely == 0}">Pedidos con Delivery</h3>
+                        <table class="table table-bordered" th:if="${tamanodely != 0}">
+                            <thead>
+                            <h3 class="mt-4">Pedidos con Delivery</h3>
+                            <tr>
+                                <th class="columna-imagen">#</th>
+                                <th class="columna-imagen">Paciente</th>
+                                <th class="columna-imagen">Numero de Pedido</th>
+                                <th class="columna-imagen">Fecha de Solicitud</th>
+                                <th class="columna-imagen">Validación</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabla1">
+                                <tr th:each="pedido, index : ${listaPedidosDely}">
+                                    <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
+                                    <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
+                                    <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
+                                    <td><p style="font-size: 18px;" th:text="${pedido.fecha_solicitud}"></p></td>
+                                    <td><p style="font-size: 18px;" th:text="${pedido.validacion_del_pedido}"></p></td>
+
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <a type="button" class="btn btn-success" th:href="@{'/farmacista/validarPedido?id=' + ${pedido.id} + '&tipo=1'}">
+                                                    <i class="bi bi-check2-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                    <span style="vertical-align: middle;">Aceptar</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <a type="button" class="btn btn-warning" th:href="@{'/farmacista/pedidoInfo?id=' + ${pedido.id} + '&tipo=1'}">
+                                                    <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                    <span style="vertical-align: middle;">Ver</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="card-footer pt-1 br-3 border-top-0">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-danger" th:data-id="${pedido.id}" data-tipo="1" data-bs-toggle="modal" data-bs-target="#pedidoModal">
+                                                    <i class="bi bi-x-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                    <span style="vertical-align: middle;">Rechazar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                            </tbody>
+                        </table>
+                        <div th:if="${tamanodely == 0}">
+                            <p style="font-size: 18px;">No hay solicitudes de pedidos con delivery</p>
+                        </div>
+                        <!-- Paginacion Dely-->
+                        <div class="pagination  d-flex justify-content-center" id="paginacion1" th:if="${tamanodely > 5}" style="padding: 50px; font-size: xxx-large;">
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="table-responsive">
+                        <h3 class="mt-4" th:if="${tamanoreco == 0}">Pedidos para Recoger en una Sede</h3>
+                        <table class="table table-bordered" th:if="${tamanoreco != 0}">
+                            <thead>
+                            <h3 class="mt-4">Pedidos para Recoger en una Sede</h3>
+                            <tr>
+                                <th class="columna-imagen">N°</th>
+                                <th class="columna-imagen">Paciente</th>
+                                <th class="columna-imagen">Numero de Pedido</th>
+                                <th class="columna-imagen">Fecha de Solicitud</th>
+                                <th class="columna-imagen">Validación</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabla2">
+                            <tr th:each="pedido, index : ${listaPedidosReco}">
+                                <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.fecha_solicitud}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.validacion_del_pedido}"></p></td>
+
+                                <td>
+                                    <div class="card-footer pt-1 br-3 border-top-0">
+                                        <div class="text-center">
+                                            <a type="button" class="btn btn-success" th:href="@{'/farmacista/validarPedido?id=' + ${pedido.id} + '&tipo=2'}">
+                                                <i class="bi bi-check2-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                <span style="vertical-align: middle;">Aceptar</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="card-footer pt-1 br-3 border-top-0">
+                                        <div class="text-center">
+                                            <a type="button" class="btn btn-warning" th:href="@{'/farmacista/pedidoInfo?id=' + ${pedido.id} + '&tipo=2'}">
+                                                <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                <span style="vertical-align: middle;">Ver</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="card-footer pt-1 br-3 border-top-0">
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-danger" th:data-id="${pedido.id}" data-tipo="2" data-bs-toggle="modal" data-bs-target="#pedidoModal">
+                                                <i class="bi bi-x-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                <span style="vertical-align: middle;">Rechazar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tbody>
+                        </table>
+                        <div th:if="${tamanoreco == 0}">
+                            <p style="font-size: 18px;">No hay solicitudes de pedidos para recoger en una sede</p>
+                        </div>
+                        <!-- Paginacion Recojo-->
+                        <div class="pagination  d-flex justify-content-center" id="paginacion2" th:if="${tamanoreco > 5}" style="padding: 50px; font-size: xxx-large;">
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="table-responsive">
+                        <h3 class="mt-4" th:if="${tamanopreorden == 0}">Pedidos con Pre-Orden</h3>
+                        <table class="table table-bordered" th:if="${tamanopreorden != 0}">
+                            <thead>
+                            <h3 class="mt-4">Pedidos con Pre-Orden</h3>
+                            <tr>
+                                <th class="columna-imagen">N°</th>
+                                <th class="columna-imagen">Paciente</th>
+                                <th class="columna-imagen">Numero de Pedido</th>
+                                <th class="columna-imagen">Fecha de Solicitud</th>
+                                <th class="columna-imagen">Validación</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabla3">
+                            <tr th:each="pedido, index : ${listaPedidosPreorden}">
+                                <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.fecha_solicitud}"></p></td>
+                                <td><p style="font-size: 18px;" th:text="${pedido.validacion_del_pedido}"></p></td>
+
+                                <td>
+                                    <div class="card-footer pt-1 br-3 border-top-0">
+                                        <div class="text-center">
+                                            <a type="button" class="btn btn-success" th:href="@{'/farmacista/validarPedido?id=' + ${pedido.id} + '&tipo=1'}">
+                                                <i class="bi bi-check2-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                <span style="vertical-align: middle;">Aceptar</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="card-footer pt-1 br-3 border-top-0">
+                                        <div class="text-center">
+                                            <a type="button" class="btn btn-warning" th:href="@{'/farmacista/pedidoInfo?id=' + ${pedido.id} + '&tipo=1'}">
+                                                <i class="bi bi-eye-fill" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                <span style="vertical-align: middle;">Ver</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="card-footer pt-1 br-3 border-top-0">
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-danger" th:data-id="${pedido.id}" data-tipo="1" data-bs-toggle="modal" data-bs-target="#pedidoModal">
+                                                <i class="bi bi-x-circle" style="vertical-align: middle; margin-right: 5px;"></i>
+                                                <span style="vertical-align: middle;">Rechazar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tbody>
+                        </table>
+                        <div th:if="${tamanopreorden == 0}">
+                            <p style="font-size: 18px;">No hay solicitudes de pedidos con pre-orden</p>
+                        </div>
+                        <!-- Paginacion Preorden-->
+                        <div class="pagination  d-flex justify-content-center" id="paginacion3" th:if="${tamanopreorden > 5}" style="padding: 50px; font-size: xxx-large;">
+                        </div>
+                    </div>
+                    <br><br><br>
+                </div>
+            </div>
+            <!-- ************ -->
+        </div>
+        <!-- ************* -->
+        <footer th:replace="layout/PlantillaFarmacista :: footer"></footer>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <script>
+            $('#pedidoModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+
+                var id = button.data('id');
+                var tipo = button.data('tipo');
+
+
+                var modal = $(this);
+                modal.find('#pedidoIdInput').val(id);
+                modal.find('#pedidoTipoInput').val(tipo);
+
+            });
+        </script>
+
+        <!-- Script de paginacion1 -->
+        <script type="text/javascript">
+            function getPageList(totalPages, page, maxLength) {
+                function range(start, end) {
+                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+                }
+
+                var sideWidth = maxLength < 9 ? 1 : 2;
+                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+                if (totalPages <= maxLength) {
+                    return range(1, totalPages);
+                }
+
+                if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                }
+
+                if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                }
+                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            $(function () {
+                var numberOfItems = $("#tabla1 tr").length;
+                var limitPerPage = 5; //How many card items visible per a page
+                var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                var paginationSize = 5; //How many page elements visible in the pagination
+                var currentPage;
+
+                function showPage(whichPage) {
+                    if (whichPage < 1 || whichPage > totalPages) return false;
+
+                    currentPage = whichPage;
+
+                    $("#tabla1 tr").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                    $("#paginacion1 li").slice(1, -1).remove();
+
+                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                            .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                            .attr({href: "javascript1:void(0)"}).text(item || "...")).insertBefore(".next-page");
+                    });
+
+                    $(".previous-page").toggleClass("disable", currentPage === 1);
+                    $(".next-page").toggleClass("disable", currentPage === totalPages);
+                    return true;
+                }
+
+                $("#paginacion1").append(
+                    $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+                );
+
+                $("#tabla1 tr").show();
+                showPage(1);
+
+                $(document).on("click", "#paginacion1 li.current-page:not(.active)", function () {
+                    return showPage(+$(this).text());
+                });
+
+                $(".next-page").on("click", function () {
+                    return showPage(currentPage + 1);
+                });
+
+                $(".previous-page").on("click", function () {
+                    return showPage(currentPage - 1);
+                });
+            });
+        </script>
+
+        <!-- Script de paginacion2 -->
+        <script type="text/javascript">
+            function getPageList(totalPages, page, maxLength) {
+                function range(start, end) {
+                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+                }
+
+                var sideWidth = maxLength < 9 ? 1 : 2;
+                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+                if (totalPages <= maxLength) {
+                    return range(1, totalPages);
+                }
+
+                if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                }
+
+                if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                }
+                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            $(function () {
+                var numberOfItems = $("#tabla2 tr").length;
+                var limitPerPage = 5; //How many card items visible per a page
+                var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                var paginationSize = 5; //How many page elements visible in the pagination
+                var currentPage;
+
+                function showPage(whichPage) {
+                    if (whichPage < 1 || whichPage > totalPages) return false;
+
+                    currentPage = whichPage;
+
+                    $("#tabla2 tr").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                    $("#paginacion2 li").slice(1, -1).remove();
+
+                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                            .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                            .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".nueva-next-page1");
+                    });
+
+                    $(".nueva-previous-page1").toggleClass("disable", currentPage === 1);
+                    $(".nueva-next-page1").toggleClass("disable", currentPage === totalPages);
+                    return true;
+                }
+
+                $("#paginacion2").append(
+                    $("<li>").addClass("page-item").addClass("nueva-previous-page1").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page-item").addClass("nueva-next-page1").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+                );
+
+                $("#tabla2 tr").show();
+                showPage(1);
+
+                $(document).on("click", "#paginacion2 li.current-page:not(.active)", function () {
+                    return showPage(+$(this).text());
+                });
+
+                $(".nueva-next-page1").on("click", function () {
+                    return showPage(currentPage + 1);
+                });
+
+                $(".nueva-previous-page1").on("click", function () {
+                    return showPage(currentPage - 1);
+                });
+            });
+        </script>
+
+        <!-- Script de paginacion3 -->
+        <script type="text/javascript">
+            function getPageList(totalPages, page, maxLength) {
+                function range(start, end) {
+                    return Array.from(Array(end - start + 1), (_, i) => i + start);
+                }
+
+                var sideWidth = maxLength < 9 ? 1 : 2;
+                var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+                var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+                if (totalPages <= maxLength) {
+                    return range(1, totalPages);
+                }
+
+                if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                    return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+                }
+
+                if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                    return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+                }
+                return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            $(function () {
+                var numberOfItems = $("#tabla3 tr").length;
+                var limitPerPage = 5; //How many card items visible per a page
+                var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                var paginationSize = 5; //How many page elements visible in the pagination
+                var currentPage;
+
+                function showPage(whichPage) {
+                    if (whichPage < 1 || whichPage > totalPages) return false;
+
+                    currentPage = whichPage;
+
+                    $("#tabla3 tr").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                    $("#paginacion3 li").slice(1, -1).remove();
+
+                    getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                            .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                            .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".nueva-next-page2");
+                    });
+
+                    $(".nueva-previous-page2").toggleClass("disable", currentPage === 1);
+                    $(".nueva-next-page2").toggleClass("disable", currentPage === totalPages);
+                    return true;
+                }
+
+                $("#paginacion3").append(
+                    $("<li>").addClass("page-item").addClass("nueva-previous-page2").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                    $("<li>").addClass("page-item").addClass("nueva-next-page2").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+                );
+
+                $("#tabla3 tr").show();
+                showPage(1);
+
+                $(document).on("click", "#paginacion3 li.current-page:not(.active)", function () {
+                    return showPage(+$(this).text());
+                });
+
+                $(".nueva-next-page2").on("click", function () {
+                    return showPage(currentPage + 1);
+                });
+
+                $(".nueva-previous-page2").on("click", function () {
+                    return showPage(currentPage - 1);
+                });
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+
+
+    </body>
+</html>

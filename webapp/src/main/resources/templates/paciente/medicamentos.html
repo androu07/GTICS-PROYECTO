@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+        <!-- meta data -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pildo Pharm</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/modal.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+        <link rel="stylesheet" th:href="@{/assets/paciente/css/medicamentos.css}">
+
+
+        <!--Para la paginacion-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
+
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            // Función para manejar el click del enlace y hacer la solicitud AJAX
+            $(".btnMostrarModal").click(function(event) {
+                event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+
+                var idMedicamento = $(this).data("medicamento-id"); // Obtener el ID del medicamento del atributo data del enlace
+
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        id: idMedicamento
+                    },
+                    url: "/paciente/medicamentos/info",
+                    success: function(response) {
+                        // response es la lista de strings que retornas desde el controlador
+                        if (response != null) {
+                            var id = response[0];
+                            var nombre = response[1];
+                            var precio = response[2];
+                            var descripcion = response[3];
+                            var imagen = response[4];
+                            $('#nombre-medicamento').text(nombre);
+                            $('#precio-medicamento').text(precio);
+                            $('#descripcion-medicamento').text(descripcion);
+                            $('#imagen-medicamento').html('<img src="data:image/png;base64,' + imagen + '" alt="img" style="width: 90%; height: 500px">');
+                            $("#exampleModal").modal('show'); // Asumiendo que el modal se llama 'exampleModal'
+                        } else {
+                            alert("El medicamento no fue encontrado.");
+                        }
+                    },
+                    error: function() {
+                        alert("Error al obtener la información del medicamento.");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    -<!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+
+    <!--welcome-hero start -->
+    <header id="home" class="welcome-hero">
+        <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+    </header><!--/.welcome-hero-->
+    <!--welcome-hero end -->
+
+    <br><br><br><br><br><br><br>
+
+    <!--new-arrivals start -->
+    <section class="py-8">
+        <div class="containernav px-4 px-lg-5 mt-5">
+            <div class="section-header">
+                <h2 th:if="${categoria==null and orden==null}">Lista de Medicamentos</h2>
+                <h2 th:if="${categoria!=null or orden!=null}" style="margin-bottom: 2vh;">Lista de Medicamentos</h2>
+                <h3 th:if="${categoria!=null and orden!=null}" th:text="${categoria + ' de ' + orden}" style="margin-bottom: 1vh;"></h3>
+                <h3 th:if="${categoria!=null and orden==null}" th:text="${categoria}" style="margin-bottom: 1vh;"></h3>
+                <h3 th:if="${categoria==null and orden!=null}" th:text="${orden}" style="margin-bottom: 1vh;"></h3>
+            </div><!--/.section-header-->
+            <br><br>
+            <div style="display: flex">
+                <form th:if="${principal == 1}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 45%;">
+                    <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
+                    <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg></button>
+                </form>
+                <form th:if="${principal == 0}" class="d-flex" th:action="@{/paciente/medicamentos/buscador}" method="post" role="search" style="width: 35%; margin-right: 1vh">
+                    <input name="searchField" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar medicamento..." aria-label="Search">
+                    <button class="btn btn-outline-warning" style="border: none" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg></button>
+                </form>
+                <a th:if="${principal == 0}" th:href="@{/paciente/medicamentos}" class="btn btn-outline-warning" type="button">Ver lista completa</a>
+                <form class="d-flex" th:action="@{/paciente/medicamentos/filtrar}" method="post" role="search" style="width: 40%; margin-left: 10vh">
+                    <select name="filtroCategoria" style="margin-left: 2vh; width: 45%; font-size: large" class="form-select" aria-label="Default select example">
+                        <option value=""><-- categorias --></option>
+                        <option th:each="categoria : ${listaCategorias}" th:value="${categoria}" th:text="${categoria}"></option>
+                    </select>
+                    <select name="filtroOrden" style="margin-left: 1vh; width: 50%; font-size: large" class="form-select" aria-label="Default select example">
+                        <option value=""><-- ordenar por --></option>
+                        <option value="1">mayor a menor precio</option>
+                        <option value="2">menor a mayor precio</option>
+                        <option value="3">antiguo a nuevo</option>
+                        <option value="4">A -> Z</option>
+                        <option value="5">Z -> A</option>
+                    </select>
+                    <button style="margin-left: 1vh; font-size: large" class="btn btn-outline-warning" type="submit">Filtrar</button>
+                </form>
+            </div>
+            <br>
+            <div th:if="${listaMedicamentos.isEmpty()}">
+                <br>
+                <br>
+                <br>
+                <h3 style="align-content: center; justify-content: center; justify-self: center; align-self: center">Disculpe, el medicamento buscado no se encuentra en nuestro catálogo.</h3>
+                <br>
+                <br>
+                <br>
+            </div>
+            <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <p th:text="${msg}" style="color: black;"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="new-arrivals-content">
+                <div class="row">
+                <div class="col-md-3 col-sm-4" id="contenidopag" th:each="medicamentos, info : ${listaMedicamentos}" >
+                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}" style="margin-right: 7px">
+                        <div class="single-new-arrival-bg">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                            <div class="single-new-arrival-bg-overlay"></div>
+                            <div class="new-arrival-cart">
+                                <p>
+                                    <a th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
+                                    <a th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
+                                </p>
+                                <p class="arrival-review pull-right">
+                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
+                    </div>
+                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}">
+                        <div class="single-new-arrival-bg">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                            <div class="single-new-arrival-bg-overlay"></div>
+                            <div class="sale bg-2" style="width: auto">
+                                <p>poco stock</p>
+                            </div>
+                            <div class="new-arrival-cart">
+                                <p>
+                                    <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr lnr-pencil"></span> <span>Generar una pre-orden</span></a>
+                                </p>
+                                <p class="arrival-review pull-right">
+                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
+                    </div>
+                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario == 0}">
+                        <div class="single-new-arrival-bg">
+                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                            <div class="single-new-arrival-bg-overlay"></div>
+                            <div class="sale bg-1" style="width: auto">
+                                <p>sin stock</p>
+                            </div>
+                            <div class="new-arrival-cart">
+                                <p>
+                                    <a th:href="@{/paciente/mensajeria}"><span class="lnr lnr-chevron-right-circle"></span> <span>Contactarse con un farmacista</span></a>
+                                </p>
+                                <p class="arrival-review pull-right">
+                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                </p>
+                            </div>
+                        </div>
+                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- Paginacion-->
+            <div th:if="${cantidadMedicamentos > 12}" class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large;">
+            </div>
+        </div><!--/.containernav-->
+
+    </section><!--/.new-arrivals-->
+    <!--new-arrivals end -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 700px">
+                <div class="modal-header" style="display: flex; width: 100%;">
+                    <h5 class="modal-title" id="exampleModalLabel">Información del Medicamento</h5>
+                    <div class="spacer" style="flex-grow: 1;"></div>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody" style="display: flex">
+                    <div style="width: 65%" id="imagen-medicamento">
+                    </div>
+                    <div style="width: 50%; display: flex; flex-direction: column">
+                        <h2 style="margin-bottom: 10px; font-size: xxx-large" id="nombre-medicamento"></h2>
+                        <h3 style="font-weight: bolder; font-size: x-large" id="precio-medicamento"></h3>
+                        <br>
+                        <br>
+                        <p style="opacity: 0.8; font-size: large" id="descripcion-medicamento"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br><br><br>
+    <!--footer start-->
+    <footer id="footer"  class="footer">
+        <div class="containernav">
+            <div class="hm-footer-copyright text-center">
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                </div>
+                <p>
+                    &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+                </p><!--/p-->
+            </div><!--/.text-center-->
+        </div><!--/.containernav-->
+
+        <div id="scroll-Top">
+            <div class="return-to-top">
+                <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+            </div>
+
+        </div><!--/.scroll-Top-->
+
+    </footer><!--/.footer-->
+    <!--footer end-->
+
+    <script src="/assets/paciente/js/alert.js"></script>
+
+    <script th:src="@{/assets/paciente/js/modal.js}"></script>
+    <!-- Script de paginacion-->
+    <script type="text/javascript">
+        function getPageList(totalPages, page, maxLength) {
+            function range(start, end) {
+                return Array.from(Array(end - start + 1), (_, i) => i + start);
+            }
+
+            var sideWidth = maxLength < 9 ? 1 : 2;
+            var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+            var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+            if (totalPages <= maxLength) {
+                return range(1, totalPages);
+            }
+
+            if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+            }
+
+            if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+            }
+            return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+        }
+
+        $(function () {
+            var numberOfItems = $("#contenido").length;
+            var limitPerPage = 12; //How many card items visible per a page
+            var totalPages = Math.ceil(numberOfItems / limitPerPage);
+            var paginationSize = 6; //How many page elements visible in the pagination
+            var currentPage;
+
+            function showPage(whichPage) {
+                if (whichPage < 1 || whichPage > totalPages) return false;
+
+                currentPage = whichPage;
+
+                $("#contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                $(".pagination li").slice(1, -1).remove();
+
+                getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                    $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                        .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+                });
+
+                $(".previous-page").toggleClass("disable", currentPage === 1);
+                $(".next-page").toggleClass("disable", currentPage === totalPages);
+                return true;
+            }
+
+            $(".pagination").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+            );
+
+            $("#contenido").show();
+            showPage(1);
+
+            $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+                return showPage(+$(this).text());
+            });
+
+            $(".next-page").on("click", function () {
+                return showPage(currentPage + 1);
+            });
+
+            $(".previous-page").on("click", function () {
+                return showPage(currentPage - 1);
+            });
+        });
+    </script>
+
+    <!-- Include all js compiled plugins (below), or include individual files as needed -->
+
+    <script src="/assets/paciente/js/jquery.js"></script>
+
+    <!--modernizr.min.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+    <!--bootstrap.min.js-->
+    <script src="/assets/paciente/js/bootstrap.min.js"></script>
+
+    <!-- bootsnav js -->
+    <script src="/assets/paciente/js/bootsnav.js"></script>
+
+    <!--owl.carousel.js-->
+    <script src="/assets/paciente/js/owl.carousel.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+    <!--Custom JS-->
+    <script src="/assets/paciente/js/custom.js"></script>
+
+
+</body>
+</html>

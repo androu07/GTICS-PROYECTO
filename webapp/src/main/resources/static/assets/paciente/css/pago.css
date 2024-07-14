@@ -1,0 +1,54 @@
+.form-control {
+    min-height:48px;
+    border-radius:8px;
+}
+button.btn {
+    min-height:54px;
+}
+#cartTable td {
+    padding:6px;
+}
+#cartTable td:nth-of-type(2){
+    text-align:right
+}
+
+#ticket:before {
+    content:"";
+    background:#fff;
+    width:32px;
+    height:32px;
+    position:absolute;
+    top:-16px;
+    left:-16px;
+    border-radius:100%;
+}
+#ticket:after {
+    content:"";
+    background:#fff;
+    width:32px;
+    height:32px;
+    position:absolute;
+    top:-16px;
+    right:-16px;
+    border-radius:100%;
+}
+#ticket {
+    background:#dde8f0;
+    border-top:1px dashed #bdbdbd;
+    position:relative;
+    border-bottom-left-radius:12px;
+    border-bottom-right-radius:12px;
+}
+#cardNumber {
+    padding-right:60px;
+}
+#cardType {
+    width:50px;
+    height:36px;
+
+    background-size: cover;
+    background-position: -59px;
+    position:absolute;
+    right:10px;
+    top:5px;
+}

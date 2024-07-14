@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pildo Pharm</title>
+
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/estilospersonalizados.css}">
+    <link rel="stylesheet" th:href="@{/assets/paciente/css/editarperfil.css}">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+-<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<!--welcome-hero start -->
+<header id="home" class="welcome-hero">
+    <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+</header><!--/.welcome-hero-->
+<!--welcome-hero end -->
+
+<br><br><br><br><br>
+
+<!--new-arrivals start -->
+<section class="py-8">
+    <div class="containernav px-4 px-lg-5 mt-5">
+        <div class="section-header">
+            <h2>Mi Perfil</h2>
+        </div><!--/.section-header-->
+        <br><br><br>
+        <div class="main-content">
+
+            <div th:if="${msgError != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <p th:text="${msgError}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="row custom-shadow-border with-padding">
+                <div class="col-lg-4">
+                    <h2 class="mb-4" style="font-size: x-large; font-weight: bold">Opciones de Edicion:</h2>
+                    <div class="list-group m-lg-3" id="list-tab" role="tablist">
+                        <a style="cursor: pointer; height: 60px; font-size: large" class="list-group-item list-group-item-action rounded-0" data-target="#list-profile">Mis Datos</a>
+                        <a style="cursor: pointer; height: 60px; font-size: large" class="list-group-item list-group-item-action rounded-0" data-target="#list-avatar">Mi avatar</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane" id="list-profile" role="tabpanel" style="font-size: large">
+                            <!-- Contenido del perfil aquí -->
+
+                            <h2 class="mb-4">Editar mis datos</h2>
+                            <form class="row g-3" th:action="@{/paciente/perfil/guardar}" th:object="${usuario}" method="post">
+                                <div class="col-md-6" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" style="font-size: large" th:value="${nombres}" disabled>
+                                </div>
+                                <div class="col-md-6" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" style="font-size: large"  th:value="${apellidos}" disabled>
+                                </div>
+                                <div class="col-md-6" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">DNI</label>
+                                    <input type="text" class="form-control" style="font-size: large"  th:value="${dni}" disabled>
+                                </div>
+                                <div class="col-6" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Correo electrónico</label>
+                                    <input type="text" class="form-control" style="font-size: large"  th:value="${correo}" disabled>
+                                </div>
+                                <div class="col-md-12" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="number" class="form-control" style="font-size: large" th:field="*{telefono}" >
+                                </div>
+                                <div class="col-md-12" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Distrito de residencia</label>
+                                    <select class="form-select" aria-label="Default select example" th:field="*{distrito}" style="margin-bottom: 0; font-size: large">
+                                        <option value="">-- Seleccione una opción --</option>
+                                        <option th:each="distrito : ${listaDistritos}" th:value="${distrito.id}"  th:text="${distrito.nombre}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Dirección de residencia</label>
+                                    <input class="form-control" type="text" th:field="*{direccion}" th:classappend="${#fields.hasErrors('direccion')?'is-invalid':''}" style="margin-bottom: 0; font-size: large">
+                                </div>
+                                <div class="col-md-12" style="margin-bottom: 1.5rem !important;">
+                                    <label class="form-label">Referencia:</label>
+                                    <input type="text" class="form-control" style="font-size: large" th:field="*{referencia}" >
+                                </div>
+                                <div class="col-12">
+                                    <input type="hidden" name="accion" value="perfil">
+                                    <input type="hidden" th:field="*{id}">
+                                </div>
+                                <button type="submit" class="btn-cart welcome-add-cart" style="text-align: center">
+                                    <span class="lnr lnr-exit-up"></span>
+                                    Guardar cambios
+                                </button>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="list-avatar" role="tabpanel">
+                            <!-- Contenido del avatar aquí -->
+
+                            <h2 class="mb-4">Editar Avatar</h2>
+                            <form class="row g-3"
+                                  th:action="@{/paciente/perfil/guardar}"
+                                  th:object="${usuario}" method="post"
+                            >
+                                <div class="col-12" style="margin-bottom: 1.5rem !important;">
+                                    <label for="avatar" id="avatar" class="form-label">Seleccione el avatar de su preferencia</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               th:checked="${usuario.imagen == 'avatar1.png'}"
+                                               type="radio" name="imagen" id="avatar1" value="avatar1.png">
+                                        <label class="form-check-label" for="avatar1">
+                                            <img src="/assets/paciente/img/avatar1.png" alt="Avatar 1" class="avatar-img">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               th:checked="${usuario.imagen == 'avatar2.png'}"
+                                               type="radio" name="imagen" id="avatar2" value="avatar2.png">
+                                        <label class="form-check-label" for="avatar2">
+                                            <img src="/assets/paciente/img/avatar2.png" alt="Avatar 2" class="avatar-img">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               th:checked="${usuario.imagen == 'avatar3.png'}"
+                                               type="radio" name="imagen" id="avatar3" value="avatar3.png">
+                                        <label class="form-check-label" for="avatar3">
+                                            <img src="/assets/paciente/img/avatar3.png" alt="Avatar 3" class="avatar-img">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               th:checked="${usuario.imagen == 'avatar4.png'}"
+                                               type="radio" name="imagen" id="avatar4" value="avatar4.png">
+                                        <label class="form-check-label" for="avatar4">
+                                            <img src="/assets/paciente/img/avatar4.png" alt="Avatar 4" class="avatar-img">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               th:checked="${usuario.imagen == 'avatar5.png'}"
+                                               type="radio" name="imagen" id="avatar5" value="avatar5.png">
+                                        <label class="form-check-label" for="avatar5">
+                                            <img src="/assets/paciente/img/avatar5.png" alt="Avatar 5" class="avatar-img">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <input type="hidden" name="accion" value="avatar">
+                                    <input type="hidden" th:field="*{id}">
+                                    <button type="submit" class="btn-cart welcome-add-cart" style="text-align: center">
+                                        <span class="lnr lnr-exit-up"></span>
+                                        Guardar cambios
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <a th:href="@{/paciente/miPerfil}" class="btn-cart welcome-add-cart" style="text-align: center">
+            <span class="lnr lnr-arrow-left-circle"></span>
+            Regresar
+        </a>
+        <br><br><br>
+    </div>
+</section>
+<br><br><br><br><br><br><br>
+
+<!--footer start-->
+<footer id="footer"  class="footer">
+    <div class="containernav">
+        <div class="hm-footer-copyright text-center">
+            <div class="footer-social">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </div>
+            <p>
+                &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+            </p><!--/p-->
+        </div><!--/.text-center-->
+    </div><!--/.containernav-->
+
+    <div id="scroll-Top">
+        <div class="return-to-top">
+            <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+        </div>
+
+    </div><!--/.scroll-Top-->
+
+</footer><!--/.footer-->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('#list-tab a');
+        const panes = document.querySelectorAll('.tab-pane');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = tab.getAttribute('data-target');
+                const targetPane = document.querySelector(targetId);
+
+                panes.forEach(pane => {
+                    pane.classList.remove('active');
+                });
+                targetPane.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<script src="/assets/paciente/js/alert.js"></script>
+
+<!-- Include all js compiled plugins (below), or include individual files as needed -->
+
+<script src="/assets/paciente/js/jquery.js"></script>
+
+<!--modernizr.min.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<!--bootstrap.min.js-->
+<script src="/assets/paciente/js/bootstrap.min.js"></script>
+
+<!-- bootsnav js -->
+<script src="/assets/paciente/js/bootsnav.js"></script>
+
+<!--owl.carousel.js-->
+<script src="/assets/paciente/js/owl.carousel.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+<!--Custom JS-->
+<script src="/assets/paciente/js/custom.js"></script>
+</body>
+</html>

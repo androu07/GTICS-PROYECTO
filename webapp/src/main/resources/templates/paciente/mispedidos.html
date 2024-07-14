@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- meta data -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pildo Pharm</title>
+
+  <link rel="icon" type="image/x-icon" th:href="@{/assets/paciente/img/logo.png}" />
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/font-awesome.min.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/linearicons.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/animate.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.carousel.min.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/owl.theme.default.min.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/bootsnav.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/style.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/disenoMejorado/responsive.css}">
+  <link rel="stylesheet" th:href="@{/assets/paciente/css/estilospersonalizados.css}">
+
+  <!--Para la paginacion-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
+
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script th:inline="javascript">
+    $(document).ready(function() {
+      // Función para manejar el click del enlace y hacer la solicitud AJAX
+      $(".btn-danger").click(function(event) {
+        event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+
+        var id = $(this).data("id"); // Obtener el ID del medicamento del atributo data del enlace
+        var tipo = $(this).data("tipo");
+
+        $.ajax({
+          type: "GET",
+          data: {
+            id: id,
+            tipo: tipo
+          },
+          url: "/paciente/pedido/comentario",
+          success: function(response) {
+            // response es la lista de strings que retornas desde el controlador
+            if (response != null) {
+              var comentario = response;
+              $('#comentario').text(comentario);
+              $("#exampleModal").modal('show'); // Asumiendo que el modal se llama 'exampleModal'
+            } else {
+              alert("El comentario de rechazo no fue encontrado.");
+            }
+          },
+          error: function() {
+            alert("Error al obtener el comentario de rechazo.");
+          }
+        });
+      });
+    });
+  </script>
+
+</head>
+<body>
+-<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<!--welcome-hero start -->
+<header id="home" class="welcome-hero">
+  <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
+</header><!--/.welcome-hero-->
+<!--welcome-hero end -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 700px">
+      <div class="modal-header" style="display: flex; width: 100%;">
+        <h5 class="modal-title" id="exampleModalLabel">Comentario del rechazo</h5>
+        <div class="spacer" style="flex-grow: 1;"></div>
+        <button style="align-self: end" type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody" style="display: flex; margin-top: 15px; margin-bottom: 15px">
+        <p style="font-size: large; color: black" id="comentario"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br><br><br><br><br>
+
+  <!--populer-products start -->
+  <section class="py-8">
+    <div class="containernav px-4 px-lg-5 mt-5">
+      <div class="section-header">
+        <h2>Mis Pedidos con Delivery</h2>
+        <br><br>
+        <form th:if="${tamanolistaPedidosDely > 5 or sinResultadosDely == 1 or sinResultadosDely == 0}" class="d-flex" th:action="@{/paciente/mispedidos/buscadorDely}" method="post" role="search" style="width: 50%">
+          <input name="searchFieldDely" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar por numero de tracking..." aria-label="Search">
+          <button class="btn btn-outline-warning" style="border: 0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg></button>
+          <a class="btn btn-outline-warning" style="margin-left: 1vh; font-size: medium" th:if="${listacompletaDely == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
+        </form>
+        <br th:if="${sinResultadosDely == 0}"><br th:if="${sinResultadosDely == 0}">
+        <h5 th:if="${llenodely == 0}">Usted aun no ha realizado ningun pedido con delivery incluido</h5>
+        <h5 th:if="${llenodely == 0}">Para poder realizar una orden con delivery incluido debe buscar un producto con stock en nuestra lista de medicamentos.</h5>
+        <a th:if="${llenodely == 0}" class="btn-cart welcome-add-cart sofa-collection-btn" th:href="@{/paciente/medicamentos}">
+          Ver medicamentos
+        </a>
+        <br th:if="${sinResultadosDely == 1}"><br th:if="${sinResultadosDely == 1}">
+        <h5 th:if="${sinResultadosDely == 1}">No se ha encontrado ningun pedido relacionado al numero de tracking ingresado.</h5>
+        <div th:if="${msg1 != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+          <p th:text="${msg1}" style="color: black;"></p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <table id="tabla1" class="table table-hover" th:if="${llenodely == 1 and sinResultadosDely == 0}">
+          <tr>
+            <th colspan="0" style="text-align: center;">Orden de compra</th>
+            <th style="text-align: center;">Fecha de Registro</th>
+            <th style="text-align: center;">Estado de la compra</th>
+            <th style="text-align: center;"></th>
+          </tr>
+          <tr th:each="pedidodely : ${listaPedidosDely}" th:if="${pedidodely.tipo_de_pedido == 'Web - Delivery'}">
+            <td class="align-middle" style="font-size: large;" th:text="${pedidodely.numero_tracking}"></td>
+            <td class="align-middle" style="font-size: large;" th:text="${pedidodely.fecha_solicitud}"></td>
+            <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido == 'Pendiente'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: yellowgreen;" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido == 'Por cancelar'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidodely.estado_del_pedido}" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: red; font-weight: bold" th:if="${pedidodely.validacion_del_pedido == 'Rechazado'}">Rechazado</td>
+            <td class="align-middle">
+              <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidodely.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${pedidodely.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
+              <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-success" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
+              <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidodely.id}" th:data-tipo="${'1'}" th:if="${pedidodely.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+            </td>
+          </tr>
+        </table>
+        <!-- Paginacion Dely-->
+        <div class="pagination  d-flex justify-content-center" id="paginacion1" th:if="${tamanolistaPedidosDely > 5}" style="padding: 50px; font-size: xxx-large;">
+        </div>
+        <section id="pedidosReco">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h2>Mis Pedidos para Recoger en Sede</h2>
+        <br><br>
+        <form th:if="${tamanolistaPedidosReco > 5 or sinResultadosReco == 1 or sinResultadosReco == 0}" class="d-flex" th:action="@{/paciente/mispedidos/buscadorReco}" method="post" role="search" style="width: 50%">
+          <input name="searchFieldReco" class="form-control me-2" type="search" style="font-size: large" placeholder="Buscar por numero de tracking..." aria-label="Search">
+          <button class="btn btn-outline-warning" style="border: 0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin: 0" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg></button>
+          <a class="btn btn-outline-warning" style="margin-left: 1vh; font-size: medium" th:if="${listacompletaReco == 1}" type="submit" th:href="@{/paciente/mispedidos}" >Ver lista completa</a>
+        </form>
+        <br th:if="${sinResultadosReco == 0}"><br th:if="${sinResultadosReco == 0}">
+        <h5 th:if="${llenoreco == 0}">Usted aun no ha realizado ningun pedido para recoger en sede</h5>
+        <h5 th:if="${llenoreco == 0}">Para poder realizar una orden para recoger en una sede, debe buscar un producto con stock en nuestra lista de medicamentos.</h5>
+        <a th:if="${llenoreco == 0}" class="btn-cart welcome-add-cart sofa-collection-btn" th:href="@{/paciente/medicamentos}">
+          Ver medicamentos
+        </a>
+        <br th:if="${sinResultadosReco == 1}"><br th:if="${sinResultadosReco == 1}">
+        <h5 th:if="${sinResultadosReco == 1}">No se ha encontrado ningun pedido relacionado al numero de tracking ingresado.</h5>
+          <div th:if="${msg2 != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <p th:text="${msg2}" style="color: black;"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <table id="tabla2" class="table table-hover" th:if="${llenoreco == 1 and sinResultadosReco == 0}">
+          <tr>
+            <th colspan="0" style="text-align: center;">Orden de compra</th>
+            <th style="text-align: center;">Fecha de Registro</th>
+            <th style="text-align: center;">Estado de la compra</th>
+            <th style="text-align: center;"></th>
+          </tr>
+          <tr th:each="pedidoreco : ${listaPedidosReco}">
+            <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.numero_tracking}"></td>
+            <td class="align-middle" style="font-size: large;" th:text="${pedidoreco.fecha_solicitud}"></td>
+            <td class="align-middle" style="font-size: x-large; color: #0072BA;" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido == 'Pendiente'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: yellowgreen;" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido == 'Por cancelar'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: green" th:text="${pedidoreco.estado_del_pedido}" th:if="${pedidoreco.estado_del_pedido != 'Pendiente' and pedidoreco.estado_del_pedido != 'Por cancelar' and pedidoreco.estado_del_pedido != 'En ruta' and pedidoreco.validacion_del_pedido != 'Rechazado'}"></td>
+            <td class="align-middle" style="font-size: x-large; color: green" th:if="${pedidoreco.estado_del_pedido == 'En ruta'}">Listo para Recoger</td>
+            <td class="align-middle" style="font-size: x-large; color: red; font-weight: bold" th:if="${pedidoreco.validacion_del_pedido == 'Rechazado'}">Rechazado</td>
+            <td class="align-middle">
+              <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidoreco.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedidoreco.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
+              <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-success" th:if="${pedidoreco.estado_del_pedido != 'Pendiente' and pedidoreco.estado_del_pedido != 'Por cancelar' and pedidoreco.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
+              <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidoreco.id}" th:data-tipo="${'2'}" th:if="${pedidoreco.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+            </td>
+          </tr>
+        </table>
+        <!-- Paginacion Recojo-->
+        <div class="pagination  d-flex justify-content-center" id="paginacion2" th:if="${tamanolistaPedidosReco > 5}" style="padding: 50px; font-size: xxx-large;">
+        </div>
+        </section>
+        <br>
+      </div><!--/.containernav-->
+    </div><!--/.section-header-->
+  </section><!--/.new-arrivals-->
+<!--new-arrivals end -->
+
+<br><br><br><br><br>
+
+<!--footer start-->
+    <footer id="footer"  class="footer">
+      <div class="containernav">
+        <div class="hm-footer-copyright text-center">
+          <div class="footer-social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+          </div>
+          <p>
+            &copy;copyright. designed and developed by <a href="https://www.themesine.com/">pildopharm</a>
+          </p><!--/p-->
+        </div><!--/.text-center-->
+  </div><!--/.containernav-->
+
+  <div id="scroll-Top">
+    <div class="return-to-top">
+      <i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+    </div>
+
+  </div><!--/.scroll-Top-->
+
+</footer><!--/.footer-->
+<!--footer end-->
+
+<script src="/assets/paciente/js/alert.js"></script>
+
+<!-- Script de paginacion1 -->
+<script type="text/javascript">
+  function getPageList(totalPages, page, maxLength) {
+    function range(start, end) {
+      return Array.from(Array(end - start + 1), (_, i) => i + start);
+    }
+
+    var sideWidth = maxLength < 9 ? 1 : 2;
+    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+    var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+    if (totalPages <= maxLength) {
+      return range(1, totalPages);
+    }
+
+    if (page <= maxLength - sideWidth - 1 - rightWidth) {
+      return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+    }
+
+    if (page >= totalPages - sideWidth - 1 - rightWidth) {
+      return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+    }
+    return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+  }
+
+  $(function () {
+    var numberOfItems = $("#tabla1 tr").length;
+    var limitPerPage = 6; //How many card items visible per a page
+    var totalPages = Math.ceil(numberOfItems / limitPerPage);
+    var paginationSize = 6; //How many page elements visible in the pagination
+    var currentPage;
+
+    function showPage(whichPage) {
+      if (whichPage < 1 || whichPage > totalPages) return false;
+
+      currentPage = whichPage;
+
+      $("#tabla1 tr").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+      $("#paginacion1 li").slice(1, -1).remove();
+
+      getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                .attr({href: "javascript1:void(0)"}).text(item || "...")).insertBefore(".next-page");
+      });
+
+      $(".previous-page").toggleClass("disable", currentPage === 1);
+      $(".next-page").toggleClass("disable", currentPage === totalPages);
+      return true;
+    }
+
+    $("#paginacion1").append(
+            $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+            $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+    );
+
+    $("#tabla1 tr").show();
+    showPage(1);
+
+    $(document).on("click", "#paginacion1 li.current-page:not(.active)", function () {
+      return showPage(+$(this).text());
+    });
+
+    $(".next-page").on("click", function () {
+      return showPage(currentPage + 1);
+    });
+
+    $(".previous-page").on("click", function () {
+      return showPage(currentPage - 1);
+    });
+  });
+</script>
+
+<!-- Script de paginacion2 -->
+<script type="text/javascript">
+  function getPageList(totalPages, page, maxLength) {
+    function range(start, end) {
+      return Array.from(Array(end - start + 1), (_, i) => i + start);
+    }
+
+    var sideWidth = maxLength < 9 ? 1 : 2;
+    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+    var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+
+    if (totalPages <= maxLength) {
+      return range(1, totalPages);
+    }
+
+    if (page <= maxLength - sideWidth - 1 - rightWidth) {
+      return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+    }
+
+    if (page >= totalPages - sideWidth - 1 - rightWidth) {
+      return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+    }
+    return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+  }
+
+  $(function () {
+    var numberOfItems = $("#tabla2 tr").length;
+    var limitPerPage = 6; //How many card items visible per a page
+    var totalPages = Math.ceil(numberOfItems / limitPerPage);
+    var paginationSize = 6; //How many page elements visible in the pagination
+    var currentPage;
+
+    function showPage(whichPage) {
+      if (whichPage < 1 || whichPage > totalPages) return false;
+
+      currentPage = whichPage;
+
+      $("#tabla2 tr").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+      $("#paginacion2 li").slice(1, -1).remove();
+
+      getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".nueva-next-page1");
+      });
+
+      $(".nueva-previous-page1").toggleClass("disable", currentPage === 1);
+      $(".nueva-next-page1").toggleClass("disable", currentPage === totalPages);
+      return true;
+    }
+
+    $("#paginacion2").append(
+            $("<li>").addClass("page-item").addClass("nueva-previous-page1").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+            $("<li>").addClass("page-item").addClass("nueva-next-page1").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+    );
+
+    $("#tabla2 tr").show();
+    showPage(1);
+
+    $(document).on("click", "#paginacion2 li.current-page:not(.active)", function () {
+      return showPage(+$(this).text());
+    });
+
+    $(".nueva-next-page1").on("click", function () {
+      return showPage(currentPage + 1);
+    });
+
+    $(".nueva-previous-page1").on("click", function () {
+      return showPage(currentPage - 1);
+    });
+  });
+</script>
+
+<!-- Include all js compiled plugins (below), or include individual files as needed -->
+
+<script src="/assets/paciente/js/jquery.js"></script>
+
+<!--modernizr.min.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+<!--bootstrap.min.js-->
+<script src="/assets/paciente/js/bootstrap.min.js"></script>
+
+<!-- bootsnav js -->
+<script src="/assets/paciente/js/bootsnav.js"></script>
+
+<!--owl.carousel.js-->
+<script src="/assets/paciente/js/owl.carousel.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+<!--Custom JS-->
+<script src="/assets/paciente/js/custom.js"></script>
+
+
+</body>
+</html>

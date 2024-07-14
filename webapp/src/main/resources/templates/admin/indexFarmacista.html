@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/assets/superadmin/css/css_register.css}">
+    <link rel="icon" href="/assets/paciente/img/logo.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>PildoPharm Register</title>
+    <style>
+        .form-select option {
+            color: #555;
+            background-color: #fff;
+            padding: 10px;
+        }
+
+        /* Opcional: Estilo al seleccionar una opción */
+        .form-select option:checked {
+            background-color: #eee;
+        }
+
+        /* Opcional: Deshabilitar opción seleccionada al abrir el select */
+        .form-select option:disabled {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{layout/MensajesTemplate :: mensajes}"></div>
+
+<div class="container">
+    <div class="signin-signup">
+        <form id="formReg" th:action="@{/registroDoctorAdministrador}" class="sign-in-form" method="post">
+            <h2 class="title">Nuevo Farmacista</h2>
+            <input th:value="${'3'}" name="nuevoRol" type="hidden" />
+            <div class="input-field">
+                <i class="fas fa-user-shield"></i>
+                <input type="text" placeholder="DNI del nuevo farmacista" id="dni" name="dni">
+                <div class="error" id="dni-error"></div>
+            </div>
+            <div th:if="${dniInvalido != null}" th:text="${dniInvalido}" style="color: red"></div>
+            <div th:if="${dniRepetido != null}" th:text="${dniRepetido}" style="color: red"></div>
+            <div>
+                <input type="submit" value="Registrar" class="btn" id="registro-button" style="margin-top: 1vh">
+                <a th:href="@{/admin/farmacistas}" class="btn">Regresar</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registroModalLabel">Registro Exitoso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tu respectivo formulario fue enviado, en un plazo máximo de 48h recibiras una notificación sobre el estado del registro.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="ok-button">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">¿Olvidaste tu contraseña?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Por favor, ingresa tu dirección de correo electrónico para restablecer tu contraseña.
+                <div class="input-field1">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" id="forgot-password-email" placeholder="Correo">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="reset-password-button">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script src="/assets/superadmin/js/animacion.js"></script>
+
+<script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const correoRegistroInput = document.querySelector("#correo");
+        const direccionRegistroInput = document.querySelector("#direccion");
+        const registroButton = document.querySelector("#registro-button");
+
+        correoRegistroInput.addEventListener("input", validarCorreoRegistro);
+        direccionRegistroInput.addEventListener("input", validarDireccionRegistro);
+
+        function validarCorreoRegistro() {
+            const correoRegistroValue = correoRegistroInput.value.trim();
+            const regexCorreoRegistro = /^[^\s@]+@[^\s@]+\.(com)$/i;
+            const correoRegistroError = document.querySelector("#email-registro-error");
+
+            if (!correoRegistroValue) {
+                correoRegistroError.textContent = "Campo vacío";
+                correoRegistroError.classList.add("error-message");
+            } else if (correoRegistroValue.length > 30) {
+                correoRegistroError.textContent = "Máximo 30 caracteres";
+                correoRegistroError.classList.add("error-message");
+            } else if (regexCorreoRegistro.test(correoRegistroValue)) {
+                correoRegistroError.textContent = "";
+                correoRegistroError.classList.remove("error-message");
+            } else {
+                correoRegistroError.textContent = "Correo no válido";
+                correoRegistroError.classList.add("error-message");
+            }
+        }
+
+        function validarDireccionRegistro() {
+            const direccionRegistroInput = document.querySelector("#direccion");
+            const direccionRegistroValue = direccionRegistroInput.value.trim();
+            const direccionRegistroError = document.querySelector("#direccion-registro-error");
+
+            if (!direccionRegistroValue) {
+                direccionRegistroError.textContent = "Campo vacío";
+                direccionRegistroError.style.color = "red";
+                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
+            } else if (direccionRegistroValue.length < 10) {
+                direccionRegistroError.textContent = "Mínimo 10 caracteres";
+                direccionRegistroError.style.color = "red";
+                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
+            } else if (direccionRegistroValue.length > 255) {
+                direccionRegistroError.textContent = "Máximo 255 caracteres";
+                direccionRegistroError.style.color = "red";
+                direccionRegistroError.classList.add("error-message"); // Aplicar la clase de error
+            } else {
+                direccionRegistroError.textContent = "";
+                direccionRegistroError.classList.remove("error-message"); // Quitar la clase de error si no hay error
+            }
+        }
+
+        registroButton.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            validarCorreoRegistro();
+            validarDireccionRegistro(); // Agregar validación de dirección
+
+            const correoRegistroError = document.querySelector("#email-registro-error");
+            const direccionRegistroError = document.querySelector("#direccion-registro-error");
+
+            if (
+                correoRegistroError.textContent === "" &&
+                direccionRegistroError.textContent === ""
+            ) {
+                document.getElementById("formReg").submit();
+            }
+        });
+
+    });
+
+</script>
+
+<script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const dniInput = document.querySelector("#dni");
+        const registroButton = document.querySelector("#registro-button");
+
+        dniInput.addEventListener("input", validarDNI);
+
+        function validarDNI() {
+            const dniValue = dniInput.value.trim();
+            const dniError = document.querySelector("#dni-error");
+
+            if (!dniValue) {
+                dniError.textContent = "Campo vacío";
+                dniError.classList.add("error-message");
+            } else if (!/^\d+$/.test(dniValue)) {
+                dniError.textContent = "Solo números";
+                dniError.classList.add("error-message");
+            } else if (dniValue.length > 8) {
+                dniError.textContent = "¡Solo 8 dígitos!";
+                dniError.classList.add("error-message");
+            } else if (dniValue.length < 8) {
+                dniError.textContent = "8 dígitos requeridos";
+                dniError.classList.add("error-message");
+            } else {
+                dniError.textContent = "";
+                dniError.classList.remove("error-message");
+            }
+        }
+
+        registroButton.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            validarDNI();
+
+            const dniError = document.querySelector("#dni-error");
+
+            if (
+                dniError.textContent === ""
+            ) {
+                //     const registroModal = new bootstrap.Modal(document.getElementById("registroModal"));
+                //    registroModal.show();
+                document.getElementById("formReg").submit();
+            }
+        });
+
+        document.querySelector(".forgot-pass").addEventListener("click", function () {
+            const forgotPasswordModal = new bootstrap.Modal(document.getElementById("forgotPasswordModal"));
+            forgotPasswordModal.show();
+        });
+
+        function validarForgotPasswordEmail() {
+            const forgotPasswordEmailInput = document.querySelector("#forgot-password-email");
+            const forgotPasswordEmailValue = forgotPasswordEmailInput.value.trim();
+            const regexForgotPasswordEmail = /^[a-zA-Z0-9_À-ÿ.-]+@[^@\s]+\.com$/;
+
+
+            if (regexForgotPasswordEmail.test(forgotPasswordEmailValue)) {
+                forgotPasswordEmailInput.placeholder = "Correo";
+                forgotPasswordEmailInput.style.color = "black";
+            } else {
+                forgotPasswordEmailInput.placeholder = "Correo no válido";
+                forgotPasswordEmailInput.style.color = "red";
+            }
+        }
+
+        const forgotPasswordEmailInput = document.querySelector("#forgot-password-email");
+        forgotPasswordEmailInput.addEventListener("input", validarForgotPasswordEmail);
+
+        document.querySelector("#reset-password-button").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            validarForgotPasswordEmail();
+
+            if (forgotPasswordEmailInput.placeholder === "Correo") {
+                var correo = document.getElementById("forgot-password-email").value;
+                document.getElementById("reset-password-button").disabled = true;
+
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        correo: correo
+                    },
+                    dataType: 'json',
+                    url: "/reestablecer/generar_token",
+                    success: function (data) {
+                        if (data.response === "OK") {
+                            const forgotPasswordModal = bootstrap.Modal.getInstance(document.getElementById("forgotPasswordModal"));
+                            forgotPasswordModal.hide();
+                            document.getElementById("forgot-password-email").value = "";
+                            Swal.fire('¡Éxito!', "Envio correo correcto! Por favor revise su bandeja para poder reestablecer su contraseña.", 'success');
+                        } else {
+                            Swal.fire('¡Error!', data.response, 'error');
+                        }
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        Swal.fire('¡Error!', "No se ha podido recuperar contraseña.", 'error');
+
+                    }, complete: function () {
+                        document.getElementById("reset-password-button").disabled = false;
+                    }
+                });
+
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

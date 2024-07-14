@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Pildo Pharm</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet" />
+    <link th:href="@{/assets/paciente/css/styleShCart.css}" rel="stylesheet" />
+    <link th:href="@{/assets/paciente/css/styleShCartCliente.css}" rel="stylesheet" />
+</head>
+<body>
+    <!-- TRABAJAR AQUI-->
+    <div class="card">
+        <header>
+            <div class="d-flex justify-content-center align-items-center pb-3">
+                <div class="px-sm-5 px-2 active">MI CARRITO DE COMPRAS
+                        <span class="fas fa-check"></span>
+                </div>
+                <div class="px-sm-5 px-2">FORMULARIO</div>
+                <div class="px-sm-5 px-2">PEDIDO FINALIZADO</div>
+            </div>
+            <div class="progress">
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col"><h4><b style="font-size: x-large;">Mi carrito de compras</b></h4></div>
+                    </div>
+                </div>
+                <div class="row border-top border-bottom" th:if="${car==1}">
+                    <div class="row main align-items-center">
+                        <h5 style="margin-left: 2vh" th:text="${msg1}"></h5>
+                    </div>
+                </div>
+                <div class="row border-top border-bottom" th:if="${car!=1}">
+                    <div class="row main align-items-center" th:each="productos : ${listadoDelCarrito}">
+                        <div class="col-2"><img class="img-fluid" th:src="@{/assets/paciente/img/medicamento.avif}"></div>
+                        <div class="col">
+                            <div class="row text-muted" th:text="${productos.medicamentos_id_medicamentos.categoria}"></div>
+                            <div class="row" th:text="${productos.medicamentos_id_medicamentos.nombre}" style="font-weight: bold"></div>
+                        </div>
+                        <div class="col" >
+                            <div class="row" th:text="${productos.cantidad} + ' en lista'" style="font-weight: bold"></div>
+                        </div>
+                        <div class="col" th:text="'S/ ' + ${productos.medicamentos_id_medicamentos.precio_unidad}" style="font-size: medium"></div>
+                        <div class="col">
+                            <a type="button" class="btn btn-danger" th:href="@{'/paciente/carrito/borrar?id=' + ${productos.medicamentos_id_medicamentos.id}}">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="back-to-shop"><a style="font-size: large; font-weight: bold" th:href="@{/paciente/medicamentos}">&leftarrow;<span class="text-muted"> Volver a la pagina</span></a></div>
+            </div>
+            <div class="col-md-4 summary">
+                <div th:if="${car==0}"><h5><b>Resumen del precio por cantidad</b></h5></div>
+                <div th:if="${car==1}"><h5><b>Resumen</b></h5></div>
+                <div th:if="${car==1}"><h6><b th:text="${msg2}"></b></h6></div>
+                <hr>
+                <div class="row" th:each="productos : ${listadoDelCarrito}">
+                    <div class="col" style="padding-left:0;" th:text="${productos.medicamentos_id_medicamentos.nombre}"></div>
+                    <div class="col text-right" th:text="'S/ ' + ${productos.medicamentos_id_medicamentos.precio_unidad * productos.cantidad}"></div>
+                </div>
+                <br>
+                <form>
+                    <p th:if="${delivery == 0}">TIPO DE ENTREGA: Recojo en tienda</p>
+                    <p th:if="${delivery == 1}">TIPO DE ENTREGA: Delivery</p>
+                    <a class="btn" th:if="${delivery == 0}" th:href="@{'/paciente/carrito/delivery'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Delivery</a>
+                    <a class="btn" th:if="${delivery == 1}" th:href="@{'/paciente/carrito'}" style="margin-top: 0px; margin-bottom: 20px">Cambiar a Recojo en Sede</a>
+                </form>
+                <div class="row" th:if="${delivery == 0}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+                    <div class="col">PRECIO TOTAL A PAGAR</div>
+                    <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
+                </div>
+                <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
+                    <div class="col">Precio total</div>
+                    <div class="col text-right" th:text="'S/ ' + ${precioTotal}"></div>
+                </div>
+                <div class="row" th:if="${delivery == 1}" style="padding: 0.5vh 0;">
+                    <div class="col">Delivery</div>
+                    <div class="col text-right" th:text="'S/ 10.00'"></div>
+                </div>
+                <div class="row" th:if="${delivery == 1}" style="border-top: 1px solid rgba(0,0,0,.1); padding: 1vh 0;">
+                    <div class="col">PRECIO TOTAL A PAGAR</div>
+                    <div class="col text-right" th:text="'S/ ' + ${precioTotalDely}"></div>
+                </div>
+                <a th:if="${car==0 and delivery == 0}" class="btn" th:href="@{'/paciente/carrito/registrarPedido?costototal=' + ${precioTotal} + '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >CONTINUAR</a>
+                <a th:if="${car==0 and delivery == 1}" class="btn" th:href="@{'/paciente/carrito/registrarPedido?costototal=' + ${precioTotalDely}+ '&tipopedido=' + ${delivery} + '&numtrack=' + ${numpedido}}" >CONTINUAR</a>
+                <a th:if="${car==1}" class="btn" disabled>CONTINUAR</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+</body>
+</html>
