@@ -1,9 +1,11 @@
 package com.example.webapp.controller;
 import com.example.webapp.entity.*;
 import com.example.webapp.repository.*;
+import com.example.webapp.util.Correo;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +61,10 @@ public class FarmacistaController {
         this.distritoRepository = distritoRepository;
         this.tarjetaRepository = tarjetaRepository;
     }
+
+    @Autowired
+    private Correo correo;
+
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
@@ -1498,12 +1504,21 @@ public class FarmacistaController {
 
             medicamentosDelPedidoRepository.borrarMedicamentoPocoStock(medicamento.getNombre(), pedidoid, pedidoActual.getUsuario().getId());
 
-            if(cantidadMedicamento == 1){
-                redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidad de " + medicamento.getNombre());
+            String cuerpo = this.correo.numtrackPorCorreo(pedidoActual.getUsuario(), medicamento.getNombre(), cantidadStr, pedidoActual.getNumero_tracking(), numpedido);
+            boolean envio = this.correo.EnviarCorreo("Nueva Pre-Orden generada", cuerpo, pedidoActual.getUsuario());
+
+            if(envio){
+                if(cantidadMedicamento == 1){
+                    redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidad de " + medicamento.getNombre());
+                }
+                else{
+                    redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidades de " + medicamento.getNombre());
+                }
             }
             else{
-                redirectAttributes.addFlashAttribute("msg", "Se ha generado una pre-orden de compra para " + cantidadStr + " unidades de " + medicamento.getNombre());
+                redirectAttributes.addFlashAttribute("msg", "Error al enviar el correo");
             }
+
         }
 
         return "redirect:/farmacista/pedidoInfo?id=" + pedidoid + "&tipo=1";

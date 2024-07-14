@@ -149,7 +149,7 @@
                             </tr>
                             </thead>
                             <tbody id="tabla2">
-                            <tr th:each="pedido, index : ${listaPedidosReco}">
+                            <tr th:each="pedido, index : ${listaPedidosReco}" th:if="${pedido.tipo_de_pedido == 'Web - Recojo en tienda'}">
                                 <td><p style="font-size: 18px;" th:text="${index.count}"></p></td>
                                 <td><p style="font-size: 18px;" th:text="${pedido.usuario.nombres + ' ' + pedido.usuario.apellidos}"></p></td>
                                 <td><p style="font-size: 18px;" th:text="${pedido.numero_tracking}"></p></td>
