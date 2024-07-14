@@ -936,12 +936,6 @@ public class FarmacistaController {
     }
     /*---------------------------------------*/
 
-    @GetMapping("/farmacista/mensaje")
-    public String mostrarMensajeria(Model model) {
-        // solo redirige a la vista
-        return "farmacista/mensajeriaf";
-    }
-
 
     /*vista y QRUD de SOLICITUDES DE PEDIDOS*/
 
