@@ -1262,6 +1262,18 @@ public class FarmacistaController {
                 pedido.setValidacion_del_pedido("Rechazado");
                 pedido.setComentario(comentario);
 
+                BigInteger numero = new BigInteger(pedido.getMetodo_pago());
+
+                Optional<Tarjeta> tarjetaOptional = tarjetaRepository.tarjetaDelPago(numero);
+                if(tarjetaOptional.isPresent()){
+                    Tarjeta tarjeta = tarjetaOptional.get();
+                    Double ahorrospasados= tarjeta.getAhorros();
+                    Double pedidoprecio = pedido.getCosto_total();
+                    Double ahorros = ahorrospasados + pedidoprecio;
+                    tarjeta.setAhorros(ahorros);
+                    tarjetaRepository.save(tarjeta);
+                }
+
                 pedidosPacienteRepository.save(pedido);
 
                 redirectAttributes.addFlashAttribute("msg", "Se ha rechazado correctamente el pedido con numero: " + pedido.getNumero_tracking());

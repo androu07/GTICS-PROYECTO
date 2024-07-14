@@ -138,7 +138,7 @@
               <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidodely.id}" th:data-tipo="${'1'}" th:if="${pedidodely.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
             </td>
             <td class="align-middle">
-              <button type="button" class="btn btn-outline-danger" style="font-size: large" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}">
+              <button type="button" class="btn btn-outline-danger" style="font-size: large" th:if="${pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}">
                 <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
                 <span style="vertical-align: middle;">Boleta de Pago</span>
               </button>

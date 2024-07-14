@@ -1580,6 +1580,8 @@ public class PacienteController {
                     if(optionalPedidosPaciente.isPresent()){
                         PedidosPaciente pedidosPaciente = optionalPedidosPaciente.get();
                         pedidosPaciente.setEstado_del_pedido("Pendiente");
+                        String numerotarjeta = tarjeta.getNumero().toString();
+                        pedidosPaciente.setMetodo_pago(numerotarjeta);
                         pedidosPacienteRepository.save(pedidosPaciente);
                         response.put("response", "OK");
                     }

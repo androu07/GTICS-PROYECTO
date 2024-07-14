@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TarjetaRepository extends JpaRepository<Tarjeta, Integer> {
@@ -18,9 +19,8 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, Integer> {
             "WHERE numero = ?1 AND mes_caduca = ?2 AND anhio_caduca = ?3 AND cvv = ?4", nativeQuery = true)
     Tarjeta validarTarjeta(BigInteger numero, String mes, String anhio, Integer cvv);
 
-    @Transactional
-    @Modifying
-    @Query(value = "delete from carrito where (medicamentos_id_medicamentos = ?1) and (`usuario_id_usuario` = ?2);", nativeQuery = true)
-    void borrarElementoCarrito(int id, int usuid);
+    @Query(value = "SELECT * FROM gticsbd.tarjetas\n" +
+            "WHERE numero=?1", nativeQuery = true)
+    Optional<Tarjeta> tarjetaDelPago(BigInteger numero);
 
 }
