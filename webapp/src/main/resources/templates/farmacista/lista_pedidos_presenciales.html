@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" th:if="${tamanodely == 1}">
+                        <table class="table table-bordered" th:if="${tamanodely >0}">
                             <thead>
                             <tr>
                                 <th class="columna-imagen">#</th>
@@ -65,18 +65,14 @@
                                     <td>
                                         <div class="card-footer pt-1 br-3 border-top-0">
                                             <div class="text-center">
-                                                <a type="button" class="btn btn-danger"
-                                                   th:href="@{'/boleta_pdf?id=' + ${pedido.id}}"
-                                                   >
+                                                <a type="button" class="btn btn-danger" th:href="@{'/boleta_pdf?id=' + ${pedido.id}}" th:if="${pedido.estado_del_pedido != 'Por cancelar'}">
                                                     <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
                                                     <span style="vertical-align: middle;">Boleta de Pago</span>
                                                 </a>
-
-                                                </a>  <!--
                                                 <a type="button" th:href="@{'/farmacista/pagoSeguro?id=' + ${pedido.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedido.estado_del_pedido == 'Por cancelar'}">
                                                     <i class="bi bi-credit-card" style="vertical-align: middle; margin-right: 5px;"></i>
                                                     <span style="vertical-align: middle;">Realizar el Pago</span>
-                                                </a>    -->
+                                                </a>
                                             </div>
                                         </div>
                                     </td>
