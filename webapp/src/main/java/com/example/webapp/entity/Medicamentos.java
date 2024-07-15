@@ -29,6 +29,7 @@ public class Medicamentos {
     @Positive(message = "El precio por unidad debe ser positivo")
     private double precio_unidad;
     private String fecha_ingreso;
+    @NotBlank
     private String categoria;
     private String dosis;
     private int borrado_logico;

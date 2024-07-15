@@ -84,7 +84,6 @@
                             <div class="bg-light rounded h-100 p-4">
                                 <h4><p style="text-align:center">Detalles del Medicamento</p></h4>
                                 <input th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name="fecha_ingreso" type="hidden" />
-                                <input th:value="${'1'}" name="categoria" type="hidden" />
                                 <input th:value="${'1'}" name="dosis" type="hidden" />
                                 <input th:value="${0}" name="borrado_logico" type="hidden" />
                                 <div class="mb-3">
@@ -103,6 +102,28 @@
                                          th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">
                                     </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Categoría</label>
+                                    <select class="form-select" aria-label="Default select example" th:field="*{categoria}"
+                                            th:classappend="${#fields.hasErrors('categoria')?'is-invalid':''}">
+                                        <option th:value="${''}"></option>
+                                        <option th:value="${'Analgésico'}">Analgésico</option>
+                                        <option th:value="${'Antibiótico'}">Antibiótico</option>
+                                        <option th:value="${'Antihipertensivo'}">Antihipertensivo</option>
+                                        <option th:value="${'Antidiabético'}">Antidiabético</option>
+                                        <option th:value="${'Antiinflamatorio'}">Antiinflamatorio</option>
+                                        <option th:value="${'Antidepresivo'}">Antidepresivo</option>
+                                        <option th:value="${'Antihistamínico'}">Antihistamínico</option>
+                                        <option th:value="${'Antiviral'}">Antiviral</option>
+                                        <option th:value="${'Broncodilatador'}">Broncodilatador</option>
+                                        <option th:value="${'Diurético'}">Diurético</option>
+                                    </select>
+                                    <div class="invalid-feedback"
+                                         th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}">
+                                    </div>
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label" for="inventario">Inventario</label>
                                     <input type="text" class="form-control" th:field="*{inventario}"/>
