@@ -33,26 +33,17 @@
                 border-color: #990000;
             }
 
-            .botoncito_gozu {
-                color: white;
-                background-color: black;
-                border-color: black;
-                margin-top: 32px;
+            .text-center {
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
-
-            .botoncito_gozu:hover {
-                background-color: #333;
-                border-color: #333;
+            .btn {
+                margin: 5px;
             }
-
-            .boton-primario {
-                background-color: #2bd831;
-                border-color: #2bd831;
-            }
-
-            .boton-primario:hover {
-                background-color: rgb(19, 164, 24);
-                border-color: rgb(19, 164, 24);
+            .bi-eye {
+                vertical-align: middle;
+                margin-right: 5px;
             }
         </style>
     </head>
@@ -82,7 +73,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="@{'/superadmin/Ver_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-success">
-                                            <i class=""></i> Ver
+                                            <i class="bi bi-eye"></i> Ver
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -106,7 +97,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="@{'/superadmin/Editar_Doctor'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
-                                            <i class=""></i> Editar
+                                            <i class="bi bi-pencil-square"></i> Editar
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -130,7 +121,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</a>
                                     </div>
 
                                     <!-- Modal -->
@@ -148,7 +139,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +181,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="@{'/superadmin/Ver_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-success">
-                                            <i class=""></i> Ver
+                                            <i class="bi bi-eye"></i> Ver
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -214,7 +205,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="@{'/superadmin/Editar_Administrador'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
-                                            <i class=""></i> Editar
+                                            <i class="bi bi-pencil-square"></i> Editar
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -238,7 +229,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</a>
                                     </div>
 
                                     <!-- Modal -->
@@ -256,7 +247,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -328,7 +319,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="'/superadmin/Ver_Farmacista'+ '?id=' + ${Usuarios.getId()}" class="btn btn-success">
-                                            <i class=""></i> Ver
+                                            <i class="bi bi-eye"></i> Ver
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -352,7 +343,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="@{'/superadmin/Editar_Farmacista'+ '?id=' + ${Usuarios.getId()}}" class="btn btn-warning">
-                                            <i class=""></i> Editar
+                                            <i class="bi bi-pencil-square"></i> Editar
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -376,7 +367,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</a>
                                     </div>
 
                                     <!-- Modal -->
@@ -395,7 +386,7 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
                                                     <!--suppress LanguageDetectionInspection -->
-                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -467,7 +458,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="'/superadmin/Ver_Paciente'+ '?id=' + ${Usuarios.getId()}" class="btn btn-success">
-                                            <i class=""></i> Ver
+                                            <i class="bi bi-eye"></i> Ver
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -491,7 +482,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <div class="text-center">
                                         <a th:href="'/superadmin/Editar_Paciente'+ '?id=' + ${Usuarios.getId()}" class="btn btn-warning">
-                                            <i class=""></i> Editar
+                                            <i class="bi bi-pencil-square"></i> Editar
                                         </a>
                                     </div>
                                     <div class="modal fade" id="exampleModal<%=juegoReservado.getIdVideojuego()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -522,7 +513,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <!-- Modal Trigger -->
                                     <div class="text-center">
-                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Eliminar</a>
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</a>
                                     </div>
 
                                     <!-- Modal -->
@@ -540,7 +531,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}">Eliminar</button>
+                                                    <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Usuarios.getId()}"><i class="bi bi-trash"></i> Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>

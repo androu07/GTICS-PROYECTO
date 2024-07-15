@@ -54,6 +54,18 @@
                 background-color: rgb(19, 164, 24);
                 border-color: rgb(19, 164, 24);
             }
+
+            .button-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .btn {
+                margin: 5px;
+            }
+            .bi-eye-fill {
+                vertical-align: middle;
+            }
         </style>
     </head>
     <body class="sb-nav-fixed">
@@ -76,15 +88,15 @@
                         <tr class=contenido th:each="Medicamentos, info : ${listTransportation}">
                             <td class=><p style="font-size: 18px;" th:text="${Medicamentos.getNombre()}">Panadol</p></td>
                             <td class=>
-                                <div class="bg-light rounded h-100 p-4">
+                                <div class="bg-light rounded h-100">
                                     <h4><p style="text-align:center"><img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="..." style="width: 100px; height: 100px;"/></p></h4>
                                 </div>
                             </td>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
+                                    <div class="button-container">
                                         <a th:href="@{'/superadmin/Ver_Medicamento'+ '?id=' + ${Medicamentos.getId()}}" class="btn btn-success">
-                                            <i class=""></i> Ver
+                                            <i class="bi bi-eye-fill"></i> Ver
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -106,9 +118,9 @@
                             </td>
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
-                                    <div class="text-center">
+                                    <div class="button-container">
                                         <a th:href="@{'/superadmin/Editar_Medicamento'+ '?id=' + ${Medicamentos.getId()}}" class="btn btn-warning">
-                                            <i class=""></i> Editar
+                                            <i class="bi bi-pencil-square"></i> Editar
                                         </a>
                                     </div>
                                     <!-- Modal -->
@@ -131,9 +143,10 @@
                             <td>
                                 <div class="card-footer pt-1 br-3 border-top-0">
                                     <!-- Modal Trigger -->
-                                    <div class="text-center">
-                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Medicamentos.getId()}">Eliminar</a>
-                                    </div>
+                                    <div class="button-container">
+                                        <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Medicamentos.getId()}">
+                                            <i class="bi bi-x-circle"></i> Eliminar
+                                        </a> </div>
 
                                     <!-- Modal -->
                                     <div class="modal fade" th:id="'modalEliminar' + ${Medicamentos.getId()}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
@@ -150,6 +163,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+
                                                     <button type="submit" class="btn btn-danger" th:form="'formEliminar' + ${Medicamentos.getId()}">Eliminar</button>
                                                 </div>
                                             </div>
@@ -167,6 +181,7 @@
             <div class="col-12 text-center">
                 <button onclick="window.location.href='/superadmin/Registrar_Medicamento'" type="button" class="btn btn-primary boton-primario">Registrar Nuevo Medicamento</button>
             </div>
+            <br><br><br>
         </div>
 
         <!-- Script de paginacion-->
