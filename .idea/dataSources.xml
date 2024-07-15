@@ -2,6 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="gticsbd@localhost" uuid="6c64609d-5a1c-4c80-9309-5e03707ecff4">
+      <driver-ref>mysql_aurora_aws</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>software.aws.rds.jdbc.mysql.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql:aws://localhost:3306/gticsbd</jdbc-url>

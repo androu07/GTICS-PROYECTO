@@ -258,8 +258,6 @@ public class LoginController {
     @PostMapping("/registro")
     public String validarPersona(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("dni") String dni, RedirectAttributes redirectAttributes, Model model) {
         int rol = Integer.parseInt(nuevoRol);
-        System.out.println("Este es el rol enviado ###########################################");
-        System.out.println(rol);
         try {
             Data data = dataDao.buscarPorDni(dni);
             Integer dniInt = Integer.valueOf(dni);
@@ -343,8 +341,7 @@ public class LoginController {
     public String validarDoctorAdministrador(@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("dni") String dni,
                                              RedirectAttributes redirectAttributes, Model model) {
         int rol = Integer.parseInt(nuevoRol);
-        System.out.println("Este es el rol enviado ###########################################");
-        System.out.println(rol);
+
         try {
             Data data = daoDoctorAdministrador.buscarPorDni(dni);
             Integer dniInt = Integer.valueOf(dni);
@@ -435,7 +432,7 @@ public class LoginController {
                 }
                 catch (Exception e) {
                     model.addAttribute("dniInvalido", "El DNI ingresado no es valido");
-                    System.out.println("Esta es la validacion más interna");
+
                     if(rol == 5){
                         return "superadmin/IndexDoctor";
                     }else if(rol == 2){
@@ -473,10 +470,6 @@ public class LoginController {
     public String registrarUsuario(@RequestParam(value = "sedeId", required = false) Integer sedeId,@ModelAttribute("nuevoRol") String nuevoRol,@ModelAttribute("usuario") @Valid Usuario usuario,
                                    BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         int rolNuevo = Integer.parseInt(nuevoRol);
-        System.out.println("Este es el rol enviado desde el formulario ###########################################");
-        System.out.println(rolNuevo);
-        System.out.println("Esta es la sede ###########################################");
-        System.out.println(sedeId);
 
         boolean encontrado = false;
 
@@ -548,7 +541,6 @@ public class LoginController {
                 return "redirect:/login";
             }
         }else if(rolNuevo == 5){
-            System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
             if (bindingResult.hasErrors() ||  usuario.getCodigo_colegio() == null || encontrado || encontrado1) {
                 if (usuario.getCodigo_colegio() == null){
                     model.addAttribute("codigoError1", "Debe seleccionar un codigo de colegiatura");
@@ -615,8 +607,7 @@ public class LoginController {
             }
 
         }else if(rolNuevo == 2) {
-            System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
-            System.out.println(usuario.getCodigo_colegio().getId());
+
             if (bindingResult.hasErrors() || encontrado || sedeId == null) {
                 if (usuario.getCodigo_colegio() == null) {
                     model.addAttribute("codigoError", "Debe seleccionar un codigo de colegiatura");
@@ -718,7 +709,6 @@ public class LoginController {
             Usuario admin = (Usuario) session.getAttribute("usuario");
             int idSede = usuarioHasSedeRepository.buscarSedeDeUsuario(admin.getId());
 
-            System.out.println("Codigo de Colegiatura////////////////////////////////////////////////////");
             if (bindingResult.hasErrors() ||  usuario.getCodigo_colegio() == null || encontrado || encontrado1) {
                 if (usuario.getCodigo_colegio() == null){
                     model.addAttribute("codigoError1", "Debe seleccionar un codigo de colegiatura");
@@ -836,7 +826,6 @@ public class LoginController {
             return "redirect:/login";
         }
         model.addAttribute("usuario", objUsu);
-        System.out.println("HOLAAAAAAAAAAAAA ID " + objUsu.getId());
 
         return "sistema/ActivarNuevoPassword";
     }
@@ -846,7 +835,6 @@ public class LoginController {
     public Map<String, String> GuardarActivarPassword(@RequestParam(name = "password", required = true) String password,
                                                       int id,
                                                       RedirectAttributes attributes, Model model) {
-        System.out.println("HOLAAAAAAAAAAAAA CONTRASEÑA " + password);
         Map<String, String> response = new HashMap<>();
         try {
             int result = 0;
@@ -875,15 +863,8 @@ public class LoginController {
                 // Si todas las condiciones se cumplen, no necesitamos seguir verificando
                 if (hasUpper && hasLower && hasDigit) {
 
-                    System.out.println("HOLAAAAA CONTRASEÑA VALIDA " + password);
-                    password = encoder.encode(password);
-                    System.out.println("HOLAAAAA CONTRASEÑA HASHEADA " + password);
-                    result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
-                    System.out.println("HOLAAAAA CONFIRMACION " + result);
-
                     password = encoder.encode(password);
                     result = usuarioRepository.actualizarPasswordyEstado(password, passwordcopia, id);
-
                 }
             }
             if (result > 0) {

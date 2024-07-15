@@ -2,6 +2,8 @@ package com.example.webapp.dao;
 
 import com.example.webapp.entity.Data;
 import com.example.webapp.entity.DataDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,28 +13,39 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class DataDao {
-    public Data buscarPorDni(String dni){
+
+    private static final Logger logger = LoggerFactory.getLogger(DataDao.class);
+
+    public Data buscarPorDni(String dni) {
 
         Data data = null;
-
         RestTemplate restTemplate = new RestTemplate();
-
         String url = "https://api.verifica.id/v2/consulta/personas?dni=" + dni;
 
         HttpHeaders headers = new HttpHeaders();
+<<<<<<< HEAD
 
         headers.set("Authorization", "Bearer sk-dJLu3kxzknTil32b+QfkdMyj8uX+MVhOcQWCNAVWILw==");
 
       //  headers.set("Authorization", "Bearer sk-GA97hfXDzKec06mbgmWbayMo2ySoC8l/blLBwwXzgKw==");
 
+=======
+        headers.set("Authorization", "Bearer sk-OZCXeU44w9v6ANtfLo/bIRxyUdEEDMBBbVtzxgC9jfQ==");
+>>>>>>> 39b22ed01150dee765bdc794201974112be2759b
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
-        ResponseEntity<DataDto> forEntity = restTemplate.exchange(url, HttpMethod.POST, entity, DataDto.class);
+        try {
+            ResponseEntity<DataDto> forEntity = restTemplate.exchange(url, HttpMethod.POST, entity, DataDto.class);
 
-        if(forEntity.getStatusCode().is2xxSuccessful()){
-            DataDto dataDto = forEntity.getBody();
-            data = dataDto.getData();
+            if (forEntity.getStatusCode().is2xxSuccessful()) {
+                DataDto dataDto = forEntity.getBody();
+                data = dataDto.getData();
+            } else {
+                logger.error("Failed to fetch data. HTTP Status: " + forEntity.getStatusCode());
+            }
+        } catch (Exception e) {
+            logger.error("Exception occurred while fetching data", e);
         }
 
         return data;
