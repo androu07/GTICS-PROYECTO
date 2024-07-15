@@ -761,7 +761,7 @@ public class LoginController {
             }else{
                 Roles rol = new Roles();
                 rol.setId(3); // ROL Farmacista
-
+                usuario.setEstado_solicitud("Pendiente");
                 usuario.setFecha_creacion(new Date());
                 usuario.setCodigo_colegiatura("Sin-Codigo");
                 usuario.setRol(rol);
