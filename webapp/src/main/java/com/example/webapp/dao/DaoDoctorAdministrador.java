@@ -21,10 +21,7 @@ public class DaoDoctorAdministrador {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization", "Bearer sk-hAPIhq2FiEMLje8UlVnzDxXKRW5w2yvE/nXOBNVpOxA==");
-
-        //  headers.set("Authorization", "Bearer sk-GA97hfXDzKec06mbgmWbayMo2ySoC8l/blLBwwXzgKw==");
-
+        headers.set("Authorization", "Bearer sk-OZCXeU44w9v6ANtfLo/bIRxyUdEEDMBBbVtzxgC9jfQ==");
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 

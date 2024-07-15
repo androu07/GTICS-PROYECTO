@@ -108,7 +108,6 @@ public class SuperadminController {
             byte[] fotoBytes = lista.get(i).getFoto();
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
             listafotos.add(fotoBase64);
-            System.out.println(listafotos.get(i));
         }
 
         model.addAttribute("listTransportation", lista);
@@ -147,8 +146,6 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-
-            System.out.println(listaIndicador);
 
             byte[] fotoBytes = medicamento.getFoto();
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
@@ -204,7 +201,6 @@ public class SuperadminController {
                 }
             }
 
-            System.out.println(listaIndicador);
             byte[] fotoBytes = medicamento.getFoto();
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes);
 
@@ -227,7 +223,7 @@ public class SuperadminController {
 
         if(medicamentos.getId() == 0){
             if (bindingResult.hasErrors()) {
-                System.out.println(medicamentos.getNombre());
+
                 return "superadmin/Plantilla_Vista_Registrar_Medicamento";
 
             } else {
@@ -262,7 +258,6 @@ public class SuperadminController {
                     }
                 }
 
-                System.out.println(listaIndicador);
                 byte[] fotoBytes1 = medicamentos.getFoto();
                 String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
@@ -302,7 +297,7 @@ public class SuperadminController {
                     }
                 }
 
-                System.out.println(listaIndicador);
+
                 byte[] fotito = medicamento.getFoto();
                 String fotoBase = Base64.getEncoder().encodeToString(fotito);
 
@@ -315,12 +310,9 @@ public class SuperadminController {
                 return "superadmin/Plantilla_Vista_Actualizar_Medicamento";
 
             } else {
-                System.out.println("Zise de la Foto Actualizar");
-                System.out.println(foto1.getSize());
-                System.out.println(medicamentos.getFoto());
+
                 if (foto1.getSize()==0) {
-                    System.out.println("No se envio nada, que se quede con la actual");
-                    System.out.println(foto1.getSize());
+
 
                     Optional<Medicamentos> optMedicamento = medicamentosRepository.findById(medicamentos.getId());
 
@@ -350,7 +342,7 @@ public class SuperadminController {
                         }
                     }
 
-                    System.out.println(listaIndicador);
+
                     byte[] fotoBytes1 = medicamentos.getFoto();
                     String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
@@ -362,8 +354,7 @@ public class SuperadminController {
 
                     return "superadmin/Plantilla_Vista_Ver_Medicamento";
                 } else {
-                    System.out.println("Se envio una nueva imagen, hay que actaulizar");
-                    System.out.println(foto1.getSize());
+
                     try {
                         InputStream fotoStream=foto1.getInputStream();
                         byte[] fotoBytes=fotoStream.readAllBytes();
@@ -390,7 +381,6 @@ public class SuperadminController {
                             }
                         }
 
-                        System.out.println(listaIndicador);
                         byte[] fotoBytes1 = medicamentos.getFoto();
                         String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
@@ -473,7 +463,7 @@ public class SuperadminController {
                 }
             }
 
-            System.out.println(listaIndicador);
+
             byte[] fotoBytes1 = medicamento1.getFoto();
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
@@ -522,7 +512,7 @@ public class SuperadminController {
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
             model.addAttribute("fotoBase64", fotoBase64);
-            System.out.println(listaIndicador);
+
             model.addAttribute("medicamento", medicamento);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -568,7 +558,7 @@ public class SuperadminController {
             String fotoBase64 = Base64.getEncoder().encodeToString(fotoBytes1);
 
             model.addAttribute("fotoBase64", fotoBase64);
-            System.out.println(listaIndicador);
+
             model.addAttribute("medicamento", medicamento);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -609,9 +599,7 @@ public class SuperadminController {
         if (usuario == null) {
             return "redirect:/error";
         }
-        System.out.println(usuario.getNombres());
-        System.out.println(usuario.getCorreo());
-        System.out.println(usuario.getPunto());
+
 
         // Agregar las credenciales del usuario al modelo
         model.addAttribute("username", usuario.getCorreo());
@@ -638,10 +626,7 @@ public class SuperadminController {
 
     @PostMapping("/Guardar_Usuario")
     public String guardar_Doctor(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult bindingResult, Model model) {
-        System.out.println(usuario.getNombres());
-        System.out.println(usuario.getCorreo());
-        System.out.println(usuario.getRol().getId());
-        System.out.println(usuario.getRol().getNombre());
+
         if (usuario.getId() == 0) {
             if (bindingResult.hasErrors()) {
                 List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -689,7 +674,6 @@ public class SuperadminController {
                             listaIndicador.add("Asignado");
                         }
                     }
-                    System.out.println(listaIndicador);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -723,7 +707,7 @@ public class SuperadminController {
                             listaIndicador.add("NoDisponible");
                         }
                     }
-                    System.out.println(listaIndicador);
+
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -764,7 +748,6 @@ public class SuperadminController {
                             listaIndicador.add("Asignado");
                         }
                     }
-                    System.out.println(listaIndicador);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -798,7 +781,6 @@ public class SuperadminController {
                             listaIndicador.add("NoDisponible");
                         }
                     }
-                    System.out.println(listaIndicador);
                     List<Distrito> listaDistrito = distritoRepository.findAll();
                     model.addAttribute("listaDistritos",listaDistrito);
                     model.addAttribute("usuario", usuario);
@@ -836,7 +818,6 @@ public class SuperadminController {
                         }
 
                     }
-                    System.out.println(listaIndicador);
                     List<Distrito> listaDistrito = distritoRepository.findAll();
                     model.addAttribute("listaDistritos",listaDistrito);
                     model.addAttribute("usuario", usuario);
@@ -885,7 +866,6 @@ public class SuperadminController {
                             listaIndicador.add("Asignado");
                         }
                     }
-                    System.out.println(listaIndicador);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -919,7 +899,6 @@ public class SuperadminController {
                             listaIndicador.add("NoDisponible");
                         }
                     }
-                    System.out.println(listaIndicador);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -955,7 +934,6 @@ public class SuperadminController {
                         }
 
                     }
-                    System.out.println(listaIndicador);
                     model.addAttribute("usuario", usuario);
                     model.addAttribute("ListaIndicador", listaIndicador);
                     model.addAttribute("ListaSedes", list1);
@@ -1049,7 +1027,6 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-            System.out.println(listaIndicador);
             model.addAttribute("usuario", usuario2);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1089,7 +1066,7 @@ public class SuperadminController {
                     listaIndicador.add("NoDisponible");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario2);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1131,7 +1108,7 @@ public class SuperadminController {
                 }
 
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario2);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1177,7 +1154,7 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1213,7 +1190,7 @@ public class SuperadminController {
                     listaIndicador.add("NoDisponible");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1251,7 +1228,7 @@ public class SuperadminController {
                 }
 
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario1);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1294,7 +1271,7 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
@@ -1330,7 +1307,7 @@ public class SuperadminController {
                     listaIndicador.add("NoDisponible");
                 }
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
@@ -1368,7 +1345,7 @@ public class SuperadminController {
                 }
 
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
@@ -1415,7 +1392,7 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
@@ -1451,7 +1428,7 @@ public class SuperadminController {
                     listaIndicador.add("NoDisponible");
                 }
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
@@ -1489,7 +1466,7 @@ public class SuperadminController {
                 }
 
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario1);
@@ -1536,7 +1513,7 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1574,7 +1551,7 @@ public class SuperadminController {
                     listaIndicador.add("Asignado");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1620,7 +1597,7 @@ public class SuperadminController {
                     listaIndicador.add("NoDisponible");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1668,7 +1645,7 @@ public class SuperadminController {
                     listaIndicador.add("NoDisponible");
                 }
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1688,8 +1665,7 @@ public class SuperadminController {
     }*/
     @PostMapping("/Rechazar_Administrador")
     public String Rechazar_Administrador(@RequestParam("id_usuario") int id,@RequestParam("textoRechazoNuevo") String textoRechazo) {
-        System.out.println(id);
-        System.out.println(textoRechazo);
+
         usuarioRepository.rechazarAdministrador("Rechazado",textoRechazo,id);
 
         return "redirect:/superadmin/Estado_Solicitudes_Farmacistas";
@@ -1731,7 +1707,7 @@ public class SuperadminController {
                 }
 
             }
-            System.out.println(listaIndicador);
+
             model.addAttribute("usuario", usuario);
             model.addAttribute("ListaIndicador", listaIndicador);
             model.addAttribute("ListaSedes",list1);
@@ -1778,7 +1754,7 @@ public class SuperadminController {
                 }
 
             }
-            System.out.println(listaIndicador);
+
             List<Distrito> listaDistrito = distritoRepository.findAll();
             model.addAttribute("listaDistritos",listaDistrito);
             model.addAttribute("usuario", usuario);
@@ -1797,9 +1773,7 @@ public class SuperadminController {
         Optional<Usuario> optUsuario = usuarioRepository.findById(id);
         if (optUsuario.isPresent()) {
             Usuario usuario = optUsuario.get();
-            System.out.println(usuario.getRol());
-            System.out.println(usuario.getRol().getNombre());
-            System.out.println(usuario.getRol().getId());
+
             model.addAttribute("usuario", usuario);
             return "superadmin/Plantilla_Vista_Ver_Paciente";
         } else {
