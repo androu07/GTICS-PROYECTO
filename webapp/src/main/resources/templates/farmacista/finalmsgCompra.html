@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>Pildo Pharm</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/superadmin/img/logo.png}" />
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
@@ -31,11 +33,11 @@
     <div class="row">
         <div class="container px-4 px-lg-5 mt-5" th:if="${preorden == null}">
             <div class="text-center">
-                <h2>HAS FINALIZADO EL REGISTRO DE TU COMPRA</h2>
+                <h2>HAS FINALIZADO EL REGISTRO DE LA COMPRA</h2>
                 <br>
                 <img th:src="@{/assets/paciente/img/finalmsg.jpg}" alt="image" style="width: 30vh; height: 30vh;" >
                 <br><br>
-                <h4 th:text="${'Número de tracking de su pedido: ' + numTracking}"></h4>
+                <h4 th:text="${'Número de tracking del pedido: ' + numTracking}"></h4>
                 <br>
             </div>
             <div th:if="${dely != null}" class="back-to-shop"><a style="font-size: x-large; font-weight: bold" th:href="@{/farmacista/pedidosPresenciales}">&leftarrow;<span class="text-muted">Ir a ver el pedido</span></a></div>

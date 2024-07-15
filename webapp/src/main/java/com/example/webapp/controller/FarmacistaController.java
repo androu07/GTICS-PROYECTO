@@ -762,7 +762,7 @@ public class FarmacistaController {
                 model.addAttribute("edadError", "La edad no puede quedar vacia");
             }
             if(pedidosPacienteRecojo.getDni().length() > 2){
-                model.addAttribute("edadError", "La edad no puede tener mas de 2 dígitos");
+                model.addAttribute("edadError", "Ingrese una edad razonable");
             }
 
             if (pedidosPacienteRecojo.getSeguro().equals("")){
@@ -867,7 +867,7 @@ public class FarmacistaController {
                 model.addAttribute("edadError", "La edad no puede quedar vacia");
             }
             if(pedidosPacienteRecojo.getDni().length() > 2){
-                model.addAttribute("edadError", "La edad no puede tener mas de 2 dígitos");
+                model.addAttribute("edadError", "Ingrese una edad razonable");
             }
 
             if (pedidosPacienteRecojo.getSeguro().equals("")){

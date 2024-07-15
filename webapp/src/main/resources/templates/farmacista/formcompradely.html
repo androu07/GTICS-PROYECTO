@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Pildo Pharm</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/superadmin/img/logo.png}" />
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
@@ -62,7 +64,7 @@
                     <label class="form-label">Doctor que lo/la atendió</label>
                     <select class="form-select" aria-label="Default select example" th:field="*{medico_que_atiende}" style="margin-bottom: 0">
                         <option value="">-- Seleccione una Opcion --</option>
-                        <option th:value="${'Sin medico'}">No me atendi con un medico</option>
+                        <option th:value="${'Sin medico'}">Atención sin médico</option>
                         <option th:each="usuario : ${listausuarios}" th:if="${usuario.rol} == 'Doctor'" th:value="${usuario.nombres + ' ' + usuario.apellidos}"  th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></option>
                     </select>
                     <div th:if="${medicoError != null}" th:text="${medicoError}" style="color: red; font-size: small"></div>

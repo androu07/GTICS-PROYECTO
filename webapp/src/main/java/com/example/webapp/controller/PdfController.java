@@ -340,7 +340,7 @@ public class PdfController {
         document.add(new Paragraph("\n"));
 
         // Añadir fecha
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now().minusDays(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = today.format(formatter);
 
