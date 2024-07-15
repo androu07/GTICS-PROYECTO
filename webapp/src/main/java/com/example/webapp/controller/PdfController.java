@@ -49,13 +49,17 @@ public class PdfController {
     final PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository;
     final MedicamentosRecojoRepository medicamentosRecojoRepository;
     final SpringTemplateEngine templateEngine;
+     final PedidosPacienteRepository pedidosPacienteRepository;
+     final MedicamentosDelPedidoRepository medicamentosDelPedidoRepository;
     public PdfController(MedicamentosRepository medicamentosRepository,
                          UsuarioRepository usuarioRepository,
                          UsuarioHasSedeRepository usuarioHasSedeRepository,
                          SedeHasMedicamentosRepository sedeHasMedicamentosRepository,
                          PedidosPacienteRecojoRepository pedidosPacienteRecojoRepository,
                          MedicamentosRecojoRepository medicamentosRecojoRepository,
-                         SpringTemplateEngine templateEngine) {
+                         SpringTemplateEngine templateEngine,
+                         PedidosPacienteRepository pedidosPacienteRepository,
+                         MedicamentosDelPedidoRepository medicamentosDelPedidoRepository) {
         this.medicamentosRepository = medicamentosRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
@@ -63,6 +67,8 @@ public class PdfController {
         this.pedidosPacienteRecojoRepository = pedidosPacienteRecojoRepository;
         this.medicamentosRecojoRepository = medicamentosRecojoRepository;
         this.templateEngine = templateEngine;
+        this.pedidosPacienteRepository = pedidosPacienteRepository;
+        this.medicamentosDelPedidoRepository = medicamentosDelPedidoRepository;
     }
 
     @GetMapping("/download/pdf")
@@ -642,17 +648,25 @@ public class PdfController {
 
     @GetMapping("/boleta_pdf")
     public ResponseEntity<InputStreamResource> generarBoletaPdf(Model model, @RequestParam("id") int id) {
+        // Log de inicio de generación de boleta PDF
         logger.debug("Iniciando generación de boleta PDF para el pedido con ID: {}", id);
 
+        // Buscar el pedido por ID
         Optional<PedidosPacienteRecojo> optionalPedido = pedidosPacienteRecojoRepository.findById(id);
 
         if (optionalPedido.isPresent()) {
+            // Si el pedido existe, obtenerlo
             PedidosPacienteRecojo pedido = optionalPedido.get();
+
+            // Obtener la lista de medicamentos para el pedido
             List<MedicamentoRecojo> medicamentos = medicamentosRecojoRepository.listaMedicamentosReco(id);
 
+            // Lista para almacenar los datos de los medicamentos
             List<Map<String, Object>> medicamentosData = new ArrayList<>();
+            // Variable para almacenar el costo total
             double totalCost = 0.0;
 
+            // Iterar sobre los medicamentos para calcular subtotal y acumular el costo total
             for (MedicamentoRecojo medicamento : medicamentos) {
                 Map<String, Object> medData = new HashMap<>();
                 medData.put("nombre", medicamento.getNombre_medicamento());
@@ -669,34 +683,52 @@ public class PdfController {
                 medData.put("costo", String.format("%.2f", costo));
                 medData.put("subtotal", String.format("%.2f", subtotal));
 
+                // Agregar datos del medicamento a la lista
                 medicamentosData.add(medData);
+                // Acumular el subtotal al costo total
                 totalCost += subtotal;
             }
 
+            // Calcular el total con IGV
+            double totalCostWithIGV = totalCost + 15.0;
+
+            // Agregar atributos al modelo para la vista Thymeleaf
             model.addAttribute("medicamentos", medicamentosData);
             model.addAttribute("totalCost", String.format("%.2f", totalCost));
+            model.addAttribute("totalCostWithIGV", String.format("%.2f", totalCostWithIGV));
             model.addAttribute("fecha", LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
+            // Agregar el objeto pedido al modelo para la vista Thymeleaf
+            model.addAttribute("pedido", pedido);
+
             try {
+                // Renderizar la plantilla Thymeleaf a HTML
                 String renderedHtml = renderThymeleafTemplate("boleta-template", model);
+                // Generar el PDF a partir del HTML renderizado
                 ByteArrayInputStream pdfStream = generatePdfFromHtml(renderedHtml);
 
+                // Configurar headers para la respuesta HTTP
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Boleta_Pedido.pdf");
 
+                // Retornar la respuesta con el PDF generado
                 return ResponseEntity.ok()
                         .headers(headers)
                         .contentType(MediaType.APPLICATION_PDF)
                         .body(new InputStreamResource(pdfStream));
             } catch (Exception e) {
+                // Capturar y manejar cualquier excepción durante la generación del PDF
                 logger.error("Error al generar boleta PDF para el pedido con ID {}: {}", id, e.getMessage());
                 return ResponseEntity.badRequest().build();
             }
         } else {
+            // Si no se encuentra el pedido, retornar respuesta 404
             logger.warn("No se encontró pedido con ID: {}", id);
             return ResponseEntity.notFound().build();
         }
     }
+
+
     private String renderThymeleafTemplate(String templateName, Model model) {
         Context context = new Context();
         model.asMap().forEach(context::setVariable);
@@ -711,6 +743,91 @@ public class PdfController {
         renderer.createPDF(outputStream);
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
+    @GetMapping("/boleta_paciente")
+    public ResponseEntity<InputStreamResource> generarBoletaPaciente(Model model, @RequestParam("id") int id) {
+        // Log de inicio de generación de boleta PDF
+        logger.debug("Iniciando generación de boleta PDF para el pedido con ID: {}", id);
+
+        // Buscar el pedido por ID
+        Optional<PedidosPaciente> optionalPedido = pedidosPacienteRepository.findById(id);
+
+        if (optionalPedido.isPresent()) {
+            // Si el pedido existe, obtenerlo
+            PedidosPaciente pedido = optionalPedido.get();
+
+            // Obtener la lista de medicamentos para el pedido usando el otro repositorio
+            List<MedicamentosDelPedido> medicamentos = medicamentosDelPedidoRepository.listaMedicamentosDely(id);
+
+
+            // Lista para almacenar los datos de los medicamentos
+            List<Map<String, Object>> medicamentosData = new ArrayList<>();
+            // Variable para almacenar el costo total
+            double totalCost = 0.0;
+
+            // Iterar sobre los medicamentos para calcular subtotal y acumular el costo total
+            for (MedicamentosDelPedido medicamento : medicamentos) {
+                Map<String, Object> medData = new HashMap<>();
+                medData.put("nombre", medicamento.getNombre_medicamento());
+                medData.put("cantidad", medicamento.getCantidad());
+
+                double costo = 0.0;
+                try {
+                    costo = Double.parseDouble(medicamento.getCosto_medicamento());
+                } catch (NumberFormatException e) {
+                    logger.warn("Error al parsear costo de medicamento: {}", medicamento.getCosto_medicamento());
+                }
+
+                double subtotal = medicamento.getCantidad() * costo;
+                medData.put("costo", String.format("%.2f", costo));
+                medData.put("subtotal", String.format("%.2f", subtotal));
+
+                // Agregar datos del medicamento a la lista
+                medicamentosData.add(medData);
+                // Acumular el subtotal al costo total
+                totalCost += subtotal;
+            }
+
+            // Calcular el total con IGV
+            double totalCostWithIGV = totalCost + 15.0;
+
+            // Agregar atributos al modelo para la vista Thymeleaf
+            model.addAttribute("medicamentos", medicamentosData);
+            model.addAttribute("totalCost", String.format("%.2f", totalCost));
+            model.addAttribute("totalCostWithIGV", String.format("%.2f", totalCostWithIGV));
+            model.addAttribute("fecha", LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+            // Agregar el objeto pedido al modelo para la vista Thymeleaf
+            model.addAttribute("pedido", pedido);
+
+            try {
+                // Renderizar la plantilla Thymeleaf a HTML
+                String renderedHtml = renderThymeleafTemplate("boleta-template", model);
+                // Generar el PDF a partir del HTML renderizado
+                ByteArrayInputStream pdfStream = generatePdfFromHtml(renderedHtml);
+
+                // Configurar headers para la respuesta HTTP
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Boleta_Pedido.pdf");
+
+                // Retornar la respuesta con el PDF generado
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentType(MediaType.APPLICATION_PDF)
+                        .body(new InputStreamResource(pdfStream));
+            } catch (Exception e) {
+                // Capturar y manejar cualquier excepción durante la generación del PDF
+                logger.error("Error al generar boleta PDF para el pedido con ID {}: {}", id, e.getMessage());
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            // Si no se encuentra el pedido, retornar respuesta 404
+            logger.warn("No se encontró pedido con ID: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
 }
 
 

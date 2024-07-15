@@ -4,42 +4,174 @@
     <meta charset="UTF-8"></meta>
     <title>Boleta de Pedido</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .header { text-align: center; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .total { text-align: right; margin-top: 20px; font-weight: bold; }
-        .date { text-align: right; margin-top: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 32px; /* Tamaño de fuente aumentado */
+            font-weight: bold; /* Texto en negrita */
+            color: #00a0d2;
+        }
+        .invoice-title {
+            background-color: #00a0d2;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            text-align: right; /* Alinear a la derecha */
+        }
+        .invoice-title span {
+            font-weight: bold; /* Texto en negrita */
+        }
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .info-column {
+            width: 100%; /* Ajuste el ancho para que ocupen la mitad */
+            display: flex;
+            flex-direction: column;
+        }
+        .info-column strong {
+            margin-bottom: 5px;
+        }
+        .info-column > div {
+            margin-bottom: 10px; /* Espacio entre las secciones */
+        }
+        .info-column > div:last-child {
+            margin-bottom: 0; /* Sin margen inferior en la última sección */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #00a0d2;
+            color: white;
+        }
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .total-table {
+            width: 300px;
+            margin-left: auto; /* Alineación del total a la derecha */
+            text-align: right; /* Alineación del texto del total a la derecha */
+        }
+        .total-table td {
+            border: none;
+            padding: 5px;
+        }
+        .note {
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .signature {
+            text-align: right;
+            margin-top: 40px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 <div class="header">
-    <h1>Boleta de Pedido</h1>
+    <div class="logo">PildoPharm</div>
+    <div class="invoice-title">Factura N° <span th:text="${'451' + pedido.id}"></span></div>
 </div>
+
+<!-- Información del Paciente -->
+<div class="info-section">
+    <div class="info-column">
+        <strong>Datos del paciente:</strong>
+        <div style="width: 100%">
+            <span><strong>Nombre:</strong> <span th:text="${pedido.nombre_paciente}"></span></span>
+        </div>
+        <div style="width: 100%; border-bottom: 1px solid #ddd;">
+            <span><strong>Apellido:</strong> <span th:text="${pedido.apellido_paciente}"></span></span>
+        </div>
+        <div style="width: 100%">
+            <span><strong>DNI:</strong> <span th:text="${pedido.dni}"></span></span>
+        </div>
+        <div style="width: 100%; border-bottom: 1px solid #ddd;">
+            <span><strong>Seguro:</strong> <span th:text="${pedido.seguro}"></span></span>
+        </div>
+    </div>
+    <div class="info-column">
+        <div style="width: 100%;">
+            <span><strong>Método de pago:</strong> <span th:text="${pedido.tipo_de_pedido}"></span></span>
+        </div>
+        <div style="width: 100%;">
+            <span><strong>Fecha de Solicitud:</strong> <span th:text="${pedido.fecha_solicitud}"></span></span>
+        </div>
+        <div style="width: 100%; border-bottom: 1px solid #ddd;">
+            <span><strong>Pedido Número:</strong> <span th:text="${pedido.numero_tracking}"></span></span>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de Medicamentos -->
 <table>
     <thead>
     <tr>
-        <th>Medicamento</th>
+        <th>Medicina</th>
+        <th>Costo Unitario</th>
         <th>Cantidad</th>
-        <th>Precio Unitario</th>
-        <th>Subtotal</th>
+        <th>Sub Total</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="med : ${medicamentos}">
-        <td th:text="${med.nombre}"></td>
-        <td th:text="${med.cantidad}"></td>
-        <td th:text="${med.costo}"></td>
-        <td th:text="${med.subtotal}"></td>
+        <td th:text="${med.nombre}">Medicina</td>
+        <td th:text="${med.costo}">$200</td>
+        <td th:text="${med.cantidad}">1</td>
+        <td th:text="${med.subtotal}">$200</td>
     </tr>
     </tbody>
 </table>
-<div class="total">
-    <p>Total: $<span th:text="${totalCost}"></span></p>
+
+<!-- Sección de Total -->
+<div class="total-section">
+    <table class="total-table">
+        <tr>
+            <td><strong>Total:</strong></td>
+            <td><strong>$<span th:text="${totalCost}"></span></strong></td>
+        </tr>
+    </table>
 </div>
-<div class="date">
-    <p>Fecha: <span th:text="${fecha}"></span></p>
+
+<!-- Nota y Firma -->
+<div class="note">
+    <p>Nota: Por favor, verifique los medicamentos con la factura antes de retirarse.</p>
 </div>
+
+
+
+<!-- Pie de Página -->
+<!-- Pie de Página -->
+<div class="footer" style="position: fixed; bottom: 20px; width: 100%; text-align: center;">
+    <p> &copy;copyright. designed and developed by PildoPharm </p>
+</div>
+
+
 </body>
 </html>
