@@ -51,6 +51,7 @@ public class PdfController {
     final SpringTemplateEngine templateEngine;
      final PedidosPacienteRepository pedidosPacienteRepository;
      final MedicamentosDelPedidoRepository medicamentosDelPedidoRepository;
+     final SedeRepository sedeRepository;
     public PdfController(MedicamentosRepository medicamentosRepository,
                          UsuarioRepository usuarioRepository,
                          UsuarioHasSedeRepository usuarioHasSedeRepository,
@@ -59,7 +60,8 @@ public class PdfController {
                          MedicamentosRecojoRepository medicamentosRecojoRepository,
                          SpringTemplateEngine templateEngine,
                          PedidosPacienteRepository pedidosPacienteRepository,
-                         MedicamentosDelPedidoRepository medicamentosDelPedidoRepository) {
+                         MedicamentosDelPedidoRepository medicamentosDelPedidoRepository,
+                         SedeRepository sedeRepository) {
         this.medicamentosRepository = medicamentosRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioHasSedeRepository = usuarioHasSedeRepository;
@@ -69,6 +71,7 @@ public class PdfController {
         this.templateEngine = templateEngine;
         this.pedidosPacienteRepository = pedidosPacienteRepository;
         this.medicamentosDelPedidoRepository = medicamentosDelPedidoRepository;
+        this.sedeRepository = sedeRepository;
     }
 
     @GetMapping("/download/pdf")
@@ -93,6 +96,8 @@ public class PdfController {
         System.out.println(rol);
 
         int sedeInt = Integer.parseInt(sede);
+        Optional<Sede> opt = sedeRepository.findById(sedeInt);
+        Sede sedefiltro = opt.get();
         int rolInt = Integer.parseInt(rol);
         List<Usuario> usuarios = new ArrayList<>();
         List<Medicamentos> medicamentos = new ArrayList<>();
@@ -153,28 +158,28 @@ public class PdfController {
 
         if(rolInt == 5) {
             // Añadir título
-            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Doctores de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Doctores de la Sede " + sedefiltro.getNombre())
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
         }else if(rolInt == 2){
             // Añadir título
-            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Administrador de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Administrador de la Sede " + sedefiltro.getNombre())
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
         }else if(rolInt == 3) {
             // Añadir título
-            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Farmacistas de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Farmacistas de la Sede " + sedefiltro.getNombre())
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);
             document.add(title);
         }else if(rolInt == 1){
             // Añadir título
-            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Medicamentos de la Sede " + sede)
+            Paragraph title = new Paragraph("Clínica PildoPharm S.A." + " Medicamentos de la Sede " + sedefiltro.getNombre())
                     .setFontSize(20)
                     .setBold()
                     .setTextAlignment(TextAlignment.CENTER);

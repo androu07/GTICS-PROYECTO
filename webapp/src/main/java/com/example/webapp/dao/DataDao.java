@@ -13,39 +13,25 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class DataDao {
-
-    private static final Logger logger = LoggerFactory.getLogger(DataDao.class);
-
     public Data buscarPorDni(String dni) {
 
         Data data = null;
+
         RestTemplate restTemplate = new RestTemplate();
+
         String url = "https://api.verifica.id/v2/consulta/personas?dni=" + dni;
 
         HttpHeaders headers = new HttpHeaders();
 
-
         headers.set("Authorization", "Bearer sk-FF8dVZtLerQlmsdseW439yD9vwtMRtGgYdGv8sTRnXg==");
-
-      //  headers.set("Authorization", "Bearer sk-GA97hfXDzKec06mbgmWbayMo2ySoC8l/blLBwwXzgKw==");
-
-
-        headers.set("Authorization", "Bearer sk-OZCXeU44w9v6ANtfLo/bIRxyUdEEDMBBbVtzxgC9jfQ==");
-
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
-        try {
-            ResponseEntity<DataDto> forEntity = restTemplate.exchange(url, HttpMethod.POST, entity, DataDto.class);
+        ResponseEntity<DataDto> forEntity = restTemplate.exchange(url, HttpMethod.POST, entity, DataDto.class);
 
-            if (forEntity.getStatusCode().is2xxSuccessful()) {
-                DataDto dataDto = forEntity.getBody();
-                data = dataDto.getData();
-            } else {
-                logger.error("Failed to fetch data. HTTP Status: " + forEntity.getStatusCode());
-            }
-        } catch (Exception e) {
-            logger.error("Exception occurred while fetching data", e);
+        if(forEntity.getStatusCode().is2xxSuccessful()){
+            DataDto dataDto = forEntity.getBody();
+            data = dataDto.getData();
         }
 
         return data;
