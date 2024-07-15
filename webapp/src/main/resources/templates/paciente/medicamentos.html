@@ -142,70 +142,70 @@
             </div>
             <div class="new-arrivals-content">
                 <div class="row">
-                <div class="col-md-3 col-sm-4" id="contenidopag" th:each="medicamentos, info : ${listaMedicamentos}" >
-                    <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}" style="margin-right: 7px">
-                        <div class="single-new-arrival-bg">
-                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
-                            <div class="single-new-arrival-bg-overlay"></div>
-                            <div class="new-arrival-cart">
-                                <p>
-                                    <a th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
-                                    <a th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
-                                </p>
-                                <p class="arrival-review pull-right">
-                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
-                                </p>
+                    <div class="col-md-3 col-sm-4" id="tabla1"  th:each="medicamentos, info : ${listaMedicamentos}" >
+                        <div class="single-new-arrival" th:if="${medicamentos.inventario > 25}" style="margin-right: 7px">
+                            <div class="single-new-arrival-bg">
+                                <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                                <div class="single-new-arrival-bg-overlay"></div>
+                                <div class="new-arrival-cart">
+                                    <p>
+                                        <a th:if="${numPedido != ''}" th:href="@{'/paciente/añadirCarrito1?id=' + ${medicamentos.id}  + '&numpedido=' + ${numPedido}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
+                                        <a th:if="${numPedido == ''}" th:href="@{'/paciente/añadirCarrito2?id=' + ${medicamentos.id}}"><span class="lnr lnr-cart" style="margin-right: 0"></span> Añadir <span>al </span> carrito</a>
+                                    </p>
+                                    <p class="arrival-review pull-right">
+                                        <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                    </p>
+                                </div>
                             </div>
+                            <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                            <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                            <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                         </div>
-                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
-                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
-                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
-                    </div>
-                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}">
-                        <div class="single-new-arrival-bg">
-                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
-                            <div class="single-new-arrival-bg-overlay"></div>
-                            <div class="sale bg-2" style="width: auto">
-                                <p>poco stock</p>
+                        <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario > 0 and medicamentos.inventario < 25}">
+                            <div class="single-new-arrival-bg">
+                                <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                                <div class="single-new-arrival-bg-overlay"></div>
+                                <div class="sale bg-2" style="width: auto">
+                                    <p>poco stock</p>
+                                </div>
+                                <div class="new-arrival-cart">
+                                    <p>
+                                        <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr lnr-pencil"></span> <span>Generar una pre-orden</span></a>
+                                    </p>
+                                    <p class="arrival-review pull-right">
+                                        <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="new-arrival-cart">
-                                <p>
-                                    <a th:href="@{'/paciente/generarPreorden?id=' + ${medicamentos.id}}"><span class="lnr lnr-pencil"></span> <span>Generar una pre-orden</span></a>
-                                </p>
-                                <p class="arrival-review pull-right">
-                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
-                                </p>
-                            </div>
+                            <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                            <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                            <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                         </div>
-                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
-                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
-                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
-                    </div>
-                    <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario == 0}">
-                        <div class="single-new-arrival-bg">
-                            <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
-                            <div class="single-new-arrival-bg-overlay"></div>
-                            <div class="sale bg-1" style="width: auto">
-                                <p>sin stock</p>
+                        <div class="single-new-arrival" style="margin-right: 7px" th:if="${medicamentos.inventario == 0}">
+                            <div class="single-new-arrival-bg">
+                                <img th:src="'data:image/png;base64,' + ${listaFotos.get(info.index)}" alt="new-arrivals images">
+                                <div class="single-new-arrival-bg-overlay"></div>
+                                <div class="sale bg-1" style="width: auto">
+                                    <p>sin stock</p>
+                                </div>
+                                <div class="new-arrival-cart">
+                                    <p>
+                                        <a th:href="@{/paciente/mensajeria}"><span class="lnr lnr-chevron-right-circle"></span> <span>Contactarse con un farmacista</span></a>
+                                    </p>
+                                    <p class="arrival-review pull-right">
+                                        <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="new-arrival-cart">
-                                <p>
-                                    <a th:href="@{/paciente/mensajeria}"><span class="lnr lnr-chevron-right-circle"></span> <span>Contactarse con un farmacista</span></a>
-                                </p>
-                                <p class="arrival-review pull-right">
-                                    <a href="" class="btnMostrarModal" th:data-medicamento-id="${medicamentos.id}"><span class="lnr lnr-book" style="margin-right: 2px"></span><span>info</span></a>
-                                </p>
-                            </div>
+                            <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
+                            <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
+                            <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                         </div>
-                        <h4><a href="" th:text="${medicamentos.nombre}"></a></h4>
-                        <h5><a th:text="'cantidad ' + ${medicamentos.inventario}"></a></h5>
-                        <p class="arrival-product-price" th:text="'S/ ' + ${medicamentos.precio_unidad}"></p>
                     </div>
-                </div>
                 </div>
             </div>
             <!-- Paginacion-->
-            <div th:if="${cantidadMedicamentos > 12}" class="pagination  d-flex justify-content-center" style="padding: 50px; font-size: xxx-large;">
+            <div class="pagination  d-flex justify-content-center" id="paginacion1" th:if="${cantidadMedicamentos > 12}" style="padding: 50px; font-size: xxx-large;">
             </div>
         </div><!--/.containernav-->
 
@@ -289,10 +289,11 @@
         }
 
         $(function () {
-            var numberOfItems = $("#contenido").length;
-            var limitPerPage = 12; //How many card items visible per a page
+            var items = $("#tabla1 > div"); // Selecciona los elementos hijos dentro de #tabla1
+            var numberOfItems = items.length;
+            var limitPerPage = 12; // Cuántos elementos de la tarjeta visibles por página
             var totalPages = Math.ceil(numberOfItems / limitPerPage);
-            var paginationSize = 6; //How many page elements visible in the pagination
+            var paginationSize = 6; // Cuántos elementos de página visibles en la paginación
             var currentPage;
 
             function showPage(whichPage) {
@@ -300,9 +301,9 @@
 
                 currentPage = whichPage;
 
-                $("#contenido").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+                items.hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
 
-                $(".pagination li").slice(1, -1).remove();
+                $("#paginacion1 li").slice(1, -1).remove();
 
                 getPageList(totalPages, currentPage, paginationSize).forEach(item => {
                     $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
@@ -315,15 +316,15 @@
                 return true;
             }
 
-            $(".pagination").append(
-                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+            $("#paginacion1").append(
+                $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("<--")),
+                $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("-->"))
             );
 
-            $("#contenido").show();
+            items.show();
             showPage(1);
 
-            $(document).on("click", ".pagination li.current-page:not(.active)", function () {
+            $(document).on("click", "#paginacion1 li.current-page:not(.active)", function () {
                 return showPage(+$(this).text());
             });
 
