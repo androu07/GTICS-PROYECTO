@@ -991,6 +991,7 @@ public class SuperadminController {
 
         if (optUsuario.isPresent()) {
             usuarioRepository.borradoLogico(1,id);
+            usuarioHasSedeRepository.AsignarSedeBorrando(id);
         }
         return "redirect:/superadmin/Vista_Principal";
     }
