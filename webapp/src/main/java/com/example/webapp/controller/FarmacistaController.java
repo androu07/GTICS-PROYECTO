@@ -1218,6 +1218,35 @@ public class FarmacistaController {
                     return "redirect:/farmacista/pedidos";
                 }
 
+                if(pedido.getTipo_de_pedido().equals("Web - Recojo en tienda")) {
+                    List<MedicamentoRecojo> listaMedicamentosDely = medicamentosRecojoRepository.listaMedicamentosReco(id);
+
+                    for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                        Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                        Integer stock = medicamento.getInventario();
+                        if (stock <= 25) {
+                            redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga el medicamento!");
+                            return "redirect:/farmacista/pedidos";
+                        }
+                    }
+                }
+
+                List<MedicamentoRecojo> listaMedicamentosDely = medicamentosRecojoRepository.listaMedicamentosReco(id);
+                for (int i = 0; i < listaMedicamentosDely.size(); i++) {
+                    Medicamentos medicamento = medicamentosRepository.medicamentoPorNombre(listaMedicamentosDely.get(i).getNombre_medicamento());
+                    Integer stock = medicamento.getInventario();
+                    Integer cantidad = listaMedicamentosDely.get(i).getCantidad();
+                    Integer stocknuevo = stock - cantidad;
+                    if(stocknuevo >= 25){
+                        medicamento.setInventario(stocknuevo);
+                        medicamentosRepository.save(medicamento);
+                    }
+                    else{
+                        redirectAttributes.addFlashAttribute("msg", "No se puede validar el pedido ya que el medicamento " + medicamento.getNombre() + " no cuenta con el stock. ¡Debe esperar a que se reponga el medicamento!");
+                        return "redirect:/farmacista/pedidos";
+                    }
+                }
+
                 LocalDate fechaActual = LocalDate.now();
                 String fechaValidacion = fechaActual.format(formatter);
                 pedido.setFecha_validacion(fechaValidacion);

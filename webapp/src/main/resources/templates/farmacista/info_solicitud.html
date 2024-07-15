@@ -152,8 +152,8 @@
                                                 <td th:text="${medicamento.cantidad}"></td>
                                                 <td th:text="${listaStocks.get(info.index)}"></td>
                                                 <td th:if="${listaStocks.get(info.index) > 25}" th:text="${'Disponible'}"></td>
-                                                <td th:if="${listaStocks.get(info.index) <= 25}">
-                                                    <button class="btn btn-success">Generar Pre-Orden</button>
+                                                <td th:if="${((listaStocks.get(info.index) - medicamento.cantidad) <= 25) and pedido.tipo_de_pedido == 'Web - Recojo en tienda'}">
+                                                    <p>Debe esperar la reposición</p>
                                                 </td>
                                             </tr>
                                         </tbody>
