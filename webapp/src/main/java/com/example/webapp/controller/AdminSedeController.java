@@ -253,7 +253,12 @@ public class AdminSedeController {
 
         if (optProduct.isPresent()) {
             usuarioHasSedeRepository.AsignarSedeBorrando(id);
-            usuarioRepository.deleteById(id);
+
+            Usuario farmacista = optProduct.get();
+            farmacista.setEstado(0);
+            farmacista.setBorrado_logico(1);
+            usuarioRepository.save(farmacista);
+
             attr.addFlashAttribute("msg", "Farmacista borrado exitosamente");
         }
         return "redirect:/admin/farmacistas";
