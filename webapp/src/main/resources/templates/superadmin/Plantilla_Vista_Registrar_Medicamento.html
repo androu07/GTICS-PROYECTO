@@ -128,8 +128,9 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="inventario">Inventario</label>
                                     <input type="text" class="form-control" th:field="*{inventario}"/>
-                                    <div class="text-danger" th:if="${#fields.hasErrors('inventario')}" th:errors="*{inventario}">Error</div>
                                 </div>
+                                <div th:if="${codigoError1 != null}" th:text="${codigoError1}" style="color: red"></div>
+                                <div th:if="${codigoError2 != null}" th:text="${codigoError2}" style="color: red"></div>
                                 <div class="mb-3">
                                     <label class="form-label" for="precio_unidad">Precio por Unidad</label>
                                     <input type="text" class="form-control" th:field="*{precio_unidad}"/>

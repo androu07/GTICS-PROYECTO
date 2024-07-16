@@ -233,11 +233,32 @@ public class SuperadminController {
                     break;
                 }
             }
+
+            int correccion = 0;
+            if(medicamentos.getInventario() >= 200 && medicamentos.getInventario() <= 1000 ){
+                correccion =1;
+            }
+
+            int validacionInventario = 0;
+            try {
+                int inventario = medicamentos.getInventario();
+                if (inventario > 0) {
+                    validacionInventario = 1;
+                }
+            } catch (NumberFormatException e) {
+                validacionInventario = 0;
+            }
             System.out.println(k);
 
-            if (bindingResult.hasErrors() || (k==1)) {
+            if (bindingResult.hasErrors() || (k==1) || correccion == 0 || validacionInventario==0) {
                 if (k==1) {
                     model.addAttribute("codigoError", "El medicamento ya ha sido registrado en el sistema");
+                }
+                if (correccion == 0) {
+                    model.addAttribute("codigoError1", "El inventario debe ser mayor o igual a 200 y menor o igual a 1000");
+                }
+                if (validacionInventario == 0) {
+                    model.addAttribute("codigoError2", "El inventario debe ser un entero positivo");
                 }
                 return "superadmin/Plantilla_Vista_Registrar_Medicamento";
 
