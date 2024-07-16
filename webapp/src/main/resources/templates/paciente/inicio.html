@@ -30,6 +30,40 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            // Función para manejar el click del enlace y hacer la solicitud AJAX
+            $(".btn-danger").click(function(event) {
+                event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+
+                var id = $(this).data("id"); // Obtener el ID del medicamento del atributo data del enlace
+                var tipo = $(this).data("tipo");
+
+                $.ajax({
+                    type: "GET",
+                    data: {
+                        id: id,
+                        tipo: tipo
+                    },
+                    url: "/paciente/pedido/comentario",
+                    success: function(response) {
+                        // response es la lista de strings que retornas desde el controlador
+                        if (response != null) {
+                            var comentario = response;
+                            $('#comentario').text(comentario);
+                            $("#exampleModal").modal('show'); // Asumiendo que el modal se llama 'exampleModal'
+                        } else {
+                            alert("El comentario de rechazo no fue encontrado.");
+                        }
+                    },
+                    error: function() {
+                        alert("Error al obtener el comentario de rechazo.");
+                    }
+                });
+            });
+        });
+    </script>
+
 </head>
 <body>
     -<!--[if lte IE 9]>
@@ -41,6 +75,21 @@
         <div th:replace="~{layout/NavbarPaciente :: navegacion}"></div>
     </header><!--/.welcome-hero-->
     <!--welcome-hero end -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 700px">
+                <div class="modal-header" style="display: flex; width: 100%;">
+                    <h5 class="modal-title" id="exampleModalLabel">Comentario del rechazo</h5>
+                    <div class="spacer" style="flex-grow: 1;"></div>
+                    <button style="align-self: end" type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody" style="display: flex; margin-top: 15px; margin-bottom: 15px">
+                    <p style="font-size: large; color: black" id="comentario"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <br>
 
@@ -112,7 +161,7 @@
                                             <div class="packages-price">
                                                 <p>
                                                     S/ 109.99
-                                                    <del>$ 129.99</del>
+                                                    <del>S/ 129.99</del>
                                                 </p>
                                             </div>
                                         </div><!--/.welcome-hero-txt-->
@@ -230,7 +279,16 @@
                     <td class="align-middle" style="font-size: x-large; color: green" th:text="${preorden.estado_del_pedido}" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar'}"></td>
                     <td class="align-middle">
                         <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${preorden.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${preorden.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
-                        <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-success" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar'}">Ver tracking</a>
+                        <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoPreorden?id=' + ${preorden.id}}" class="btn btn-success" th:if="${preorden.estado_del_pedido != 'Pendiente' and preorden.estado_del_pedido != 'Por cancelar' and preorden.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
+                        <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${preorden.id}" th:data-tipo="${'1'}" th:if="${preorden.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-outline-danger" style="font-size: large"
+                                th:if="${preorden.estado_del_pedido != 'Por cancelar'}"
+                                th:attr="onclick='window.open(\'/boleta_paciente?id=' + ${preorden.id} + '\')'">
+                            <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
+                            <span style="vertical-align: middle;">Boleta de Pago</span>
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -269,6 +327,8 @@
     <!--footer end-->
 
     <script src="/assets/paciente/js/alert.js"></script>
+
+
 
     <!-- Script de paginacion-->
     <script type="text/javascript">

@@ -139,7 +139,7 @@
             </td>
             <td class="align-middle">
               <button type="button" class="btn btn-outline-danger" style="font-size: large"
-                      th:if="${pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}"
+                      th:if="${pedidodely.estado_del_pedido != 'Por cancelar'}"
                       th:attr="onclick='window.open(\'/boleta_paciente?id=' + ${pedidodely.id} + '\')'">
                 <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
                 <span style="vertical-align: middle;">Boleta de Pago</span>
@@ -201,7 +201,7 @@
               <form th:action="@{/boleta_pdf}" method="get" target="_blank">
                 <input type="hidden" name="id" th:value="${pedidoreco.id}" />
                 <button type="submit" class="btn btn-outline-danger" style="font-size: large"
-                        th:if="${pedidoreco.estado_del_pedido != 'Por cancelar' and pedidoreco.validacion_del_pedido != 'Rechazado'}">
+                        th:if="${pedidoreco.estado_del_pedido != 'Por cancelar'}">
                   <i class="bi bi-download" style="vertical-align: middle; margin-right: 5px;"></i>
                   <span style="vertical-align: middle;">Boleta de Pago</span>
                 </button>

@@ -1311,6 +1311,13 @@ public class FarmacistaController {
 
                 pedidosPacienteRepository.save(pedido);
 
+                Double montodouble = pedido.getCosto_total();
+                String monto = montodouble.toString();
+
+                String cuerpo = this.correo.devolucionPorCorreo(pedido.getUsuario(), pedido.getNumero_tracking(), comentario, monto);
+                this.correo.EnviarCorreo("Reembolso de su pago", cuerpo, pedido.getUsuario());
+
+
                 redirectAttributes.addFlashAttribute("msg", "Se ha rechazado correctamente el pedido con numero: " + pedido.getNumero_tracking());
             }
         }
@@ -1333,6 +1340,12 @@ public class FarmacistaController {
                 pedido.setComentario(comentario);
 
                 pedidosPacienteRecojoRepository.save(pedido);
+
+                Double montodouble = pedido.getCosto_total();
+                String monto = montodouble.toString();
+
+                String cuerpo = this.correo.devolucionPorCorreo(pedido.getUsuario(), pedido.getNumero_tracking(), comentario, monto);
+                this.correo.EnviarCorreo("Reembolso de su pago", cuerpo, pedido.getUsuario());
 
                 redirectAttributes.addFlashAttribute("msg", "Se ha rechazado correctamente el pedido con numero: " + pedido.getNumero_tracking());
             }

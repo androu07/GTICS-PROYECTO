@@ -23,9 +23,6 @@ public class Medicamentos {
     private String nombre;
     private byte[] foto;
 
-    @Positive(message = "El inventario debe ser positivo")
-    @Min(value = 200, message = "El inventario debe ser mayor o igual a 200 unidades")
-    @Max(value = 1000, message = "El inventario debe ser menor o igual a 1000 unidades")
     private int inventario;
 
     @Positive(message = "El precio por unidad debe ser positivo")
