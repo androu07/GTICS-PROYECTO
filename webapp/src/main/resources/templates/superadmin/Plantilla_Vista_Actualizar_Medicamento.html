@@ -129,6 +129,7 @@
                                     <input th:value="${medicamento.getDosis()}" name="dosis" type="hidden" />
                                     <input th:value="${medicamento.getBorrado_logico()}" name="borrado_logico" type="hidden" />
                                     <input th:value="${medicamento.getFoto()}" name="foto" type="hidden" />
+                                    <input th:value="${medicamento.inventario}" name="inventario" type="hidden" />
                                     <div class="mb-3">
                                         <label class="form-label">Nombre</label>
                                         <input type="text" class="form-control" th:field="*{nombre}"
@@ -166,9 +167,8 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="inventario">Inventario</label>
-                                        <input type="text" class="form-control" th:field="*{inventario}"/>
-                                        <div class="text-danger" th:if="${#fields.hasErrors('inventario')}" th:errors="*{inventario}">Error</div>
+                                        <label class="form-label">Inventario</label>
+                                        <span class="form-control" type="text" contenteditable="false" th:text="${medicamento.getInventario()}">hola</span>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="precio_unidad">Precio por Unidad</label>
