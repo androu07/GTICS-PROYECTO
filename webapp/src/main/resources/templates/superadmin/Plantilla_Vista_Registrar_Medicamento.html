@@ -58,7 +58,7 @@
     </head>
     <body class="sb-nav-fixed">
         <div th:replace="layout/PlantillaSuperAdmin :: navegacion"></div>
-
+        <div th:if="${codigoError != null}" th:text="${codigoError}" style="color: red"></div>
         <!-- TRABAJAR AQUI -->
         <div class="container-xxl position-relative bg-white d-flex p-0" style="width: 80%;">
             <!-- Form Start -->

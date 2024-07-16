@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/superadmin")
@@ -218,12 +219,26 @@ public class SuperadminController {
 
     @PostMapping("/Guardar_Medicamento")
     public String guardarNuevoMedicamento(@RequestParam("foto1") Part foto1,
-                                          @ModelAttribute ("medicamento") @Valid Medicamentos medicamentos, BindingResult bindingResult,
-                                          Model model) {
+                                          @ModelAttribute ("medicamento") @Valid Medicamentos medicamentos, BindingResult bindingResult
+                                          ,Model model) {
 
         if(medicamentos.getId() == 0){
-            if (bindingResult.hasErrors()) {
 
+            List<Medicamentos> listamedicamentos = medicamentosRepository.findAll();
+            int k = 0;
+            String verificacion = medicamentos.getNombre();
+            for (Medicamentos mediacamentoVerificacion : listamedicamentos) {
+                if (mediacamentoVerificacion.getNombre().equals(verificacion)) {
+                    k = 1;
+                    break;
+                }
+            }
+            System.out.println(k);
+
+            if (bindingResult.hasErrors() || (k==1)) {
+                if (k==1) {
+                    model.addAttribute("codigoError", "El medicamento ya ha sido registrado en el sistema");
+                }
                 return "superadmin/Plantilla_Vista_Registrar_Medicamento";
 
             } else {
