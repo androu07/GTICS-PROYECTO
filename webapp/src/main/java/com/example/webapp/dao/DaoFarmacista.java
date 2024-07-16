@@ -21,7 +21,7 @@ public class DaoFarmacista {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization", "Bearer sk-FF8dVZtLerQlmsdseW439yD9vwtMRtGgYdGv8sTRnXg==");
+        headers.set("Authorization", "Bearer sk-1rTNfSZNTkPKhFh/KIdKw+0fgFmW5T4vf3Q15i4nS6Q==");
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 

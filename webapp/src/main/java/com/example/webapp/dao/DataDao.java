@@ -23,7 +23,7 @@ public class DataDao {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization", "Bearer sk-FF8dVZtLerQlmsdseW439yD9vwtMRtGgYdGv8sTRnXg==");
+        headers.set("Authorization", "Bearer sk-XrAQjfspvjASV8lqX2IiSm8imcKE1t0PH2BtHxerm6A==");
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
