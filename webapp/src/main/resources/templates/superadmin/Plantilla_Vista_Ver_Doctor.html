@@ -54,6 +54,42 @@
                 background-color: rgb(19, 164, 24);
                 border-color: rgb(19, 164, 24);
             }
+            .disabled-span {
+                color: #6c757d; /* Color gris similar a un input deshabilitado */
+                cursor: not-allowed; /* Cursor en forma de "X" */
+                background-color: #e9ecef; /* Fondo gris claro */
+                border: 1px solid #ced4da; /* Bordes similares a un input */
+                padding: .375rem .75rem; /* Padding para que se vea como un input */
+                display: inline-block; /* Para que el padding tenga efecto */
+                width: 100%; /* Para que ocupe el mismo espacio que un input */
+                box-sizing: border-box; /* Para que el padding no aumente el tamaño total */
+            }
+            .btn-no-animation {
+                display: inline-block;
+                font-weight: 700; /* Negrita */
+                color: #ffffff; /* Color del texto blanco */
+                text-align: center;
+                vertical-align: middle;
+                cursor: default;
+                background-color: #6c757d; /* Color de fondo gris */
+                border: 1px solid #6c757d; /* Borde del mismo color que el fondo */
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: .25rem;
+                text-decoration: none;
+                user-select: none;
+                transition: none; /* Elimina las transiciones */
+                pointer-events: none; /* Desactiva los eventos del mouse */
+            }
+            .btn-no-animation:hover,
+            .btn-no-animation:focus,
+            .btn-no-animation:active {
+                background-color: #6c757d; /* Asegura que el color no cambie al interactuar */
+                border-color: #6c757d;
+                color: #ffffff;
+                box-shadow: none; /* Elimina el efecto de sombra al hacer clic */
+            }
         </style>
     </head>
     <body class="sb-nav-fixed">
@@ -68,23 +104,23 @@
                     <form class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Nombres</label>
-                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getNombres()}">hola</span>
+                            <span class="form-control disabled-span" th:text="${usuario.getNombres()}">hola</span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Apellido</label>
-                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getApellidos()}">hola</span>
+                            <span class="form-control disabled-span" th:text="${usuario.getApellidos()}">hola</span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Correo Electrónico</label>
-                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCorreo()}">hola</span>
+                            <span class="form-control disabled-span" th:text="${usuario.getCorreo()}">hola</span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">DNI</label>
-                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getDni}">hola</span>
+                            <span class="form-control disabled-span" th:text="${usuario.getDni}">hola</span>
                         </div>
                         <div class="col-12">
                             <label class="form-label">Código de Colegiatura</label>
-                            <span class="form-control" type="text" contenteditable="false" th:text="${usuario.getCodigo_colegio().getNombre()}">hola</span>
+                            <span class="form-control disabled-span" th:text="${usuario.getCodigo_colegio().getNombre()}">hola</span>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -102,8 +138,8 @@
                                             <td>
                                                 <div class="card-footer pt-1 br-3 border-top-0">
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                                            <i class=""></i>Asignar
+                                                        <button type="button" class="btn btn-secondary btn-no-animation" data-toggle="modal" data-target="#crearListaModal">
+                                                            <i class=""></i> Asignar
                                                         </button>
                                                     </div>
                                                 </div>
@@ -112,14 +148,13 @@
                                             <td>
                                                 <div class="card-footer pt-1 br-3 border-top-0">
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                                            <i class=""></i>No asignar
+                                                        <button type="button" class="btn btn-secondary btn-no-animation" data-toggle="modal" data-target="#crearListaModal">
+                                                            <i class=""></i> No asignar
                                                         </button>
                                                     </div>
                                                     <!-- Modal -->
                                                 </div>
                                             </td>
-
                                             <td>
                                                 <p style="font-size: 18px;" class="text-center">Asignado</p>
                                             </td>
@@ -129,8 +164,8 @@
                                             <td>
                                                 <div class="card-footer pt-1 br-3 border-top-0">
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                                            <i class=""></i>Asignar
+                                                        <button type="button" class="btn btn-secondary btn-no-animation" data-toggle="modal" data-target="#crearListaModal">
+                                                            <i class=""></i> Asignar
                                                         </button>
                                                     </div>
                                                 </div>
@@ -139,8 +174,8 @@
                                             <td>
                                                 <div class="card-footer pt-1 br-3 border-top-0">
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#crearListaModal">
-                                                            <i class=""></i>No asignar
+                                                        <button type="button" class="btn btn-secondary btn-no-animation" data-toggle="modal" data-target="#crearListaModal">
+                                                            <i class=""></i> No asignar
                                                         </button>
                                                     </div>
                                                     <!-- Modal -->
@@ -170,7 +205,7 @@
                                                 <td>
                                                     <div class="card-footer pt-1 br-3 border-top-0">
                                                         <div class="text-center">
-                                                            <a class="btn btn-secondary">
+                                                            <a class="btn btn-secondary btn-no-animation">
                                                                 <i class=""></i> Pasar a Activo
                                                             </a>
                                                         </div>
@@ -179,7 +214,7 @@
                                                 <td>
                                                     <div class="card-footer pt-1 br-3 border-top-0">
                                                         <div class="text-center">
-                                                            <a class="btn btn-secondary">
+                                                            <a class="btn btn-secondary btn-no-animation">
                                                                 <i class=""></i> Pasar a Inactivo
                                                             </a>
                                                         </div>
