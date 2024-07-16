@@ -116,12 +116,12 @@
                         <option th:each="categoria : ${listaCategorias}" th:value="${categoria}" th:text="${categoria}"></option>
                     </select>
                     <select name="filtroOrden" style="margin-left: 1vh; width: 50%; font-size: large" class="form-select" aria-label="Default select example">
-                        <option value=""><-- ordenar por --></option>
+                        <option value="">⟵ ordenar por ⟶</option>
                         <option value="1">mayor a menor precio</option>
                         <option value="2">menor a mayor precio</option>
                         <option value="3">antiguo a nuevo</option>
-                        <option value="4">A -> Z</option>
-                        <option value="5">Z -> A</option>
+                        <option value="4">A ⟶ Z</option>
+                        <option value="5">Z ⟶ A</option>
                     </select>
                     <button style="margin-left: 1vh; font-size: large" class="btn btn-outline-warning" type="submit">Filtrar</button>
                 </form>
