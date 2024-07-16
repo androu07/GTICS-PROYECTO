@@ -135,7 +135,7 @@
             <td class="align-middle">
               <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidodely.id} + '&tipo=' + ${1}}" class="btn btn-warning" th:if="${pedidodely.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
               <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoDely?id=' + ${pedidodely.id}}" class="btn btn-success" th:if="${pedidodely.estado_del_pedido != 'Pendiente' and pedidodely.estado_del_pedido != 'Por cancelar' and pedidodely.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
-              <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidodely.id}" th:data-tipo="${'1'}" th:if="${pedidodely.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+              <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidodely.id}" th:data-tipo="${'1'}" th:if="${pedidodely.validacion_del_pedido == 'Rechazado'}">Ver motivo</button>
             </td>
             <td class="align-middle">
               <button type="button" class="btn btn-outline-danger" style="font-size: large"
@@ -195,7 +195,7 @@
             <td class="align-middle">
               <a type="button" th:href="@{'/paciente/pagoSeguro?id=' + ${pedidoreco.id} + '&tipo=' + ${2}}" class="btn btn-warning" th:if="${pedidoreco.estado_del_pedido == 'Por cancelar'}">Realizar el pago</a>
               <a type="button" th:href="@{'/paciente/mispedidos/estadopedidoReco?id=' + ${pedidoreco.id}}" class="btn btn-success" th:if="${pedidoreco.estado_del_pedido != 'Pendiente' and pedidoreco.estado_del_pedido != 'Por cancelar' and pedidoreco.validacion_del_pedido != 'Rechazado'}">Ver tracking</a>
-              <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidoreco.id}" th:data-tipo="${'2'}" th:if="${pedidoreco.validacion_del_pedido == 'Rechazado'}">Ver por qué</button>
+              <button type="button" class="btn btn-danger" style="font-size: large" th:data-id="${pedidoreco.id}" th:data-tipo="${'2'}" th:if="${pedidoreco.validacion_del_pedido == 'Rechazado'}">Ver motivo</button>
             </td>
             <td class="align-middle">
               <form th:action="@{/boleta_pdf}" method="get" target="_blank">

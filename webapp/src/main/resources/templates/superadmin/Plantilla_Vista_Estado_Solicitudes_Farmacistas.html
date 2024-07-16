@@ -54,6 +54,45 @@
                 background-color: rgb(19, 164, 24);
                 border-color: rgb(19, 164, 24);
             }
+            .disabled-span {
+                color: #6c757d; /* Color gris similar a un input deshabilitado */
+                cursor: not-allowed; /* Cursor en forma de "X" */
+                background-color: #e9ecef; /* Fondo gris claro */
+                border: 1px solid #ced4da; /* Bordes similares a un input */
+                padding: .375rem .75rem; /* Padding para que se vea como un input */
+                display: inline-block; /* Para que el padding tenga efecto */
+                width: 100%; /* Para que ocupe el mismo espacio que un input */
+                box-sizing: border-box; /* Para que el padding no aumente el tamaño total */
+            }
+            .btn-no-animation {
+                display: inline-block;
+                font-weight: 700; /* Negrita */
+                color: #ffffff; /* Color del texto blanco */
+                text-align: center;
+                vertical-align: middle;
+                cursor: default;
+                background-color: #6c757d; /* Color de fondo gris */
+                border: 1px solid #6c757d; /* Borde del mismo color que el fondo */
+                padding: .375rem .75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: .25rem;
+                text-decoration: none;
+                user-select: none;
+                transition: none; /* Elimina las transiciones */
+                pointer-events: none; /* Desactiva los eventos del mouse */
+            }
+            .btn-no-animation:hover,
+            .btn-no-animation:focus,
+            .btn-no-animation:active {
+                background-color: #6c757d; /* Asegura que el color no cambie al interactuar */
+                border-color: #6c757d;
+                color: #ffffff;
+                box-shadow: none; /* Elimina el efecto de sombra al hacer clic */
+            }
+            .font-weight-bold {
+                font-weight: 700; /* Negrita */
+            }
         </style>
     </head>
     <body class="sb-nav-fixed">
@@ -91,7 +130,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
 
                                     <div class="text-center">
-                                        <a class="btn btn-success" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Aceptar</a>
+                                        <a class="btn btn-success font-weight-bold" data-bs-toggle="modal" th:data-bs-target="'#modalEliminar' + ${Usuarios.getId()}">Aceptar</a>
                                     </div>
 
                                     <!-- Modal -->
@@ -117,14 +156,14 @@
                                 </div>
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Rechazado'}">
                                     <div class="text-center">
-                                        <a class="btn btn-secondary">
+                                        <a class="btn btn-secondary btn-no-animation">
                                             <i class=""></i> Aceptar
                                         </a>
                                     </div>
                                 </div>
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Aceptado'}">
                                     <div class="text-center">
-                                        <a class="btn btn-secondary">
+                                        <a class="btn btn-secondary btn-no-animation">
                                             <i class=""></i> Aceptar
                                         </a>
                                     </div>
@@ -142,7 +181,7 @@
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Pendiente'}">
                                     <div class="text-center">
                                         <div class="text-center">
-                                            <a class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#modalRechazo' + ${Usuarios.getId()}">Rechazar</a>
+                                            <a class="btn btn-danger font-weight-bold" data-bs-toggle="modal" th:data-bs-target="'#modalRechazo' + ${Usuarios.getId()}">Rechazar</a>
                                         </div>
                                     </div>
                                     <!-- Modal -->
@@ -183,14 +222,14 @@
                                 </script>
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Rechazado'}">
                                     <div class="text-center">
-                                        <a class="btn btn-secondary">
+                                        <a class="btn btn-secondary btn-no-animation">
                                             <i class=""></i> Rechazar
                                         </a>
                                     </div>
                                 </div>
                                 <div class="card-footer pt-1 br-3 border-top-0" th:if="${Usuarios.getEstado_solicitud() == 'Aceptado'}">
                                     <div class="text-center">
-                                        <a class="btn btn-secondary">
+                                        <a class="btn btn-secondary btn-no-animation">
                                             <i class=""></i> Rechazar
                                         </a>
                                     </div>
